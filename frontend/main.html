@@ -1,109 +1,163 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BiblioTec</title>
-    <link rel="stylesheet" href="./css/main.css" />
-  </head>
-  <body>
-    <header>
-      <div class="logo"></div>
-      <h1>BIBLIO TEC</h1>
-     <div id="statusLogin">
-    <img id="iconLogin" src="user.png" width="24" />
-</div>
 
-    </header>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioTec</title>
+  <link rel="stylesheet" href="./css/main.css" />
+</head>
 
-    <nav>
-      <a href="#ebooks">E-books</a>
-      <a href="#generos">Gêneros</a>
-      <a href="#audiolivros">Audiolivros</a>
-    </nav>
+<body>
+  <header>
+    <div class="logo"></div>
+    <h1>BIBLIO TEC</h1>
 
-    <div class="search-container">
-      <input type="text" class="search-bar" placeholder="🔍" />
+    <div id="statusLogin">
+      <img id="iconLogin" src="user.png" width="24" alt="Login" />
+    </div>
+  </header>
+
+  <nav>
+    <a href="#ebooks">E-books</a>
+    <a href="#generos">Gêneros</a>
+    <a href="#audiolivros">Audiolivros</a>
+  </nav>
+
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="🔍" />
+  </div>
+
+  <!-- ===================== -->
+  <!--      MAIS VENDIDOS     -->
+  <!-- ===================== -->
+  <section>
+    <div class="section-header">
+      <h2>Os mais vendidos</h2>
     </div>
 
-    <section>
-      <div class="section-header">
-        <h2>Os mais vendidos</h2>
-        <button class="arrow"></button>
-      </div>
-      <div class="books-container">
+    <div class="books-container">
+      <div class="carousel-wrapper">
+        <button class="arrow-left">◀</button>
+
         <div class="books-grid" id="vendidos">
           <div class="book-card">
-            <div class="book-cover pequeno-principe"><img src="./images/pequeno.png" alt=""></div>
+            <div class="book-cover"><img src="./images/pequeno.png" alt=""></div>
             <div class="book-info">
               <div class="book-title">O Pequeno Príncipe</div>
               <div class="book-price">R$ 15,00</div>
             </div>
           </div>
+
+          <div class="book-card">
+            <div class="book-cover"><img src="./images/pequeno.png" alt=""></div>
+            <div class="book-info">
+              <div class="book-title">O Pequeno Príncipe</div>
+              <div class="book-price">R$ 15,00</div>
+            </div>
+          </div>
+
           <div class="book-card active">
-            <div class="book-cover arsene-lupin"><img src="./images/Arsene.png"></div>
+            <div class="book-cover"><img src="./images/Arsene.png" alt=""></div>
             <div class="book-info">
               <div class="book-title">Arsene Lupin - O ladrão de casaca</div>
               <div class="book-price">R$ 10,00</div>
             </div>
           </div>
+
           <div class="book-card">
-            <div class="book-cover jogador"><img src="./images/image.png" alt=""></div>
+            <div class="book-cover"><img src="./images/Arsene.png" alt=""></div>
             <div class="book-info">
               <div class="book-title">Minecraft</div>
               <div class="book-price">R$ 25,00</div>
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <section>
-      <div class="section-header">
-        <h2>Ofertas</h2>
-        <button class="arrow"></button>
+          <div class="book-card">
+            <div class="book-cover"><img src="./images/pequeno.png" alt=""></div>
+            <div class="book-info">
+              <div class="book-title">O Pequeno Príncipe</div>
+              <div class="book-price">R$ 15,00</div>
+            </div>
+          </div>
+        </div>
+
+        <button class="arrow-right">▶</button>
       </div>
-      <div class="books-container">
+    </div>
+  </section>
+
+  <!-- ===================== -->
+  <!--        OFERTAS        -->
+  <!-- ===================== -->
+  <section>
+    <div class="section-header">
+      <h2>Ofertas</h2>
+    </div>
+
+    <div class="books-container">
+      <div class="carousel-wrapper">
+        <button class="arrow-left">◀</button>
+
         <div class="books-grid" id="ofertas">
           <div class="book-card">
-            <div class="book-cover sangue-fresco">🩸</div>
+            <div class="book-cover">🩸</div>
             <div class="book-info">
               <div class="book-title">Sangue Fresco</div>
               <div class="book-price">R$ 8,00</div>
             </div>
           </div>
+
           <div class="book-card active">
-            <div class="book-cover berenice">🔍</div>
+            <div class="book-cover">🔍</div>
             <div class="book-info">
-              <div class="book-title">Berenice detetive</div>
+              <div class="book-title">Berenice Detetive</div>
               <div class="book-price">R$ 5,00</div>
             </div>
           </div>
+
           <div class="book-card">
-            <div class="book-cover genio">💡</div>
+            <div class="book-cover">💡</div>
             <div class="book-info">
               <div class="book-title">O Gênio do Crime</div>
               <div class="book-price">R$ 12,00</div>
             </div>
           </div>
         </div>
+
+        <button class="arrow-right">▶</button>
       </div>
-    </section>
-    <script>
+    </div>
+  </section>
+
+  <!-- ===================== -->
+  <!--      SCRIPT LOGIN     -->
+  <!-- ===================== -->
+  <script>
     const nome = localStorage.getItem("nomeUsuario");
-    console.log(nome)
     const statusDiv = document.getElementById("statusLogin");
 
     if (nome) {
+      const h1 = document.createElement("h1");
+      h1.innerText = nome;
+      h1.style.color = "#f5f5f5";
+      h1.style.fontSize = "16px";
+      h1.style.marginLeft = "10px";
 
-        const h1 = document.createElement('h1');
-        h1.innerText = nome
-        h1.style.color = '#f5f5f5'
-
-        statusDiv.appendChild(h1);
-    } else {
+      statusDiv.appendChild(h1);
     }
+  </script>
+
+</body>
+<script type="module">
+  import { criarCarrossel } from "./js/app.js";
+
+  // Carrossel da seção "Mais vendidos"
+  criarCarrossel("vendidos", ".arrow-left", ".arrow-right");
+
+  // Se quiser ativar o carrossel em Ofertas:
+  // criarCarrossel("ofertas", ".arrow-left-ofertas", ".arrow-right-ofertas");
 </script>
 
-  </body>
+
 </html>

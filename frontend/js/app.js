@@ -10,12 +10,9 @@ if (loginForm) {
         const nome_email = document.getElementById('loginInput').value.trim();
         const senha = document.getElementById('senha').value.trim();
 
-        // Detecta se é email ou usuário
         const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nome_email);
 
-        const payload = {
-            senha
-        };
+        const payload = { senha };
 
         if (isEmail) {
             payload.email = nome_email;
@@ -69,12 +66,9 @@ async function cadastrarUsuario() {
         return;
     }
 
-    // Detecta email ou usuário
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nome_email);
 
-    const payload = {
-        senha
-    };
+    const payload = { senha };
 
     if (isEmail) {
         payload.email = nome_email;
@@ -126,12 +120,9 @@ async function recuperarSenha() {
         return;
     }
 
-    // Detecta email ou usuário
     const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nome_email);
 
-    const payload = {
-        novaSenha
-    };
+    const payload = { novaSenha };
 
     if (isEmail) {
         payload.email = nome_email;
@@ -167,4 +158,36 @@ async function recuperarSenha() {
 // ===============================
 function redirecionarParaLogin() {
     window.location.href = 'index.html';
+}
+
+
+
+// ===============================
+//  FUNÇÃO GERADORA DE CARROSSEL
+// ===============================
+export function criarCarrossel(gridId, leftBtn, rightBtn) {
+    const cards = document.querySelectorAll(`#${gridId} .book-card`);
+
+    // Encontra o card que já está com .active no HTML
+    let index = [...cards].findIndex(c => c.classList.contains("active"));
+
+    // Se não houver ativo, define o primeiro
+    if (index === -1) index = 0;
+
+    function atualizar() {
+        cards.forEach(c => c.classList.remove("active"));
+        cards[index].classList.add("active");
+    }
+
+    document.querySelector(leftBtn).addEventListener("click", () => {
+        index = (index - 1 + cards.length) % cards.length;
+        atualizar();
+    });
+
+    document.querySelector(rightBtn).addEventListener("click", () => {
+        index = (index + 1) % cards.length;
+        atualizar();
+    });
+
+    atualizar();
 }
