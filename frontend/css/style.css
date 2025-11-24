@@ -1,0 +1,113 @@
+
+:root {
+  --azul-turquesa: #4A67DF;
+  --verde-agua: #2FD6CB;
+
+  --azul-claro: #00c4ff;
+  --azul-escuro: #0077ff;
+
+  --link-azul: #0077cc;
+
+  --fundo-input: #e0f7f9;
+  --fundo-pagina: #f5f5f5;
+  --fundo-card: #ffffff;
+
+  --texto-principal: #333;
+  --texto-secundario: #555;
+  --texto-branco: #fff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: var(--fundo-pagina);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--texto-principal);
+}
+
+.login-container {
+  background: var(--fundo-card);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
+  width: 90%;
+  max-width: 320px;
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+.input-field {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 25px;
+  background: var(--fundo-input);
+  font-size: 14px;
+}
+
+.input-field:focus {
+  outline: none;
+  box-shadow: 0 0 5px var(--azul-claro);
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  margin: 10px 0;
+}
+
+.options a {
+  text-decoration: none;
+  color: var(--link-azul);
+}
+
+.btnLogin,
+.btnCadastrar {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 10px;
+  color: var(--texto-branco);
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btnLogin {
+  background: linear-gradient(45deg, var(--azul-turquesa), var(--verde-agua));
+}
+
+.btnCadastrar {
+  background: linear-gradient(45deg, var(--azul-turquesa), var(--verde-agua));
+}
+
+.btnLogin:hover,
+.btnCadastrar:hover {
+  opacity: 0.9;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+a {
+  cursor: pointer;
+}
