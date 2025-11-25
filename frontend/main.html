@@ -38,7 +38,9 @@
 
     <div class="books-container">
       <div class="carousel-wrapper">
-        <button class="arrow-left">◀</button>
+
+        <!-- Botões exclusivos -->
+        <button class="arrow-left" id="left-vendidos">◀</button>
 
         <div class="books-grid" id="vendidos">
           <div class="book-card">
@@ -82,7 +84,7 @@
           </div>
         </div>
 
-        <button class="arrow-right">▶</button>
+        <button class="arrow-right" id="right-vendidos">▶</button>
       </div>
     </div>
   </section>
@@ -97,7 +99,9 @@
 
     <div class="books-container">
       <div class="carousel-wrapper">
-        <button class="arrow-left">◀</button>
+
+        <!-- Botões exclusivos -->
+        <button class="arrow-left" id="left-ofertas">◀</button>
 
         <div class="books-grid" id="ofertas">
           <div class="book-card">
@@ -125,7 +129,7 @@
           </div>
         </div>
 
-        <button class="arrow-right">▶</button>
+        <button class="arrow-right" id="right-ofertas">▶</button>
       </div>
     </div>
   </section>
@@ -148,15 +152,17 @@
     }
   </script>
 
+  <!-- ===================== -->
+  <!--  IMPORTAR CARROSSEL   -->
+  <!-- ===================== -->
+  <script type="module">
+    import { criarCarrossel } from "./js/app.js";
+
+    // Independentes
+    criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
+    criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
+  </script>
+
 </body>
-<script type="module">
-  import { criarCarrossel } from "./js/app.js";
-
-  // Carrossel da seção "Mais vendidos"
-  criarCarrossel("vendidos", ".arrow-left", ".arrow-right");
-
-  // Se quiser ativar o carrossel em Ofertas:
-  // criarCarrossel("ofertas", ".arrow-left-ofertas", ".arrow-right-ofertas");</script>
-
 
 </html>
