@@ -15,8 +15,8 @@
   </header>
 
   <nav>
-    <a href="./ebooks.html">E-books</a>
-    <a href="./generos.html">Gêneros</a>
+    <a href="./main.html">Início</a>
+    <a href="#generos">Gêneros</a>
     <a href="./audiolivros.html">Audiolivros</a>
   </nav>
 
@@ -25,11 +25,11 @@
   </div>
 
   <!-- ===================== -->
-  <!--      MAIS VENDIDOS     -->
+  <!--      ROMANCE    -->
   <!-- ===================== -->
   <section>
     <div class="section-header">
-      <h2>Os mais vendidos</h2>
+      <h2>Livros De Romance</h2>
     </div>
 
     <div class="books-container">
@@ -79,18 +79,17 @@
             </div>
           </div>
         </div>
-
         <button class="arrow-right" id="right-vendidos">▶</button>
       </div>
     </div>
   </section>
 
-  <!-- ===================== -->
-  <!--        OFERTAS        -->
-  <!-- ===================== -->
+  <!-- =============================== -->
+  <!--        FICÇÃO CIENTÍFICA        -->
+  <!-- =============================== -->
   <section>
     <div class="section-header">
-      <h2>Ofertas</h2>
+      <h2>Livros De Ficção</h2>
     </div>
 
     <div class="books-container">
@@ -124,29 +123,55 @@
             </div>
           </div>
         </div>
-
         <button class="arrow-right" id="right-ofertas">▶</button>
       </div>
     </div>
   </section>
 
-  <!-- ===================== -->
-  <!--      SCRIPT LOGIN     -->
-  <!-- ===================== -->
-  <script>
-    const nome = localStorage.getItem("nomeUsuario");
-    const statusDiv = document.getElementById("statusLogin");
+  <!-- =============================== -->
+  <!--        HUMOR        -->
+  <!-- =============================== -->
 
-    if (nome) {
-      const h1 = document.createElement("h1");
-      h1.innerText = nome;
-      h1.style.color = "#f5f5f5";
-      h1.style.fontSize = "16px";
-      h1.style.marginLeft = "10px";
+  <section>
+    <div class="section-header">
+      <h2>Livros De Humor</h2>
+    </div>
 
-      statusDiv.appendChild(h1);
-    }
-  </script>
+    <div class="books-container">
+      <div class="carousel-wrapper">
+
+        <!-- Botões exclusivos -->
+        <button class="arrow-left" id="left-ofertas">◀</button>
+
+        <div class="books-grid" id="ofertas">
+          <div class="book-card">
+            <div class="book-cover">🩸</div>
+            <div class="book-info">
+              <div class="book-title">Sangue Fresco</div>
+              <div class="book-price">R$ 8,00</div>
+            </div>
+          </div>
+
+          <div class="book-card active">
+            <div class="book-cover">🔍</div>
+            <div class="book-info">
+              <div class="book-title">Berenice Detetive</div>
+              <div class="book-price">R$ 5,00</div>
+            </div>
+          </div>
+
+          <div class="book-card">
+            <div class="book-cover">💡</div>
+            <div class="book-info">
+              <div class="book-title">O Gênio do Crime</div>
+              <div class="book-price">R$ 12,00</div>
+            </div>
+          </div>
+        </div>
+        <button class="arrow-right" id="right-ofertas">▶</button>
+      </div>
+    </div>
+  </section>
 
   <!-- ===================== -->
   <!--  IMPORTAR CARROSSEL   -->
