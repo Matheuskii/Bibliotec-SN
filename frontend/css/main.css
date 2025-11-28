@@ -285,33 +285,6 @@ section {
   display: block;
 }
 
-/*
-.book-cover.pequeno-principe {
-  background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
-  object-fit: cover;
-}
-
-.book-cover.arsene-lupin {
-  background: linear-gradient(135deg, #1e3c72 0%, #ff006e 100%);
-}
-
-.book-cover.jogador {
-  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
-}
-
-.book-cover.sangue-fresco {
-  background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-}
-
-.book-cover.berenice {
-  background: linear-gradient(135deg, #f857a6 0%, #ff5858 100%);
-}
-
-.book-cover.genio {
-  background: linear-gradient(135deg, #ee9ca7 0%, #ffdde1 100%);
-}
-*/
-
 .book-info {
   text-align: center;
 }
