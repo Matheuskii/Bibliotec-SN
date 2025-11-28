@@ -1,7 +1,6 @@
 :root {
   --cor-azul-turquesa: #4a67df;
   --cor-verde-agua: #2fd6cb;
-
   --texto-cinza: #26333d;
   --texto-branco-clarinho: #e9f0ef;
   --texto-branco: #ffffff;
@@ -24,16 +23,25 @@ body {
 header {
   display: flex;
   align-items: center;
-  justify-content: left;
+  justify-content: space-between;
   gap: 15px;
-  padding: 15px 10px;
+  padding: 15px 20px;
   background: var(--texto-branco);
   box-shadow: 0 2px 10px var(--texto-cinza) 10%;
 }
 
-header img {
+
+.LogoBibliotec {
   width: 80px;
   height: 80px;
+  object-fit: contain;
+}
+
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
 }
 
 h1 {
@@ -69,7 +77,7 @@ nav a:hover {
 .search-container {
   max-width: 100%;
   margin: 0 auto;
-  padding: 10px 30% 10px;
+  padding: 20px 30% 10px;
   background: var(--texto-branco-clarinho);
   width: 100%;
   position: relative;
@@ -105,9 +113,12 @@ nav a:hover {
 }
 
 section {
-  padding: 40px 40px 10px;
-  margin-bottom: 20px;
-  background: var(--texto-branco-clarinho);
+  padding: 40px 0 10px 0;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0;
+  background: #f0f0f0;
+  width: 100%;
 }
 
 .section-header {
@@ -115,7 +126,12 @@ section {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
-  padding: 0 40px;
+  padding: 30px 40px;
+  background: var(--texto-branco);
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-left: 40px;
+  margin-right: 40px;
 }
 
 .section-header h2 {
@@ -170,8 +186,8 @@ section {
 .books-container {
   position: relative;
   overflow: hidden;
-  padding: 40px 0;
-  background: var(--texto-branco-clarinho);
+  padding: 80px 0;
+  background: #f0f0f0;
   border-radius: 30px;
 }
 
@@ -346,4 +362,122 @@ section {
   .books-grid {
     gap: 20px;
   }
+}
+
+.dark-mode-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s;
+  border-radius: 8px;
+}
+
+.dark-mode-toggle:hover {
+  background: rgba(0, 0, 0, 0.836);
+  transform: scale(1.1);
+}
+
+html.dark-mode {
+  --texto-cinza: #f86868;
+  --texto-branco-clarinho: #0f0f0f;
+  --texto-branco: #1a1a1a;
+  --cor-fundo: #9c2121;
+}
+
+html.dark-mode body {
+  background: #000000;
+  color: #d0d0d0;
+}
+
+html.dark-mode header {
+  background: #bbff00;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid #2a2a2a;
+}
+
+html.dark-mode h1 {
+  color: #d0d0d0;
+}
+
+html.dark-mode nav {
+  background: #6c00f8;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+html.dark-mode nav a {
+  color: #d0d0d0;
+}
+
+html.dark-mode nav a:hover {
+  background: #ea00ff;
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .search-container {
+  background: #ff00f2;
+}
+
+html.dark-mode .search-bar {
+  background-image: linear-gradient(
+      var(--cor-verde-agua),
+      var(--cor-verde-agua)
+    ),
+    linear-gradient(to left, #1a1a1a, #0a0a0a);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: #d0d0d0;
+}
+
+html.dark-mode section {
+  background: #00ff22;
+}
+
+html.dark-mode .section-header {
+  background: #ff0000;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+  border: 1px solid #2a2a2a;
+}
+
+html.dark-mode .section-header h2 {
+  color: #d0d0d0;
+}
+
+html.dark-mode .books-container {
+  background: #3b3b3b;
+}
+
+html.dark-mode .book-card {
+  background: linear-gradient(
+    135deg,
+    rgba(61, 191, 191, 0.08) 0%,
+    rgba(77, 212, 212, 0.08) 100%
+  );
+  box-shadow: 0 10px 30px rgba(47, 214, 203, 0.05);
+  border: 1px solid #2a2a2a;
+}
+
+html.dark-mode .book-title,
+html.dark-mode .book-author,
+html.dark-mode .book-price {
+  color: #d0d0d0;
+}
+
+html.dark-mode .book-author {
+  color: #a0a0a0;
+}
+
+html.dark-mode .arrow-left,
+html.dark-mode .arrow-right {
+  background: #1a1a1a;
+  border-color: var(--cor-verde-agua);
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .arrow-left:hover,
+html.dark-mode .arrow-right:hover {
+  background: var(--cor-azul-turquesa);
+  color: #ffffff;
 }

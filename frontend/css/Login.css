@@ -1,0 +1,133 @@
+:root {
+  --cor-azul-turquesa: #4a67df;
+  --cor-verde-agua: #2fd6cb;
+  --texto-cinza: #26333d;
+  --texto-branco-clarinho: #e9f0ef;
+  --texto-branco: #ffffff;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
+}
+
+.login-container {
+  background: var(--texto-branco);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 30px;
+  object-fit: contain;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--cor-verde-agua);
+  box-shadow: 0 0 8px rgba(47, 214, 203, 0.2);
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin: 15px 0;
+  color: var(--texto-cinza);
+}
+
+.options a {
+  text-decoration: none;
+  color: var(--cor-azul-turquesa);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+.btn-login,
+.btn-cadastro,
+.btn-recuperar,
+.btnLogin,
+.btnCadastrar {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 25px;
+  color: var(--texto-branco);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: linear-gradient(45deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
+}
+
+.btn-login:hover,
+.btn-cadastro:hover,
+.btn-recuperar:hover,
+.btnLogin:hover,
+.btnCadastrar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 15px rgba(74, 103, 223, 0.3);
+}
+
+.login-link {
+  margin-top: 20px;
+  color: var(--texto-cinza);
+  font-size: 14px;
+}
+
+.login-link a {
+  color: var(--cor-azul-turquesa);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+a {
+  cursor: pointer;
+}

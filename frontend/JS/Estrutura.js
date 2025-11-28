@@ -1,6 +1,3 @@
-// ===============================
-//  LOGIN
-// ===============================
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -41,9 +38,6 @@ if (loginForm) {
   });
 }
 
-// ===============================
-//  CADASTRO
-// ===============================
 const cadastroForm = document.getElementById("cadastroForm");
 
 if (cadastroForm) {
@@ -92,9 +86,6 @@ async function cadastrarUsuario() {
   }
 }
 
-// ===============================
-//  RECUPERAÇÃO DE SENHA
-// ===============================
 const newpassForm = document.getElementById("newpassForm");
 
 if (newpassForm) {
@@ -144,16 +135,10 @@ async function recuperarSenha() {
   }
 }
 
-// ===============================
-//  REDIRECIONAMENTO
-// ===============================
 function redirecionarParaLogin() {
   window.location.href = "index.html";
 }
 
-// ===============================
-//  FUNÇÃO GERADORA DE CARROSSEL
-// ===============================
 export async function criarCarrossel(gridId, leftBtn, rightBtn) {
   const containerGrid = document.getElementById(gridId);
 
@@ -264,9 +249,6 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn) {
   }, 100);
 }
 
-// ===============================
-//  FUNÇÃO PARA CARREGAR LIVROS
-// ===============================
 async function carregarLivros() {
   try {
     const resposta = await fetch("http://localhost:3000/livros");

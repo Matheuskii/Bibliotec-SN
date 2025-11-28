@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioTec - Início</title>
+  <link rel="stylesheet" href="./css/Inicio.css" />
+  <script>
+    // Aplicar dark mode antes de carregar tudo
+    if (localStorage.getItem('darkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <div class="logo"></div>
+    <img class="logo-img" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+    <h1>BIBLIO TEC</h1>
+    <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+  </header>
+
+  <nav>
+    <a href="./inicio.html">Início</a>
+    <a href="./catalogo.html">Catálogo</a>
+  </nav>
+
+ <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Pesquisar..."/>
+    <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
+  </div>
+
+  <section>
+    <div class="section-header">
+      <h2>Mais Vendidos</h2>
+    </div>
+    <div class="books-container">
+      <div class="carousel-wrapper">
+        <button class="arrow-left" id="left-vendidos">◀</button>
+        <div class="books-grid" id="vendidos"></div>
+        <button class="arrow-right" id="right-vendidos">▶</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-header">
+      <h2>Ofertas</h2>
+    </div>
+    <div class="books-container">
+      <div class="carousel-wrapper">
+        <button class="arrow-left" id="left-ofertas">◀</button>
+        <div class="books-grid" id="ofertas"></div>
+        <button class="arrow-right" id="right-ofertas">▶</button>
+      </div>
+    </div>
+  </section>
+
+  <script type="module">
+    import { criarCarrossel } from "./js/app.js";
+    import { initDarkMode } from "./JS/darkMode.js";
+    
+    initDarkMode();
+    criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
+    criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
+  </script>
+
+  <script>
+    // Inicializar dark mode antes de qualquer coisa
+    (function() {
+      const darkModeBtn = document.getElementById('dark-mode-btn');
+      const htmlElement = document.documentElement;
+      
+      // Padrão: modo escuro ativado
+      const isDarkMode = localStorage.getItem('darkMode') !== 'false';
+      
+      if (isDarkMode) {
+        htmlElement.classList.add('dark-mode');
+        if (darkModeBtn) darkModeBtn.textContent = '☀️';
+      }
+      
+      // Listener para o botão
+      if (darkModeBtn) {
+        darkModeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+          
+          if (isCurrentlyDark) {
+            htmlElement.classList.remove('dark-mode');
+            darkModeBtn.textContent = '🌙';
+            localStorage.setItem('darkMode', 'false');
+          } else {
+            htmlElement.classList.add('dark-mode');
+            darkModeBtn.textContent = '☀️';
+            localStorage.setItem('darkMode', 'true');
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

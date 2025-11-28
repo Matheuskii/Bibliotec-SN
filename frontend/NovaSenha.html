@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BiblioTec - Recuperar Senha</title>
+  <link rel="stylesheet" href="./css/NovaSenha.css">
+  <script src="./JS/Estrutura.js" defer></script>
+</head>
+<body>
+  <main class="login-container">
+    <img src="./images/LogoBibliotec.png" alt="Logo BiblioTec" class="logo">
+
+    <form id="newpassForm">
+      <label for="usuario" class="sr-only">Usuário ou Email</label>
+      <input
+        type="text"
+        id="usuario"
+        name="usuario"
+        placeholder="Digite seu usuário ou email"
+        class="input-field"
+        required
+      >
+
+      <label for="senha" class="sr-only">Nova Senha</label>
+      <input
+        type="password"
+        id="senha"
+        name="senha"
+        placeholder="Nova senha"
+        class="input-field"
+        required
+      >
+
+      <label for="confirmarSenha" class="sr-only">Confirmar Senha</label>
+      <input
+        type="password"
+        id="confirmarSenha"
+        name="confirmarSenha"
+        placeholder="Confirmar senha"
+        class="input-field"
+        required
+      >
+
+      <button type="submit" class="btn-recuperar">Recuperar Senha</button>
+      <p class="login-link"><a href="./login.html">Voltar ao login</a></p>
+    </form>
+  </main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioTec - Catálogo</title>
+  <link rel="stylesheet" href="./css/Catalogo.css" />
+</head>
+<body>
+  <header>
+    <img src="./images/LogoBibliotec.png" alt="Logo BiblioTec" class="logo">
+    <h1>BIBLIO TEC</h1>
+  </header>
+
+  <nav>
+    <a href="./inicio.html">Início</a>
+  </nav>
+
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Pesquisar..." />
+    <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
+  </div>
+
+  <main class="catalogo">
+    <div class="catalogo-header">
+      <h2>Catálogo De Livros</h2>
+    </div>
+
+    <div class="filter-container">
+      <button class="filter-btn active" data-filter="todos">Todos</button>
+      <button class="filter-btn" data-filter="ebook">E-books</button>
+      <button class="filter-btn" data-filter="genero-romance">Romance</button>
+      <button class="filter-btn" data-filter="genero-ficcao">Ficção Científica</button>
+      <button class="filter-btn" data-filter="genero-humor">Humor</button>
+      <button class="filter-btn" data-filter="audiolivro">Audiolivros</button>
+    </div>
+
+    <div class="books-grid" id="todos-livros"></div>
+  </main>
+
+  <script src="./js/catalogo.js"></script>
+</body>
