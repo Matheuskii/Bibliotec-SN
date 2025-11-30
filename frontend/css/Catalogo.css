@@ -265,7 +265,7 @@ nav a:hover {
 
 .book-category {
   font-size: 0.85rem;
-  color: var(--texto-branco-clarinho);
+  color:black;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;

@@ -1,4 +1,6 @@
 const API = 'http://localhost:3000/livros';
+
+
 document.addEventListener('DOMContentLoaded', async () => {
   const grid = document.getElementById('todos-livros');
   const filterBtns = document.querySelectorAll('.filter-btn');
@@ -35,11 +37,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else if (filtro === 'audiolivro') {
       livrosFiltrados = livrosCompletos.filter(l => l.formato === 'Audiobook');
     } else if (filtro === 'genero-romance') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero?.toLowerCase().includes('romance'));
+      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('romance'));
     } else if (filtro === 'genero-ficcao') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero?.toLowerCase().includes('ficção') || l.genero?.toLowerCase().includes('ficcao'));
+      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('ficção') || l.genero?.toLowerCase().includes('ficcao'));
     } else if (filtro === 'genero-humor') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero?.toLowerCase().includes('humor'));
+      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('humor'));
     }
 
     renderizarLivros(livrosFiltrados);

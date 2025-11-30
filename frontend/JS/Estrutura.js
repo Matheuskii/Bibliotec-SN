@@ -30,7 +30,8 @@ if (loginForm) {
 
       if (dados.sucesso) {
         localStorage.setItem("nomeUsuario", dados.usuario.nome);
-        window.location.href = "main.html";
+        alert(`Bem-vindo, ${dados.usuario.nome}!`);
+        window.location.href = "Inicio.html";
       }
     } catch (erro) {
       alert("Erro ao fazer login.");
@@ -136,7 +137,7 @@ async function recuperarSenha() {
 }
 
 function redirecionarParaLogin() {
-  window.location.href = "index.html";
+  window.location.href = "Login.html";
 }
 
 export async function criarCarrossel(gridId, leftBtn, rightBtn) {
@@ -206,10 +207,10 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn) {
     const cardLeft = card.offsetLeft;
     const cardWidth = card.offsetWidth;
     const containerWidth = containerGrid.offsetWidth;
-    
+
     // Calcula posição para centralizar (ajuste fino: +10px para compensar)
     const scrollPosition = cardLeft + (cardWidth / 2) - (containerWidth / 2) - 69;
-    
+
     containerGrid.scrollTo({
       left: scrollPosition,
       behavior: 'smooth'
@@ -251,7 +252,8 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn) {
 
 async function carregarLivros() {
   try {
-    const resposta = await fetch("http://localhost:3000/livros");
+    const API = "http://localhost:3000/livros";
+    const resposta = await fetch(API);
     const livros = await resposta.json();
     return livros;
   } catch (erro) {

@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiblioTec - Início</title>
   <link rel="stylesheet" href="./css/Inicio.css" />
+  link
   <script>
-    // Aplicar dark mode antes de carregar tudo
     if (localStorage.getItem('darkMode') !== 'false') {
       document.documentElement.classList.add('dark-mode');
     }
@@ -57,7 +57,7 @@
   </section>
 
   <script type="module">
-    import { criarCarrossel } from "./js/app.js";
+    import { criarCarrossel } from "./JS/Estrutura.js";
     import { initDarkMode } from "./JS/darkMode.js";
     
     initDarkMode();
@@ -98,5 +98,6 @@
       }
     })();
   </script>
+  <script type="module" src="./JS/darkMode.js" defer></script>
 </body>
 </html>
