@@ -12,7 +12,7 @@
 
 /* === LOGO DO SITE === */
 /* light mode */
-.logo-img {
+.logo {
   width: 80px;
   height: 80px;
   object-fit: contain;
@@ -58,6 +58,22 @@ header {
   background: var(--cor-branca);
 }
 
+.dark-mode-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s;
+  border-radius: 30px;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--cor-branco-claro);
+  transform: scale(1.1);
+}
+
 /* dark mode */
 html.dark-mode body {
   background: var(--cor-cinza);
@@ -65,6 +81,11 @@ html.dark-mode body {
 
 html.dark-mode header {
   background: var(--cor-cinza);
+}
+
+html.dark-mode .dark-mode-toggle:hover {
+  background: var(--cor-cinza-claro);
+  transform: scale(1.1);
 }
 
 /* === NAVIGATION DO SITE === */
@@ -90,6 +111,7 @@ nav a {
 nav a:hover {
   background: var(--cor-branca);
   color: var(--cor-verde-agua);
+  text-decoration: underline;
 }
 
 /* dark mode */
@@ -110,7 +132,7 @@ html.dark-mode nav a:hover {
 .search-icon {
   position: absolute;
   right: 32%;
-  top: 56%;
+  top: 57%;
   transform: translateY(-50%);
   font-size: 1.8rem;
   pointer-events: none;
@@ -118,7 +140,7 @@ html.dark-mode nav a:hover {
 
 /* light mode */
 .search-bar::placeholder {
-  color: var(--cor-verde-agua);
+  color: var(--cor-branca);
 }
 
 .search-container {
@@ -136,8 +158,8 @@ html.dark-mode nav a:hover {
   border: 5px solid transparent;
   border-radius: 30px;
   font-size: 1rem;
-  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-branca)),
-    linear-gradient(to left, var(--cor-branca), #dbdbdb);
+  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-branco-claro), #b8b8b8);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
@@ -442,22 +464,6 @@ html.dark-mode .arrow-right:hover {
 }
 
 /* dark mode */
-.dark-mode-toggle {
-  margin-left: auto;
-  background: transparent;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  padding: 10px 15px;
-  transition: all 0.3s;
-  border-radius: 8px;
-}
-
-.dark-mode-toggle:hover {
-  background: rgba(0, 0, 0, 0.836);
-  transform: scale(1.1);
-}
-
 html.dark-mode .books-container {
   background: var(--cor-cinza);
 }

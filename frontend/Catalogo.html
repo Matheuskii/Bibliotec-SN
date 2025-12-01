@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiblioTec - Catálogo</title>
   <link rel="stylesheet" href="./css/Catalogo.css" />
+   <script>
+    if (localStorage.getItem('darkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
+
 <body>
   <header>
-    <img src="./images/LogoBibliotec.png" alt="Logo BiblioTec" class="logo">
+    <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec" >
     <h1>BIBLIO TEC</h1>
+     <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
   </header>
 
   <nav>
@@ -42,3 +50,50 @@
 
   <script src="./js/catalogo.js" defer></script>
 </body>
+
+<script type="module">
+  import { criarCarrossel } from "./JS/Estrutura.js";
+  import { initDarkMode } from "./JS/DarkMode.js";
+
+  initDarkMode();
+  criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
+  criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
+</script>
+
+<script>
+  // Inicializar dark mode antes de qualquer coisa
+  (function () {
+    const darkModeBtn = document.getElementById('dark-mode-btn');
+    const htmlElement = document.documentElement;
+
+    // Padrão: modo escuro ativado
+    const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+
+    if (isDarkMode) {
+      htmlElement.classList.add('dark-mode');
+      if (darkModeBtn) DarkModeBtn.textContent = '☀️';
+    }
+
+    // Listener para o botão
+    if (darkModeBtn) {
+      darkModeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+        if (isCurrentlyDark) {
+          htmlElement.classList.remove('dark-mode');
+          darkModeBtn.textContent = '🌙';
+          localStorage.setItem('DarkMode', 'false');
+        } else {
+          htmlElement.classList.add('dark-mode');
+          darkModeBtn.textContent = '☀️';
+          localStorage.setItem('DarkMode', 'true');
+        }
+      });
+    }
+  })();
+</script>
+<script type="module" src="./JS/DarkMode.js" defer></script>
+</body>
+
+</html>

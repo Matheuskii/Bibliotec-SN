@@ -1,70 +1,150 @@
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
 :root {
-  --cor-verde-agua: #2fd6cb;
   --cor-azul-turquesa: #4a67df;
-  --cor-branca: #ffffff;
-  --cor-branco-claro: #e9f0ef;
+  --cor-verde-agua: #2fd6cb;
+  --cor-cinza-claro: #31414e;
   --cor-cinza: #26333d;
-  --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.1);
-  --sombra-media: 0 4px 12px rgba(0, 188, 212, 0.15);
-  --transicao: 0.3s ease;
+  --cor-branco-claro: #e9f0ef;
+  --cor-branca: #ffffff;
 }
 
+/* === LOGO DO SITE === */
+/* light mode */
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 6px solid var(--cor-branco-claro);
+  border-radius: 50%;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cor-branca);
+}
+
+/* dark mode */
+html.dark-mode .logo-img {
+  border: 6px solid var(--cor-branco-claro);
+}
+
+html.dark-mode h1 {
+  color: var(--cor-branca);
+}
+
+/* === CORPO E ESTRUTURA DO SITE === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* light mode */
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--cor-branca);
-  color: var(--cor-cinza);
-  line-height: 1.6;
+  font-family: Arial, sans-serif;
+  background-color: var(--cor-branco-claro);
+  line-height: 2;
 }
 
 header {
-  background: linear-gradient(135deg, var(--cor-azul-turquesa) 0%, var(--cor-verde-agua) 100%);
-  color: var(--cor-branca);
+  background: linear-gradient(
+    var(--cor-azul-turquesa) 0%,
+    var(--cor-verde-agua) 45%,
+    var(--cor-branco-claro) 85%);
   padding: 30px 0;
   text-align: center;
-  box-shadow: var(--sombra-media);
-  margin-bottom: 30px;
 }
 
-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 2px;
+.dark-mode-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s;
+  border-radius: 30px;
 }
 
-header .logo {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 10px;
-  background-color: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
+.dark-mode-toggle:hover {
+  background: var(--cor-azul-turquesa);
+  transform: scale(1.1);
 }
 
+/* dark mode */
+html.dark-mode body {
+  background: var(--cor-cinza-claro);
+}
+
+html.dark-mode header {
+  background: linear-gradient(
+    #000000 0%,
+    var(--cor-cinza) 60%, 
+    var(--cor-cinza-claro) 90%);
+  color: var(--cor-branca);
+}
+
+html.dark-mode .dark-mode-toggle:hover {
+  background: var(--cor-cinza);
+  transform: scale(1.1);
+}
+
+/* === NAVIGATION DO SITE === */
+/* light mode */
 nav {
-  background-color: var(--cor-branca);
-  padding: 15px 0;
-  text-align: center;
-  border-bottom: 2px solid var(--cor-verde-agua);
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 20px;
+  background:var(--cor-branco-claro);
 }
 
 nav a {
-  color: var(--cor-verde-agua);
   text-decoration: none;
-  margin: 0 20px;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: var(--transicao);
+  color: var(--cor-cinza);
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s;
 }
 
 nav a:hover {
-  color: var(--cor-azul-turquesa);
+  background: var(--cor-branca);
+  color: var(--cor-verde-agua);
   text-decoration: underline;
+}
+
+/* dark mode */
+html.dark-mode nav {
+  background: var(--cor-cinza-claro);
+}
+
+html.dark-mode nav a {
+  color: var(--cor-branca);
+}
+
+html.dark-mode nav a:hover {
+  background: var(--cor-cinza);
+  color: var(--cor-azul-turquesa);
+}
+
+/* === BARRA DE PESQUISA DO SITE === */
+.search-icon {
+  position: absolute;
+  right: 35%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* light mode */
+.search-bar::placeholder {
+  color: var(--cor-branca);
 }
 
 .search-container {
@@ -82,44 +162,53 @@ nav a:hover {
   border: 5px solid transparent;
   border-radius: 30px;
   font-size: 1rem;
-  background-image: linear-gradient(
-      var(--cor-verde-agua),
-      var(--cor-verde-agua)
-    ),
-    linear-gradient(to left, var(--cor-branca), #a0a0a0);
+  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-branco-claro), #b8b8b8);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
 
-.search-bar:focus {
-  box-shadow: var(--sombra-media);
-  border-color: var(--cor-azul-turquesa);
+/* dark mode */
+html.dark-mode ::placeholder {
+  color: var(--cor-branca);
 }
 
-.search-icon {
-  position: absolute;
-  right: 35%;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 24px;
-  height: 24px;
-  pointer-events: none;
+html.dark-mode .search-container {
+  background: var(--cor-cinza-claro);
 }
 
+html.dark-mode .search-bar {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-cinza)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* === PARADA ONDE FICA OS ANUNCIAMENTOS === */
+/* light mode */
 .catalogo {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+  padding: 40px 0 10px 0;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0;
+  background: var(--cor-branco-claro);
+  width: 100%;
 }
 
 .catalogo-header {
   text-align: center;
   margin-bottom: 40px;
+  padding: 20px;
+  background: var(--cor-branca);
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-left: 200px;
+  margin-right: 200px;
 }
 
 .catalogo-header h2 {
   font-size: 2.2rem;
-  color: var(--cor-azul-turquesa);
+  color: var(--cor-cinza-claro);
   font-weight: 700;
   position: relative;
   display: inline-block;
@@ -127,6 +216,48 @@ nav a:hover {
 }
 
 .catalogo-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: var(--cor-verde-agua);
+  border-radius: 2px;
+}
+
+/* dark mode */
+html.dark-mode .catalogo {
+  padding: 40px 0 10px 0;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0;
+  background: var(--cor-cinza-claro);
+  width: 100%;
+}
+
+html.dark-mode .catalogo-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 20px;
+  background: var(--cor-branca);
+  border-radius: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+html.dark-mode .catalogo-header h2 {
+  font-size: 2.2rem;
+  color: var(--cor-verde-agua);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 15px;
+}
+
+html.dark-mode .catalogo-header h2::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -138,21 +269,25 @@ nav a:hover {
   border-radius: 2px;
 }
 
+/* === FILTROS DE CATEGORIA === */
+/* light mode */
 .filter-container {
   display: flex;
-  gap: 12px;
+  gap: 20px;
   justify-content: center;
   flex-wrap: wrap;
   padding: 30px 20px;
   background-color: var(--cor-branca);
-  border-radius: 15px;
+  border-radius: 30px;
   margin-bottom: 40px;
-  box-shadow: var(--sombra-suave);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  margin-left: 500px;
+  margin-right: 500px;
 }
 
 .filter-btn {
   padding: 10px 24px;
-  border: 2px solid var(--cor-verde-agua);
+  border: 5px solid var(--cor-branco-claro);
   background-color: transparent;
   color: var(--cor-verde-agua);
   border-radius: 25px;
@@ -176,6 +311,32 @@ nav a:hover {
   box-shadow: var(--sombra-media);
 }
 
+/* dark mode */
+html.dark-mode .filter-container {
+  background-color: var(--cor-branca);
+  box-shadow: var(--sombra-suave);
+}
+
+html.dark-mode .filter-btn {
+  border: 2px solid var(--cor-verde-agua);
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .filter-btn:hover {
+  background-color: var(--cor-verde-agua);
+  color: var(--cor-branca);
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-media);
+}
+
+html.dark-mode .filter-btn.active {
+  background-color: var(--cor-verde-agua);
+  color: var(--cor-branca);
+  box-shadow: var(--sombra-media);
+}
+
+/* === LIVROS === */
+/* light mode */
 .books-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -283,6 +444,8 @@ nav a:hover {
   border-radius: 4px;
   display: inline-block;
 }
+
+/* dark mode */
 
 @media (max-width: 768px) {
   header h1 {
