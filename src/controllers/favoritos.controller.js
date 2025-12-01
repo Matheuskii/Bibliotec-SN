@@ -28,10 +28,10 @@ export async function listarFavoritos(req, res) {
         const [favoritos] = await db.execute(sql, params);
         return res.status(200).json(favoritos);
     } catch (erro) {
-        console.error('Erro ao listar livros favoritos:', erro);
+        console.error('Erro ao listar livros Favoritos:', erro);
         return res.status(500).json({
             sucesso: false,
-            mensagem: 'Erro ao listar livros favoritos',
+            mensagem: 'Erro ao listar livros Favoritos',
             erro: erro.message
         });
     }
@@ -79,7 +79,7 @@ export async function criarFavoritos(req, res) {
         if (favoritoExistente.length > 0) {
             return res.status(409).json({
                 sucesso: false,
-                mensagem: 'Este livro já está nos favoritos do usuário'
+                mensagem: 'Este livro já está nos Favoritos do usuário'
             });
         }
 
@@ -112,7 +112,7 @@ export async function criarFavoritos(req, res) {
 
         return res.status(201).json({
             sucesso: true,
-            mensagem: 'Livro adicionado aos favoritos com sucesso',
+            mensagem: 'Livro adicionado aos Favoritos com sucesso',
             dados: favoritoCriado[0]
         });
 
@@ -120,7 +120,7 @@ export async function criarFavoritos(req, res) {
         console.error('Erro ao criar favorito:', erro);
         return res.status(500).json({
             sucesso: false,
-            mensagem: 'Erro ao adicionar livro aos favoritos',
+            mensagem: 'Erro ao adicionar livro aos Favoritos',
             erro: erro.message
         });
     }
@@ -137,7 +137,7 @@ export async function deletarFavorito (req, res){
              return res.status(404).json({ mensagem: "Registro de favorito não encontrado." });
         }
 
-        return res.status(200).json({ mensagem: "Livro removido dos favoritos com sucesso!" });
+        return res.status(200).json({ mensagem: "Livro removido dos Favoritos com sucesso!" });
     } catch (err) {
         console.error('Erro ao deletar favorito:', err);
         return res.status(500).json({ erro: err.message });

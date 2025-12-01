@@ -1,9 +1,9 @@
 :root {
   --cor-verde-agua: #2fd6cb;
   --cor-azul-turquesa: #4a67df;
-  --texto-branco: #ffffff;
-  --texto-branco-clarinho: #e9f0ef;
-  --texto-cinza: #26333d;
+  --cor-branca: #ffffff;
+  --cor-branco-claro: #e9f0ef;
+  --cor-cinza: #26333d;
   --sombra-suave: 0 2px 8px rgba(0, 0, 0, 0.1);
   --sombra-media: 0 4px 12px rgba(0, 188, 212, 0.15);
   --transicao: 0.3s ease;
@@ -17,14 +17,14 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--texto-branco);
-  color: var(--texto-cinza);
+  background-color: var(--cor-branca);
+  color: var(--cor-cinza);
   line-height: 1.6;
 }
 
 header {
   background: linear-gradient(135deg, var(--cor-azul-turquesa) 0%, var(--cor-verde-agua) 100%);
-  color: var(--texto-branco);
+  color: var(--cor-branca);
   padding: 30px 0;
   text-align: center;
   box-shadow: var(--sombra-media);
@@ -46,7 +46,7 @@ header .logo {
 }
 
 nav {
-  background-color: var(--texto-branco);
+  background-color: var(--cor-branca);
   padding: 15px 0;
   text-align: center;
   border-bottom: 2px solid var(--cor-verde-agua);
@@ -71,7 +71,7 @@ nav a:hover {
   max-width: 100%;
   margin: 0 auto;
   padding: 10px 30% 10px;
-  background: var(--texto-branco-clarinho);
+  background: var(--cor-branco-claro);
   width: 100%;
   position: relative;
 }
@@ -86,7 +86,7 @@ nav a:hover {
       var(--cor-verde-agua),
       var(--cor-verde-agua)
     ),
-    linear-gradient(to left, var(--texto-branco), #a0a0a0);
+    linear-gradient(to left, var(--cor-branca), #a0a0a0);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
@@ -144,7 +144,7 @@ nav a:hover {
   justify-content: center;
   flex-wrap: wrap;
   padding: 30px 20px;
-  background-color: var(--texto-branco);
+  background-color: var(--cor-branca);
   border-radius: 15px;
   margin-bottom: 40px;
   box-shadow: var(--sombra-suave);
@@ -165,14 +165,14 @@ nav a:hover {
 
 .filter-btn:hover {
   background-color: var(--cor-verde-agua);
-  color: var(--texto-branco);
+  color: var(--cor-branca);
   transform: translateY(-2px);
   box-shadow: var(--sombra-media);
 }
 
 .filter-btn.active {
   background-color: var(--cor-verde-agua);
-  color: var(--texto-branco);
+  color: var(--cor-branca);
   box-shadow: var(--sombra-media);
 }
 
@@ -184,7 +184,7 @@ nav a:hover {
 }
 
 .book-card {
-  background-color: var(--texto-branco);
+  background-color: var(--cor-branca);
   border-radius: 12px;
   overflow: hidden;
   box-shadow: var(--sombra-suave);
@@ -238,7 +238,7 @@ nav a:hover {
 .book-title {
   font-size: 1.1rem;
   font-weight: 700;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
   margin-bottom: 8px;
   line-height: 1.4;
   min-height: 2.2em;
@@ -251,7 +251,7 @@ nav a:hover {
 
 .book-author {
   font-size: 0.9rem;
-  color: var(--texto-branco-clarinho);
+  color: var(--cor-branco-claro);
   margin-bottom: 8px;
   font-style: italic;
 }

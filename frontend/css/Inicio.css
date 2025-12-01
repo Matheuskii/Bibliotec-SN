@@ -1,23 +1,52 @@
+/*voce consegue*/
+
+/* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
 :root {
   --cor-azul-turquesa: #4a67df;
   --cor-verde-agua: #2fd6cb;
-  --texto-cinza: #26333d;
-  --texto-branco-clarinho: #e9f0ef;
-  --texto-branco: #ffffff;
+  --cor-cinza-claro: #31414e;
+  --cor-cinza: #26333d;
+  --cor-branco-claro: #e9f0ef;
+  --cor-branca: #ffffff;
 }
 
+/* === LOGO DO SITE === */
+/* light mode */
+.logo-img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 6px solid var(--cor-branco-claro);
+  border-radius: 50%;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cor-cinza);
+}
+
+/* dark mode */
+html.dark-mode .logo-img {
+  border: 6px solid var(--cor-branco-claro);
+}
+
+html.dark-mode h1 {
+  color: var(--cor-branca);
+}
+
+/* === CORPO E ESTRUTURA DO SITE === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* light mode */
 body {
   font-family: Arial, sans-serif;
-  background: var(--fundo-pagina);
-  min-height: 100vh;
-  padding: 0;
-  margin: 0;
+  background: var(--cor-branca);
 }
 
 header {
@@ -26,42 +55,31 @@ header {
   justify-content: space-between;
   gap: 15px;
   padding: 15px 20px;
-  background: var(--texto-branco);
-  box-shadow: 0 2px 10px var(--texto-cinza) 10%;
+  background: var(--cor-branca);
 }
 
-
-.LogoBibliotec {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
+/* dark mode */
+html.dark-mode body {
+  background: var(--cor-cinza);
 }
 
-.logo-img {
-  width: 80px;
-  height: 80px;
-  object-fit: contain;
-  display: block;
+html.dark-mode header {
+  background: var(--cor-cinza);
 }
 
-h1 {
-  font-size: 28px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  color: var(--texto-cinza);
-}
-
+/* === NAVIGATION DO SITE === */
+/* light mode */
 nav {
   display: flex;
   justify-content: center;
   gap: 40px;
   padding: 20px;
-  background: var(--texto-branco-clarinho);
+  background: var(--cor-branco-claro);
 }
 
 nav a {
   text-decoration: none;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
   font-size: 18px;
   font-weight: 500;
   padding: 10px 20px;
@@ -70,15 +88,44 @@ nav a {
 }
 
 nav a:hover {
-  background: var(--texto-branco);
+  background: var(--cor-branca);
+  color: var(--cor-verde-agua);
+}
+
+/* dark mode */
+html.dark-mode nav {
+  background: var(--cor-cinza-claro);
+}
+
+html.dark-mode nav a {
+  color: var(--cor-branca);
+}
+
+html.dark-mode nav a:hover {
+  background: var(--cor-cinza);
   color: var(--cor-azul-turquesa);
+}
+
+/* === BARRA DE PESQUISA DO SITE === */
+.search-icon {
+  position: absolute;
+  right: 32%;
+  top: 56%;
+  transform: translateY(-50%);
+  font-size: 1.8rem;
+  pointer-events: none;
+}
+
+/* light mode */
+.search-bar::placeholder {
+  color: var(--cor-verde-agua);
 }
 
 .search-container {
   max-width: 100%;
   margin: 0 auto;
   padding: 20px 30% 10px;
-  background: var(--texto-branco-clarinho);
+  background: var(--cor-branco-claro);
   width: 100%;
   position: relative;
 }
@@ -89,35 +136,36 @@ nav a:hover {
   border: 5px solid transparent;
   border-radius: 30px;
   font-size: 1rem;
-  background-image: linear-gradient(
-      var(--cor-verde-agua),
-      var(--cor-verde-agua)
-    ),
-    linear-gradient(to left, var(--texto-branco), #a0a0a0);
+  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-branca)),
+    linear-gradient(to left, var(--cor-branca), #dbdbdb);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
 
-.search-bar::placeholder {
-  color: var(--texto-branco);
+/* dark mode */
+html.dark-mode ::placeholder {
+  color: var(--cor-branca);
 }
 
-.search-icon {
-  position: absolute;
-  right: 32%;
-  top: 53%;
-  transform: translateY(-50%);
-  color: var(--texto-branco);
-  font-size: 1.8rem;
-  pointer-events: none;
+html.dark-mode .search-container {
+  background: var(--cor-cinza-claro);
 }
 
+html.dark-mode .search-bar {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-cinza)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* === PARADA ONDE FICA OS ANUNCIAMENTOS === */
+/* light mode */
 section {
   padding: 40px 0 10px 0;
   margin-bottom: 0px;
   margin-left: 0px;
   margin-right: 0;
-  background: #f0f0f0;
+  background: var(--cor-branco-claro);
   width: 100%;
 }
 
@@ -127,17 +175,17 @@ section {
   align-items: center;
   margin-bottom: 40px;
   padding: 30px 40px;
-  background: var(--texto-branco);
+  background: var(--cor-branca);
   border-radius: 30px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-left: 40px;
-  margin-right: 40px;
+  margin-left: 50px;
+  margin-right: 50px;
 }
 
 .section-header h2 {
   font-size: 32px;
   font-weight: 700;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
   position: relative;
 }
 
@@ -152,22 +200,29 @@ section {
   border-radius: 2px;
 }
 
-.arrow {
-  width: 50px;
-  height: 50px;
-  background: var(--texto-branco-clarinho);
-  border: 2px solid var(--cor-azul-turquesa);
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s;
+/* dark mode */
+html.dark-mode section {
+  background: var(--cor-cinza-claro);
 }
 
-.arrow:hover {
+html.dark-mode .section-header {
+  background: var(--cor-cinza);
+  box-shadow: 0 0 30px var(--cor-cinza);
+  border: 1px solid #2a2a2a;
+}
+
+html.dark-mode .section-header h2 {
+  color: var(--cor-branca);
+}
+
+html.dark-mode h2::after {
   background: var(--cor-azul-turquesa);
-  transform: scale(1.1);
 }
 
+/* === AJUSTES PARA AS SETAS DO CARROSSEL === */
+
+/* nao sei o que faz essa classe */
+/*
 .arrow::after {
   content: "→";
   font-size: 35px;
@@ -183,11 +238,64 @@ section {
   transform: translate(-40%, -50%);
 }
 
+.arrow {
+  width: 50px;
+  height: 50px;
+  background: var(--cor-branco-claro);
+  border: 2px solid var(--cor-azul-turquesa);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+} */
+
+/* seta esquerda e direita LIGHT */
+.arrow-left,
+.arrow-right {
+  background: var(--cor-branco-claro);
+  color: var(--cor-branca);
+  font-size: 30px;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 0 5px var(--cor-cinza);
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+.arrow-left:hover,
+.arrow-right:hover {
+  color: var(--cor-verde-agua);
+  transform: scale(1.3);
+}
+
+/* seta esquerda e direita DARK */
+html.dark-mode .arrow-left,
+html.dark-mode .arrow-right {
+  background: var(--cor-cinza-claro);
+  color: var(--cor-cinza);
+  box-shadow: 0 0 5px var(--cor-branco-claro);
+}
+
+html.dark-mode .arrow-left:hover,
+html.dark-mode .arrow-right:hover {
+  color: var(--cor-azul-turquesa);
+  transform: scale(1.3);
+}
+
+/* === LIVROS === */
+/* light mode */
 .books-container {
   position: relative;
   overflow: hidden;
   padding: 80px 0;
-  background: #f0f0f0;
+  background: var(--cor-branca);
   border-radius: 30px;
 }
 
@@ -204,12 +312,10 @@ section {
   pointer-events: none;
   z-index: 50;
   box-shadow: 0 0 30px rgba(47, 214, 203, 0.3),
-              inset 0 0 30px rgba(47, 214, 203, 0.1);
-  background: linear-gradient(
-    135deg,
-    rgba(47, 214, 203, 0.05) 0%,
-    rgba(47, 214, 203, 0.05) 100%
-  );
+    inset 0 0 30px rgba(47, 214, 203, 0.1);
+  background: linear-gradient(135deg,
+      rgba(47, 214, 203, 0.05) 0%,
+      rgba(47, 214, 203, 0.05) 100%);
 }
 
 .books-grid {
@@ -238,24 +344,22 @@ section {
 }
 
 .book-card {
-  background: linear-gradient(
-    135deg,
-    rgba(61, 191, 191, 0.15) 0%,
-    rgba(77, 212, 212, 0.15) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(61, 191, 191, 0.15) 0%,
+      rgba(77, 212, 212, 0.15) 100%);
   border-radius: 30px;
   padding: 25px;
   transition: all 0.5s ease;
   cursor: pointer;
   backdrop-filter: blur(10px);
-  width: 280px;
-  height: 420px;
+  width: 300px;
+  height: 450px;
   flex-shrink: 0;
   box-shadow: 0 10px 30px rgba(61, 191, 191, 0.2);
   display: flex;
   flex-direction: column;
-  opacity: 0.4;
-  transform: scale(0.85);
+  opacity: 0.3;
+  transform: scale(0.78);
   filter: blur(0);
 }
 
@@ -268,8 +372,8 @@ section {
 
 /* Hover nos cards */
 .book-card:hover {
-  opacity: 0.7;
-  transform: scale(0.9);
+  opacity: 1;
+  transform: scale(0.8);
 }
 
 .book-card.center:hover {
@@ -279,18 +383,16 @@ section {
 .book-cover {
   width: 100%;
   aspect-ratio: 3/4;
-  background: linear-gradient(
-    135deg,
-    var(--cor-azul-turquesa) 0%,
-    var(--cor-verde-agua) 100%
-  );
+  background: linear-gradient(135deg,
+      var(--cor-azul-turquesa) 0%,
+      var(--cor-verde-agua) 100%);
   border-radius: 15px;
   margin-bottom: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 60px;
-  box-shadow: 0 10px 25px var(--texto-cinza);
+  box-shadow: 0 10px 25px var(--cor-cinza);
   overflow: hidden;
 }
 
@@ -309,20 +411,20 @@ section {
   font-size: 16px;
   margin-bottom: 8px;
   font-weight: 600;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
 }
 
 .book-author {
   font-size: 13px;
   margin-bottom: 8px;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
   font-style: italic;
 }
 
 .book-price {
   font-size: 20px;
   font-weight: 700;
-  color: var(--texto-cinza);
+  color: var(--cor-cinza);
 }
 
 .carousel-wrapper {
@@ -333,37 +435,13 @@ section {
   padding: 0 20px;
 }
 
-.arrow-left,
-.arrow-right {
-  background: var(--texto-branco);
-  border: 2px solid var(--cor-verde-agua);
-  color: var(--cor-verde-agua);
-  font-size: 24px;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  z-index: 100;
-}
-
-.arrow-left:hover,
-.arrow-right:hover {
-  background: var(--cor-azul-turquesa);
-  color: var(--texto-branco);
-  transform: scale(1.3);
-}
-
-  @media (max-width: 768px) {
+@media (max-width: 768px) {
   .books-grid {
     gap: 20px;
   }
 }
 
+/* dark mode */
 .dark-mode-toggle {
   margin-left: auto;
   background: transparent;
@@ -380,104 +458,33 @@ section {
   transform: scale(1.1);
 }
 
-html.dark-mode {
-  --texto-cinza: #f86868;
-  --texto-branco-clarinho: #0f0f0f;
-  --texto-branco: #1a1a1a;
-  --cor-fundo: #9c2121;
-}
-
-html.dark-mode body {
-  background: #000000;
-  color: #d0d0d0;
-}
-
-html.dark-mode header {
-  background: #bbff00;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
-  border-bottom: 1px solid #2a2a2a;
-}
-
-html.dark-mode h1 {
-  color: #d0d0d0;
-}
-
-html.dark-mode nav {
-  background: #6c00f8;
-  border-bottom: 1px solid #2a2a2a;
-}
-
-html.dark-mode nav a {
-  color: #d0d0d0;
-}
-
-html.dark-mode nav a:hover {
-  background: #ea00ff;
-  color: var(--cor-verde-agua);
-}
-
-html.dark-mode .search-container {
-  background: #ff00f2;
-}
-
-html.dark-mode .search-bar {
-  background-image: linear-gradient(
-      var(--cor-verde-agua),
-      var(--cor-verde-agua)
-    ),
-    linear-gradient(to left, #1a1a1a, #0a0a0a);
-  background-origin: border-box;
-  background-clip: padding-box, border-box;
-  color: #d0d0d0;
-}
-
-html.dark-mode section {
-  background: #00ff22;
-}
-
-html.dark-mode .section-header {
-  background: #ff0000;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
-  border: 1px solid #2a2a2a;
-}
-
-html.dark-mode .section-header h2 {
-  color: #d0d0d0;
-}
-
 html.dark-mode .books-container {
-  background: #3b3b3b;
+  background: var(--cor-cinza);
+}
+
+html.dark-mode .books-container::before {
+  box-shadow: 0 0 30px rgba(54, 76, 202, 0.856),
+    inset 0 0 30px rgba(61, 74, 191, 0.685);
+  background: linear-gradient(135deg,
+      rgba(50, 70, 252, 0.199) 0%,
+      rgba(56, 76, 255, 0.164) 100%);
 }
 
 html.dark-mode .book-card {
-  background: linear-gradient(
-    135deg,
-    rgba(61, 191, 191, 0.08) 0%,
-    rgba(77, 212, 212, 0.08) 100%
-  );
-  box-shadow: 0 10px 30px rgba(47, 214, 203, 0.05);
-  border: 1px solid #2a2a2a;
+  background: linear-gradient(135deg,
+      rgba(61, 74, 191, 0.08) 0%,
+      rgba(77, 90, 212, 0.171) 100%);
+  box-shadow: 0 10px 30px rgba(47, 100, 214, 0.05);
+}
+
+html.dark-mode .book-cover {
+    background: linear-gradient(135deg,
+      var(--cor-verde-agua) 0%,
+      var(--cor-azul-turquesa) 100%);
 }
 
 html.dark-mode .book-title,
 html.dark-mode .book-author,
 html.dark-mode .book-price {
   color: #d0d0d0;
-}
-
-html.dark-mode .book-author {
-  color: #a0a0a0;
-}
-
-html.dark-mode .arrow-left,
-html.dark-mode .arrow-right {
-  background: #1a1a1a;
-  border-color: var(--cor-verde-agua);
-  color: var(--cor-verde-agua);
-}
-
-html.dark-mode .arrow-left:hover,
-html.dark-mode .arrow-right:hover {
-  background: var(--cor-azul-turquesa);
-  color: #ffffff;
 }

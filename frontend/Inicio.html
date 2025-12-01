@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>BiblioTec - Início</title>
   <link rel="stylesheet" href="./css/Inicio.css" />
-  link
   <script>
     if (localStorage.getItem('darkMode') !== 'false') {
       document.documentElement.classList.add('dark-mode');
@@ -58,7 +57,7 @@
 
   <script type="module">
     import { criarCarrossel } from "./JS/Estrutura.js";
-    import { initDarkMode } from "./JS/darkMode.js";
+    import { initDarkMode } from "./JS/DarkMode.js";
     
     initDarkMode();
     criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
@@ -72,11 +71,11 @@
       const htmlElement = document.documentElement;
       
       // Padrão: modo escuro ativado
-      const isDarkMode = localStorage.getItem('darkMode') !== 'false';
+      const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
       
       if (isDarkMode) {
         htmlElement.classList.add('dark-mode');
-        if (darkModeBtn) darkModeBtn.textContent = '☀️';
+        if (darkModeBtn) DarkModeBtn.textContent = '☀️';
       }
       
       // Listener para o botão
@@ -88,16 +87,16 @@
           if (isCurrentlyDark) {
             htmlElement.classList.remove('dark-mode');
             darkModeBtn.textContent = '🌙';
-            localStorage.setItem('darkMode', 'false');
+            localStorage.setItem('DarkMode', 'false');
           } else {
             htmlElement.classList.add('dark-mode');
             darkModeBtn.textContent = '☀️';
-            localStorage.setItem('darkMode', 'true');
+            localStorage.setItem('DarkMode', 'true');
           }
         });
       }
     })();
   </script>
-  <script type="module" src="./JS/darkMode.js" defer></script>
+  <script type="module" src="./JS/DarkMode.js" defer></script>
 </body>
 </html>
