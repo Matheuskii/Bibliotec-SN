@@ -87,4 +87,4 @@ Abrir em navegador: http://localhost:3000
 - `GET /livros` - Listar livros
 - `POST /favoritos` - Adicionar favorito
 - `GET /reservas` - Listar reservas
-- `POST /avaliacoes` - Adicionar avaliação
+- `POST /avaliacoes` - Adicionar avaliaçãoa
