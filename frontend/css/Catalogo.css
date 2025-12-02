@@ -1,4 +1,6 @@
+/*======================================================*/
 /* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
 :root {
   --cor-azul-turquesa: #4a67df;
   --cor-verde-agua: #2fd6cb;
@@ -8,11 +10,13 @@
   --cor-branca: #ffffff;
 }
 
+/*======================*/
 /* === LOGO DO SITE === */
+/*======================*/
 /* light mode */
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 120px;
+  height: 120px;
   object-fit: contain;
   border: 6px solid var(--cor-branco-claro);
   border-radius: 50%;
@@ -22,7 +26,7 @@ h1 {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--cor-branca);
+  color: var(--cor-cinza-claro);
 }
 
 /* dark mode */
@@ -34,7 +38,9 @@ html.dark-mode h1 {
   color: var(--cor-branca);
 }
 
+/*===================================*/
 /* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
 * {
   margin: 0;
   padding: 0;
@@ -91,7 +97,9 @@ html.dark-mode .dark-mode-toggle:hover {
   transform: scale(1.1);
 }
 
+/*============================*/
 /* === NAVIGATION DO SITE === */
+/*============================*/
 /* light mode */
 nav {
   display: flex;
@@ -131,10 +139,12 @@ html.dark-mode nav a:hover {
   color: var(--cor-azul-turquesa);
 }
 
+/*===================================*/
 /* === BARRA DE PESQUISA DO SITE === */
+/*===================================*/
 .search-icon {
   position: absolute;
-  right: 35%;
+  right: 32%;
   top: 50%;
   transform: translateY(-50%);
   width: 24px;
@@ -184,7 +194,9 @@ html.dark-mode .search-bar {
   background-clip: padding-box, border-box;
 }
 
+/*===========================================*/
 /* === PARADA ONDE FICA OS ANUNCIAMENTOS === */
+/*===========================================*/
 /* light mode */
 .catalogo {
   padding: 40px 0 10px 0;
@@ -201,7 +213,7 @@ html.dark-mode .search-bar {
   padding: 20px;
   background: var(--cor-branca);
   border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   margin-left: 200px;
   margin-right: 200px;
 }
@@ -229,47 +241,25 @@ html.dark-mode .search-bar {
 
 /* dark mode */
 html.dark-mode .catalogo {
-  padding: 40px 0 10px 0;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0;
   background: var(--cor-cinza-claro);
-  width: 100%;
 }
 
 html.dark-mode .catalogo-header {
-  text-align: center;
-  margin-bottom: 40px;
-  padding: 20px;
-  background: var(--cor-branca);
-  border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  margin-left: 50px;
-  margin-right: 50px;
+  background: var(--cor-cinza);
+  box-shadow: 0 0 50px var(--cor-cinza);
 }
 
 html.dark-mode .catalogo-header h2 {
-  font-size: 2.2rem;
-  color: var(--cor-verde-agua);
-  font-weight: 700;
-  position: relative;
-  display: inline-block;
-  padding-bottom: 15px;
+  color: var(--cor-branco-claro);
 }
 
 html.dark-mode .catalogo-header h2::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--cor-verde-agua), var(--cor-azul-turquesa));
-  border-radius: 2px;
+  background: var(--cor-azul-turquesa);
 }
 
+/*==============================*/
 /* === FILTROS DE CATEGORIA === */
+/*==============================*/
 /* light mode */
 .filter-container {
   display: flex;
@@ -280,17 +270,17 @@ html.dark-mode .catalogo-header h2::after {
   background-color: var(--cor-branca);
   border-radius: 30px;
   margin-bottom: 40px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
   margin-left: 500px;
   margin-right: 500px;
 }
 
 .filter-btn {
   padding: 10px 24px;
-  border: 5px solid var(--cor-branco-claro);
+  border: 3px solid var(--cor-branco-claro);
   background-color: transparent;
   color: var(--cor-verde-agua);
-  border-radius: 25px;
+  border-radius: 30px;
   cursor: pointer;
   font-weight: 600;
   font-size: 0.95rem;
@@ -299,74 +289,48 @@ html.dark-mode .catalogo-header h2::after {
 }
 
 .filter-btn:hover {
-  background-color: var(--cor-verde-agua);
-  color: var(--cor-branca);
+  background-color: var(--cor-branco-claro);
+  color: var(--cor-verde-agua);
   transform: translateY(-2px);
-  box-shadow: var(--sombra-media);
+  box-shadow: 0 0 20px var(--cor-branco-claro);
 }
 
 .filter-btn.active {
   background-color: var(--cor-verde-agua);
   color: var(--cor-branca);
-  box-shadow: var(--sombra-media);
 }
 
 /* dark mode */
 html.dark-mode .filter-container {
-  background-color: var(--cor-branca);
-  box-shadow: var(--sombra-suave);
+  background-color: var(--cor-cinza);
+  box-shadow: 0 0 50px var(--cor-cinza);
 }
 
 html.dark-mode .filter-btn {
-  border: 2px solid var(--cor-verde-agua);
-  color: var(--cor-verde-agua);
+  border: 3px solid var(--cor-azul-turquesa);
+  color: var(--cor-azul-turquesa);
 }
 
 html.dark-mode .filter-btn:hover {
-  background-color: var(--cor-verde-agua);
+  background-color: var(--cor-cinza-claro);
   color: var(--cor-branca);
   transform: translateY(-2px);
-  box-shadow: var(--sombra-media);
+  box-shadow: 0 0 20px var(--cor-cinza-claro);
 }
 
 html.dark-mode .filter-btn.active {
-  background-color: var(--cor-verde-agua);
+  background-color: var(--cor-azul-turquesa);
   color: var(--cor-branca);
-  box-shadow: var(--sombra-media);
+  box-shadow: 0 0 20px var(--cor-azul-turquesa);
 }
 
+/*================*/
 /* === LIVROS === */
-/* light mode */
-.books-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 24px;
-  padding: 20px 0 60px;
-}
-
-.book-card {
-  background-color: var(--cor-branca);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: var(--sombra-suave);
-  transition: var(--transicao);
-  cursor: pointer;
-  animation: fadeIn 0.3s ease;
-}
-
-.book-card:hover {
-  transform: translateY(-8px);
-  box-shadow: var(--sombra-media);
-}
-
-.book-card.visible {
-  animation: fadeIn 0.3s ease;
-}
-
+/*================*/
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -374,10 +338,38 @@ html.dark-mode .filter-btn.active {
   }
 }
 
-.book-cover {
-  width: 100%;
-  height: 280px;
-  background: linear-gradient(135deg, var(--cor-verde-agua) 0%, var(--cor-azul-turquesa) 100%);
+/* light mode */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 0fr));
+  gap: 75px;
+  padding: 75px 75px;
+}
+
+.book-card {
+  background-color: var(--cor-branca);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  animation: fadeIn 1s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* nao sei o que isso faz */ 
+/*
+.book-card.visible {
+  animation: fadeIn 0.3s ease;
+}
+*/
+
+.book-cover{
+  height: 400px;
+  width: 275px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -386,23 +378,22 @@ html.dark-mode .filter-btn.active {
 }
 
 .book-cover img {
+  border-radius: 15px;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
 .book-info {
-  padding: 16px;
+  padding: 25px;
   text-align: center;
 }
 
 .book-title {
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--cor-cinza);
-  margin-bottom: 8px;
-  line-height: 1.4;
-  min-height: 2.2em;
+  margin-bottom: 5px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   line-clamp: 2;
@@ -411,14 +402,14 @@ html.dark-mode .filter-btn.active {
 }
 
 .book-author {
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   color: var(--cor-branco-claro);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-style: italic;
 }
 
 .book-price {
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--cor-verde-agua);
   margin-bottom: 8px;
@@ -426,11 +417,11 @@ html.dark-mode .filter-btn.active {
 
 .book-category {
   font-size: 0.85rem;
-  color:black;
+  color: var(--cor-cinza);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 4px;
+  letter-spacing: 3.5px;
+  margin-bottom: 15px;
 }
 
 .book-format {
@@ -438,89 +429,36 @@ html.dark-mode .filter-btn.active {
   color: var(--cor-verde-agua);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.3px;
-  background-color: rgba(0, 188, 212, 0.1);
-  padding: 4px 8px;
+  letter-spacing: 1.3px;
+  background-color: var(--cor-branco-claro);
+  padding: 5px 20px;
   border-radius: 4px;
   display: inline-block;
 }
 
 /* dark mode */
 
-@media (max-width: 768px) {
-  header h1 {
-    font-size: 2rem;
-  }
-
-  .catalogo-header h2 {
-    font-size: 1.8rem;
-  }
-
-  .filter-container {
-    padding: 20px 10px;
-    gap: 8px;
-  }
-
-  .filter-btn {
-    padding: 8px 16px;
-    font-size: 0.85rem;
-  }
-
-  .books-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 16px;
-  }
-
-  .book-cover {
-    height: 220px;
-  }
-
-  nav a {
-    margin: 0 10px;
-    font-size: 0.9rem;
-  }
+html.dark-mode .book-card {
+  background: var(--cor-cinza);
 }
 
-@media (max-width: 480px) {
-  header h1 {
-    font-size: 1.5rem;
-  }
+html.dark-mode .book-title {
+  color: var(--cor-branco-claro);
+}
 
-  .catalogo-header h2 {
-    font-size: 1.5rem;
-  }
+html.dark-mode .book-author {
+  color: var(--cor-cinza-claro);
+}
 
-  .search-container {
-    margin-bottom: 30px;
-  }
+html.dark-mode .book-price {
+  color: var(--cor-branca);
+}
 
-  .filter-container {
-    padding: 15px 10px;
-  }
+html.dark-mode .book-category {
+  color: var(--cor-branca);
+}
 
-  .filter-btn {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-  }
-
-  .books-grid {
-    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-    gap: 12px;
-  }
-
-  .book-cover {
-    height: 180px;
-    font-size: 2rem;
-  }
-
-  .book-title {
-    font-size: 0.95rem;
-  }
-
-  .book-price {
-    font-size: 1.1rem;
-  }
-} .book-price {
-    font-size: 1.1rem;
-  }
-
+html.dark-mode .book-format {
+  color: var(--cor-azul-turquesa);
+  background-color: var(--cor-cinza-claro);
+}

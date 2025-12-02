@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,6 +12,7 @@
     }
   </script>
 </head>
+
 <body>
   <header>
     <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
@@ -23,8 +25,8 @@
     <a href="./catalogo.html">Catálogo</a>
   </nav>
 
- <div class="search-container">
-    <input type="text" class="search-bar" placeholder="Pesquisar..."/>
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Pesquisar..." />
     <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
   </div>
 
@@ -57,7 +59,7 @@
   <script type="module">
     import { criarCarrossel } from "./JS/Estrutura.js";
     import { initDarkMode } from "./JS/DarkMode.js";
-    
+
     initDarkMode();
     criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
     criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
@@ -65,24 +67,24 @@
 
   <script>
     // Inicializar dark mode antes de qualquer coisa
-    (function() {
+    (function () {
       const darkModeBtn = document.getElementById('dark-mode-btn');
       const htmlElement = document.documentElement;
-      
+
       // Padrão: modo escuro ativado
       const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
-      
+
       if (isDarkMode) {
         htmlElement.classList.add('dark-mode');
         if (darkModeBtn) DarkModeBtn.textContent = '☀️';
       }
-      
+
       // Listener para o botão
       if (darkModeBtn) {
-        darkModeBtn.addEventListener('click', function(e) {
+        darkModeBtn.addEventListener('click', function (e) {
           e.preventDefault();
           const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-          
+
           if (isCurrentlyDark) {
             htmlElement.classList.remove('dark-mode');
             darkModeBtn.textContent = '🌙';
@@ -98,4 +100,5 @@
   </script>
   <script type="module" src="./JS/DarkMode.js" defer></script>
 </body>
+
 </html>
