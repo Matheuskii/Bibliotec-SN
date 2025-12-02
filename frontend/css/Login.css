@@ -1,3 +1,6 @@
+/*==================================================*/
+/* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
+/*==================================================*/
 :root {
   --cor-azul-turquesa: #4a67df;
   --cor-verde-agua: #2fd6cb;
@@ -6,6 +9,20 @@
   --cor-branca: #ffffff;
 }
 
+/*======================*/
+/* === LOGO DO SITE === */
+/*======================*/
+/* light mode */
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 30px;
+  object-fit: contain;
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
 body {
   margin: 0;
   padding: 0;
@@ -17,6 +34,11 @@ body {
   background: linear-gradient(135deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
 }
 
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
 .login-container {
   background: var(--cor-branca);
   padding: 40px;
@@ -25,13 +47,6 @@ body {
   width: 90%;
   max-width: 380px;
   text-align: center;
-}
-
-.logo {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 30px;
-  object-fit: contain;
 }
 
 .login-form {
