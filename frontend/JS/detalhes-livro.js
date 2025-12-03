@@ -23,15 +23,15 @@ class DetalhesLivro {
         try {
             // Aqui você precisa conectar com seu backend/API
             // Exemplo com fetch:
-            const response = await fetch(`http://localhost:3000/api/livros/${this.livroId}`);
-            
+            const response = await fetch(`http://localhost:3000/livros/${this.livroId}`);
+
             if (!response.ok) {
                 throw new Error('Livro não encontrado');
             }
 
             const livro = await response.json();
             this.renderizarLivro(livro);
-            
+
         } catch (error) {
             console.error('Erro ao carregar livro:', error);
             // Se não tiver API, use dados de exemplo
@@ -41,14 +41,14 @@ class DetalhesLivro {
 
     renderizarLivro(livro) {
         const container = document.getElementById('detalhes-container');
-        
+
         container.innerHTML = `
             <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
             
             <div class="livro-detalhes">
                 <div class="livro-header">
                     <div class="capa-container">
-                        <img src="${livro.capa_url || './images/capa-default.jpg'}" 
+                        <img src="${livro.caminho_capa || './images/capa-default.jpg'}" 
                              alt="Capa de ${livro.titulo}">
                     </div>
                     
@@ -86,14 +86,14 @@ class DetalhesLivro {
                         </div>
                         
                         <div class="acoes-livro">
-                            ${livro.disponivel ? 
-                                `<button class="btn-acao btn-emprestar" onclick="emprestarLivro(${livro.id})">
+                            ${livro.disponivel ?
+                `<button class="btn-acao btn-emprestar" onclick="emprestarLivro(${livro.id})">
                                     📚 Emprestar Livro
                                 </button>` :
-                                `<button class="btn-acao btn-reservar" onclick="reservarLivro(${livro.id})">
+                `<button class="btn-acao btn-reservar" onclick="reservarLivro(${livro.id})">
                                     ⏰ Reservar Livro
                                 </button>`
-                            }
+            }
                             <button class="btn-acao btn-favorito" onclick="adicionarFavoritos(${livro.id})">
                                 ❤️ Adicionar aos Favoritos
                             </button>
@@ -116,7 +116,7 @@ class DetalhesLivro {
                 </div>
             </div>
         `;
-        
+
         // Atualiza título da página
         document.title = `${livro.titulo} - ${livro.autor} | BiblioTec`;
     }
@@ -136,7 +136,7 @@ class DetalhesLivro {
             sinopse: "Dom Casmurro é uma das grandes obras de Machado de Assis e um clássico da literatura brasileira. O romance conta a história de Bentinho e Capitu, das suas desconfianças e do ciúme que arruína uma relação.",
             capa_url: "./images/capa-default.jpg"
         };
-        
+
         this.renderizarLivro(livroExemplo);
     }
 
