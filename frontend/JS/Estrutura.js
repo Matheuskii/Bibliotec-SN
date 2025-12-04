@@ -1,5 +1,6 @@
 // JS/Estrutura.js
-
+console.log("Arquivo Estrutura.js carregado");
+console.log(localStorage.getItem("usuarioId"));
 export async function criarCarrossel(gridId, leftBtn, rightBtn) {
     const containerGrid = document.getElementById(gridId);
 

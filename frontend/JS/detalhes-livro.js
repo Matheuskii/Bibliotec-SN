@@ -161,12 +161,65 @@ function emprestarLivro(id) {
 
 function reservarLivro(id) {
     alert(`Reservando livro ID: ${id}`);
-    // Lógica de reserva
+    async function reservarLivro(id) {
+        try {
+
+            const input = prompt('Digite a data de devolução (YYYY-MM-DD):');
+            if (!input || isNaN(new Date(input).getTime())) {
+                alert('Reserva cancelada.');
+                return;
+            }
+            
+            
+            const usuarioId = localStorage.getItem('usuarioId');
+            const livroId = id;
+            const data_retirada = new Date().toISOString().split('T')[0];
+            const data_devolucao = input; // Exemplo: 7 dias depois
+            const response = await fetch(`http://localhost:3000/reservas`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroId, data_retirada, data_devolucao })
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao reservar o livro');
+            }
+            alert('Livro reservado com sucesso!');
+        } catch (error) {
+            console.error('Erro ao reservar livro:', error);
+            alert('Não foi possível reservar o livro. Tente novamente mais tarde.');
+        }
+    }
+    reservarLivro(id);
 }
 
 function adicionarFavoritos(id) {
     alert(`Adicionando livro ID: ${id} aos favoritos`);
-    // Lógica de favoritos
+
+    async function adicionarFavoritos(id) {
+        try {
+            const usuarioId = localStorage.getItem('usuarioId');
+            if (!usuarioId) {
+                alert('Você precisa estar logado para adicionar favoritos.');
+                return;
+            }
+            
+            const livroId = id;
+
+            const response = await fetch(`http://localhost:3000/favoritos`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroId })
+            });
+            if (!response.ok) {
+                throw new Error('Erro ao adicionar aos favoritos');
+            }
+            alert('Livro adicionado aos favoritos com sucesso!');
+        } catch (error) {
+            console.error('Erro ao adicionar aos favoritos:', error);
+            alert('Não foi possível adicionar o livro aos favoritos. Tente novamente mais tarde.');
+        }
+    }
+    adicionarFavoritos(id);
 }
 
 // Inicializar quando a página carregar
