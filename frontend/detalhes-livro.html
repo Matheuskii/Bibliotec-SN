@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BiblioTec - Detalhes do Livro</title>
+    <link rel="stylesheet" href="./css/Inicio.css" />
+    <link rel="stylesheet" href="./css/detalhes-livro.css" />
+    <script>
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+        <h1>BIBLIO TEC</h1>
+        <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+    </header>
+
+    <nav>
+        <a href="./index.html">Início</a>
+        <a href="./catalogo.html">Catálogo</a>
+        <a href="./favoritos.html">Favoritos</a>
+        <a href="./login.html">Login</a>
+    </nav>
+
+    <div class="container-detalhes" id="detalhes-container">
+        <!-- As informações do livro serão carregadas aqui -->
+        <div class="loading">Carregando informações do livro...</div>
+    </div>
+
+    <script src="./JS/detalhes-livro.js" defer></script>
+    <script>
+        // Dark mode toggle
+        const darkModeBtn = document.getElementById('dark-mode-btn');
+        const htmlElement = document.documentElement;
+        
+        if (darkModeBtn) {
+            darkModeBtn.addEventListener('click', function() {
+                const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+                
+                if (isCurrentlyDark) {
+                    htmlElement.classList.remove('dark-mode');
+                    darkModeBtn.textContent = '🌙';
+                    localStorage.setItem('darkMode', 'false');
+                } else {
+                    htmlElement.classList.add('dark-mode');
+                    darkModeBtn.textContent = '☀️';
+                    localStorage.setItem('darkMode', 'true');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

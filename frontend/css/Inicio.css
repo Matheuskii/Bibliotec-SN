@@ -1,5 +1,3 @@
-/*voce consegue*/
-
 /*==================================================*/
 /* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
 /*==================================================*/
@@ -10,6 +8,9 @@
   --cor-cinza: #26333d;
   --cor-branco-claro: #e9f0ef;
   --cor-branca: #ffffff;
+  --cor-preto: #1a1a1a;
+  --cor-sombra: rgba(0, 0, 0, 0.1);
+  --cor-sombra-escura: rgba(0, 0, 0, 0.2);
 }
 
 /*======================*/
@@ -53,6 +54,7 @@ html.dark-mode h1 {
 body {
   font-family: Arial, sans-serif;
   background: var(--cor-branca);
+  min-height: 100vh;
 }
 
 header {
@@ -148,6 +150,12 @@ html.dark-mode nav a:hover {
   pointer-events: none;
 }
 
+.search-icon img {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0.9);
+}
+
 /* light mode */
 .search-bar::placeholder {
   color: var(--cor-branca);
@@ -172,6 +180,7 @@ html.dark-mode nav a:hover {
     linear-gradient(to left, var(--cor-branco-claro), #b8b8b8);
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  color: var(--cor-branca);
 }
 
 /* dark mode */
@@ -188,6 +197,7 @@ html.dark-mode .search-bar {
     linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  color: var(--cor-branca);
 }
 
 /*===========================================*/
@@ -257,43 +267,15 @@ html.dark-mode h2::after {
 /* === AJUSTES PARA AS SETAS DO CARROSSEL === */
 /*============================================*/
 
-/* nao sei o que faz essa classe */
-/*
-.arrow::after {
-  content: "→";
-  font-size: 35px;
-  color: var(--cor-azul-turquesa);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 0.3s;
-}
-
-.arrow:hover::after {
-  transform: translate(-40%, -50%);
-}
-
-.arrow {
-  width: 50px;
-  height: 50px;
-  background: var(--cor-branco-claro);
-  border: 2px solid var(--cor-azul-turquesa);
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s;
-} */
-
 /* light mode */
 .arrow-left,
 .arrow-right {
   background: var(--cor-branco-claro);
-  color: var(--cor-branca);
+  color: var(--cor-cinza);
   font-size: 30px;
   border-radius: 50%;
-  border: none;
-  box-shadow: 0 0 5px var(--cor-cinza);
+  border: 2px solid var(--cor-verde-agua);
+  box-shadow: 0 4px 8px var(--cor-sombra);
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -308,21 +290,25 @@ html.dark-mode h2::after {
 .arrow-left:hover,
 .arrow-right:hover {
   color: var(--cor-verde-agua);
-  transform: scale(1.3);
+  transform: scale(1.1);
+  border-color: var(--cor-azul-turquesa);
+  box-shadow: 0 6px 12px var(--cor-sombra-escura);
 }
 
 /* dark mode */
 html.dark-mode .arrow-left,
 html.dark-mode .arrow-right {
   background: var(--cor-cinza-claro);
-  color: var(--cor-cinza);
-  box-shadow: 0 0 5px var(--cor-branco-claro);
+  color: var(--cor-branca);
+  border-color: var(--cor-azul-turquesa);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 html.dark-mode .arrow-left:hover,
 html.dark-mode .arrow-right:hover {
   color: var(--cor-azul-turquesa);
-  transform: scale(1.3);
+  transform: scale(1.1);
+  border-color: var(--cor-verde-agua);
 }
 
 /*================*/
@@ -335,6 +321,7 @@ html.dark-mode .arrow-right:hover {
   padding: 80px 0;
   background: var(--cor-branca);
   border-radius: 30px;
+  margin: 0 50px;
 }
 
 /* Overlay de destaque fixo no centro */
@@ -381,6 +368,9 @@ html.dark-mode .arrow-right:hover {
   scrollbar-width: none;
 }
 
+/* ================================ */
+/* === ESTILOS DOS CARDS DOS LIVROS CLICÁVEIS === */
+/* ================================ */
 .book-card {
   background: linear-gradient(135deg,
       rgba(61, 191, 191, 0.15) 0%,
@@ -399,25 +389,112 @@ html.dark-mode .arrow-right:hover {
   opacity: 0.3;
   transform: scale(0.78);
   filter: blur(0);
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid transparent;
 }
 
-/* Card que está no centro (detectado por JS via intersectionObserver ou posição) */
+/* Card que está no centro */
 .book-card.center {
   opacity: 1;
   transform: scale(1.05);
   z-index: 40;
+  border-color: var(--cor-verde-agua);
+  box-shadow: 0 15px 40px rgba(47, 214, 203, 0.4);
+}
+
+/* Efeito de brilho no card do centro */
+.book-card.center::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, 
+    var(--cor-verde-agua), 
+    var(--cor-azul-turquesa), 
+    var(--cor-verde-agua));
+  border-radius: 32px;
+  z-index: -1;
+  animation: borderGlow 3s linear infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes borderGlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* Hover nos cards */
 .book-card:hover {
   opacity: 1;
-  transform: scale(0.8);
+  transform: scale(0.85);
+  box-shadow: 0 15px 35px rgba(47, 214, 203, 0.3);
+  border-color: var(--cor-azul-turquesa);
 }
 
 .book-card.center:hover {
-  transform: scale(1.1);
+  transform: scale(1.15);
+  box-shadow: 0 20px 45px rgba(47, 214, 203, 0.5);
 }
 
+/* Efeito de overlay ao passar o mouse */
+.book-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(47, 214, 203, 0.1) 0%, 
+    rgba(74, 103, 223, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 30px;
+  pointer-events: none;
+}
+
+.book-card:hover::after {
+  opacity: 1;
+}
+
+/* Ícone de clique aparecendo no hover */
+.book-card::before {
+  content: '🔍 Ver detalhes';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: bold;
+  z-index: 10;
+  opacity: 0;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.book-card:hover::before {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Container da capa do livro */
 .book-cover {
   aspect-ratio: 3/4;
   background: linear-gradient(135deg,
@@ -429,8 +506,14 @@ html.dark-mode .arrow-right:hover {
   align-items: center;
   justify-content: center;
   font-size: 60px;
-  box-shadow: 0 10px 25px var(--cor-cinza);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   overflow: hidden;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.book-card:hover .book-cover {
+  transform: scale(1.05);
 }
 
 .book-cover img {
@@ -438,32 +521,80 @@ html.dark-mode .arrow-right:hover {
   height: 100%;
   object-fit: cover;
   display: block;
+  transition: transform 0.5s ease;
 }
 
+.book-card:hover .book-cover img {
+  transform: scale(1.1);
+}
+
+/* Informações do livro */
 .book-info {
   text-align: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 10px 0;
+  position: relative;
+  z-index: 2;
 }
 
 .book-title {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--cor-cinza);
+  line-height: 1.3;
+  transition: color 0.3s ease;
+}
+
+.book-card:hover .book-title {
+  color: var(--cor-azul-turquesa);
 }
 
 .book-author {
-  font-size: 13px;
+  font-size: 14px;
   margin-bottom: 8px;
   color: var(--cor-cinza);
   font-style: italic;
+  opacity: 0.8;
 }
 
 .book-price {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--cor-cinza);
+  color: var(--cor-verde-agua);
+  margin-top: 10px;
+  transition: color 0.3s ease;
 }
 
+.book-card:hover .book-price {
+  color: var(--cor-azul-turquesa);
+}
+
+/* Badge de status */
+.book-status {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--cor-verde-agua);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  z-index: 3;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.book-status.indisponivel {
+  background: #ff6b6b;
+}
+
+/* ================================ */
+/* === CARROSSEL RESPONSIVO === */
+/* ================================ */
 .carousel-wrapper {
   display: flex;
   align-items: center;
@@ -475,10 +606,81 @@ html.dark-mode .arrow-right:hover {
 @media (max-width: 768px) {
   .books-grid {
     gap: 20px;
+    padding-left: calc(50% - 120px);
+    padding-right: calc(50% - 120px);
+  }
+  
+  .book-card {
+    width: 260px;
+    height: 400px;
+  }
+  
+  .books-container {
+    margin: 0 20px;
+  }
+  
+  .section-header {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 20px;
+  }
+  
+  .search-container {
+    padding: 20px 15% 10px;
+  }
+  
+  .search-bar {
+    padding: 15px 40% 15px 15px;
+  }
+  
+  .search-icon {
+    right: 18%;
   }
 }
 
-/* dark mode */
+@media (max-width: 480px) {
+  .books-grid {
+    gap: 15px;
+    padding-left: calc(50% - 100px);
+    padding-right: calc(50% - 100px);
+  }
+  
+  .book-card {
+    width: 220px;
+    height: 350px;
+    padding: 15px;
+  }
+  
+  .book-title {
+    font-size: 16px;
+  }
+  
+  .book-author {
+    font-size: 12px;
+  }
+  
+  .book-price {
+    font-size: 18px;
+  }
+  
+  .section-header h2 {
+    font-size: 24px;
+  }
+  
+  nav {
+    gap: 10px;
+    padding: 15px;
+  }
+  
+  nav a {
+    padding: 8px 15px;
+    font-size: 16px;
+  }
+}
+
+/* ================================ */
+/* === DARK MODE PARA LIVROS === */
+/* ================================ */
 html.dark-mode .books-container {
   background: var(--cor-cinza);
 }
@@ -493,19 +695,271 @@ html.dark-mode .books-container::before {
 
 html.dark-mode .book-card {
   background: linear-gradient(135deg,
-      rgba(61, 74, 191, 0.08) 0%,
-      rgba(77, 90, 212, 0.171) 100%);
-  box-shadow: 0 10px 30px rgba(47, 100, 214, 0.05);
+      rgba(61, 74, 191, 0.15) 0%,
+      rgba(77, 90, 212, 0.2) 100%);
+  box-shadow: 0 10px 30px rgba(47, 100, 214, 0.1);
+}
+
+html.dark-mode .book-card.center {
+  border-color: var(--cor-azul-turquesa);
+  box-shadow: 0 15px 40px rgba(74, 103, 223, 0.5);
+}
+
+html.dark-mode .book-card:hover {
+  border-color: var(--cor-verde-agua);
+  box-shadow: 0 15px 35px rgba(47, 214, 203, 0.3);
+}
+
+html.dark-mode .book-card.center:hover {
+  box-shadow: 0 20px 45px rgba(47, 214, 203, 0.6);
 }
 
 html.dark-mode .book-cover {
-    background: linear-gradient(135deg,
-      var(--cor-verde-agua) 0%,
-      var(--cor-azul-turquesa) 100%);
+  background: linear-gradient(135deg,
+    var(--cor-azul-turquesa) 0%,
+    var(--cor-verde-agua) 100%);
 }
 
 html.dark-mode .book-title,
-html.dark-mode .book-author,
+html.dark-mode .book-author {
+  color: #e0e0e0;
+}
+
 html.dark-mode .book-price {
-  color: #d0d0d0;
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .book-card:hover .book-title {
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .book-card:hover .book-price {
+  color: var(--cor-azul-turquesa);
+}
+
+html.dark-mode .book-card::before {
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--cor-preto);
+}
+
+/* ================================ */
+/* === ESTILOS PARA BOTÕES DE AÇÃO === */
+/* ================================ */
+.btn-detalhes {
+  display: inline-block;
+  background: var(--cor-verde-agua);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  margin-top: 15px;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-detalhes:hover {
+  background: transparent;
+  color: var(--cor-verde-agua);
+  border-color: var(--cor-verde-agua);
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(47, 214, 203, 0.3);
+}
+
+/* ================================ */
+/* === ANIMAÇÕES === */
+/* ================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.book-card {
+  animation: fadeInUp 0.5s ease forwards;
+}
+
+/* Delay para os cards aparecerem em sequência */
+.book-card:nth-child(1) { animation-delay: 0.1s; }
+.book-card:nth-child(2) { animation-delay: 0.2s; }
+.book-card:nth-child(3) { animation-delay: 0.3s; }
+.book-card:nth-child(4) { animation-delay: 0.4s; }
+.book-card:nth-child(5) { animation-delay: 0.5s; }
+.book-card:nth-child(6) { animation-delay: 0.6s; }
+
+/* ================================ */
+/* === ESTILOS ADICIONAIS PARA O ESTRUTURA.JS === */
+/* ================================ */
+
+/* Mensagem quando não há livros */
+.no-books {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: var(--cor-cinza);
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+html.dark-mode .no-books {
+    color: var(--cor-branca);
+}
+
+/* Badge de ano de publicação */
+.book-year {
+    display: block;
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+html.dark-mode .book-year {
+    color: #aaa;
+}
+
+/* Melhorias para acessibilidade */
+.book-card:focus {
+    outline: 2px solid var(--cor-azul-turquesa);
+    outline-offset: 4px;
+}
+
+/* Loading state para cards */
+.book-card.loading {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 0.8; }
+}
+
+/* Container para mensagens de erro */
+.error-message {
+    background: #fee;
+    border: 1px solid #fcc;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px;
+    text-align: center;
+    color: #c00;
+}
+
+html.dark-mode .error-message {
+    background: #422;
+    border-color: #633;
+    color: #f99;
+}
+
+/* Estilos para o card-link (opção 1) */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+}
+
+.card-link:hover {
+    text-decoration: none;
+}
+
+/* Responsividade adicional para carrossel */
+@media (max-width: 1024px) {
+    .books-grid {
+        scroll-snap-type: x mandatory;
+    }
+    
+    .book-card {
+        scroll-snap-align: center;
+    }
+}
+
+/* Animações de entrada para cards */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.book-card:nth-child(odd) {
+    animation: slideIn 0.5s ease forwards;
+}
+
+.book-card:nth-child(even) {
+    animation: slideIn 0.5s 0.1s ease forwards;
+}
+
+/* Efeito de foco para card ativo */
+.book-card:active {
+    transform: scale(0.97);
+    transition: transform 0.1s;
+}
+
+/* Indicador de interatividade */
+.book-card {
+    position: relative;
+}
+
+.book-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 30px;
+    pointer-events: none;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+/* Melhor contraste para texto no modo escuro */
+html.dark-mode .book-author,
+html.dark-mode .book-year {
+    color: #b0b0b0;
+}
+
+/* Estilo para preço promocional */
+.book-price.promocional {
+    color: #ff6b6b;
+    font-weight: bold;
+    position: relative;
+}
+
+.book-price.promocional::before {
+    content: 'R$ ';
+    font-size: 0.8em;
+}
+
+/* Container de informações expandido */
+.book-info.expanded {
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 30px 30px;
+    margin-top: auto;
+}
+
+/* Status com ícone */
+.book-status::before {
+    content: '●';
+    margin-right: 5px;
+    font-size: 0.8em;
+}
+
+.book-status.disponivel::before {
+    color: #2ecc71;
+}
+
+.book-status.indisponivel::before {
+    color: #e74c3c;
 }

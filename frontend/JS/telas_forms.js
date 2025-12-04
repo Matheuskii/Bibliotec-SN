@@ -31,6 +31,12 @@ if (loginForm) {
       if (dados.sucesso) {
         localStorage.setItem("nomeUsuario", dados.usuario.nome);
         alert(`Bem-vindo, ${dados.usuario.nome}!`);
+        console.log("Dados do usuário:", dados.usuario);
+
+        if (dados.usuario.id) {
+          localStorage.setItem("usuarioId", dados.usuario.id);
+        }
+        console.log("ID do usuário armazenado:", dados.usuario.id);
         window.location.href = "Inicio.html";
       }
     } catch (erro) {
