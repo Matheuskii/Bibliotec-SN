@@ -143,3 +143,46 @@ export async function deletarFavorito (req, res){
         return res.status(500).json({ erro: err.message });
     }
 }
+
+export async function deletarFavoritosPorUsuario(req, res) {
+    try {
+        const usuarioId = req.params.usuario_id;
+        console.log('Deletando todos os favoritos para o usuário com ID:', usuarioId);
+        const [resultado] = await db.execute("DELETE FROM favoritos WHERE usuario_id = ?", [usuarioId]);
+        return res.status(200).json({ mensagem: "Todos os favoritos do usuário foram removidos com sucesso!" });
+    } catch (err) {
+        console.error('Erro ao deletar favoritos do usuário:', err);
+        return res.status(500).json({ erro: err.message });
+    }
+}
+
+export async function listarFavoritosPorUsuario(req, res) {
+    try {
+        console.log('Listando favoritos para o usuário com ID:', req.params.id);
+        const usuarioId = req.params.id;
+        const sql = `
+            SELECT
+                f.usuario_id,
+                f.livro_id,
+                f.data_favoritado,
+                l.titulo as livro_titulo,
+                l.autor as livro_autor,
+                l.isbn as livro_isbn,
+                l.ano_publicacao as livro_ano_publicacao,
+                l.ativo as livro_disponivel_ou_ativo
+            FROM favoritos f
+            LEFT JOIN livros l ON f.livro_id = l.id
+            WHERE f.usuario_id = ?
+        `;
+        const [favoritos] = await db.execute(sql, [usuarioId]);
+        return res.status(200).json(favoritos);
+    }
+    catch (erro) {
+        console.error('Erro ao listar favoritos por usuário:', erro);
+        return res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao listar favoritos por usuário',
+            erro: erro.message
+        });
+    }
+}
