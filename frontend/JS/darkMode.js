@@ -1,7 +1,7 @@
 export function initDarkMode() {
   const darkModeBtn = document.getElementById('dark-mode-btn');
   const htmlElement = document.documentElement;
-  
+  console.log(darkModeBtn);
   // Verificar se há preferência salva no localStorage, padrão é modo escuro
   const isDarkMode = localStorage.getItem('darkMode') !== 'false';
   

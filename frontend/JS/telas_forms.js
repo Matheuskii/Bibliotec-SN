@@ -55,7 +55,11 @@ if (cadastroForm) {
 }
 
 async function cadastrarUsuario() {
-  const nome_email = document.getElementById("loginInput").value.trim();
+  const nome_completo = document.getElementById("loginInput").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const data_nascimento = document.getElementById("dataNascimento").value;
+  const celular = document.getElementById("celular").value.trim();
+  const curso = document.getElementById("curso").value.trim();
   const senha = document.getElementById("senha").value.trim();
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
@@ -64,15 +68,33 @@ async function cadastrarUsuario() {
     return;
   }
 
-  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(nome_email);
+  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const payload = { senha };
-
-  if (isEmail) {
-    payload.email = nome_email;
-  } else {
-    payload.usuario = nome_email;
+  if (!isEmail) {
+    alert("Por favor, insira um email válido.");
+    return;
   }
+  if (data_nascimento === "" || isNaN(new Date(data_nascimento).getTime()) || new Date(data_nascimento) > new Date()) {
+    alert("Por favor, insira uma data de nascimento válida.");
+    return;
+  }
+  if (curso === "" || curso.length < 2) {
+    alert("Por favor, insira o curso.");
+    return;
+  }
+  const dataFormat = new Date(data_nascimento);
+  const dia = String(dataFormat.getDate()).padStart(2, "0");
+  const mes = String(dataFormat.getMonth() + 1).padStart(2, "0");
+  const ano = dataFormat.getFullYear();
+  const data_nascimento_formatada = `${ano}-${mes}-${dia}`;
+  const payload = {
+    nome_completo,
+    email,
+    data_nascimento: data_nascimento_formatada,
+    celular,
+    curso,
+    senha,
+  };
 
   try {
     const resposta = await fetch("http://localhost:3000/usuarios/cadastrar", {

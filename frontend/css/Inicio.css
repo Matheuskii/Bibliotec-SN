@@ -8,9 +8,6 @@
   --cor-cinza: #26333d;
   --cor-branco-claro: #e9f0ef;
   --cor-branca: #ffffff;
-  --cor-preto: #1a1a1a;
-  --cor-sombra: rgba(0, 0, 0, 0.1);
-  --cor-sombra-escura: rgba(0, 0, 0, 0.2);
 }
 
 /*======================*/
@@ -33,10 +30,6 @@ h1 {
 }
 
 /* dark mode */
-html.dark-mode .logo-img {
-  border: 6px solid var(--cor-branco-claro);
-}
-
 html.dark-mode h1 {
   color: var(--cor-branca);
 }
@@ -70,11 +63,11 @@ header {
   margin-left: auto;
   background: transparent;
   border: none;
-  font-size: 24px;
+  font-size: 25px;
   cursor: pointer;
   padding: 10px 15px;
   transition: all 0.3s;
-  border-radius: 30px;
+  border-radius: 10px;
 }
 
 .dark-mode-toggle:hover {
@@ -114,7 +107,7 @@ nav a {
   font-size: 18px;
   font-weight: 500;
   padding: 10px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
   transition: all 0.3s;
 }
 
@@ -221,7 +214,7 @@ section {
   padding: 30px 40px;
   background: var(--cor-branca);
   border-radius: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
   margin-left: 50px;
   margin-right: 50px;
 }
@@ -241,7 +234,7 @@ section {
   width: 60px;
   height: 4px;
   background: var(--cor-verde-agua);
-  border-radius: 2px;
+  border-radius: 30px;
 }
 
 /* dark mode */
@@ -267,15 +260,43 @@ html.dark-mode h2::after {
 /* === AJUSTES PARA AS SETAS DO CARROSSEL === */
 /*============================================*/
 
+/* nao sei o que faz essa classe */
+/*
+.arrow::after {
+  content: "→";
+  font-size: 35px;
+  color: var(--cor-azul-turquesa);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 0.3s;
+}
+
+.arrow:hover::after {
+  transform: translate(-40%, -50%);
+}
+
+.arrow {
+  width: 50px;
+  height: 50px;
+  background: var(--cor-branco-claro);
+  border: 2px solid var(--cor-azul-turquesa);
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s;
+} */
+
 /* light mode */
 .arrow-left,
 .arrow-right {
   background: var(--cor-branco-claro);
-  color: var(--cor-cinza);
+  color: var(--cor-branca);
   font-size: 30px;
-  border-radius: 50%;
-  border: 2px solid var(--cor-verde-agua);
-  box-shadow: 0 4px 8px var(--cor-sombra);
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   width: 50px;
   height: 50px;
   cursor: pointer;
@@ -290,25 +311,21 @@ html.dark-mode h2::after {
 .arrow-left:hover,
 .arrow-right:hover {
   color: var(--cor-verde-agua);
-  transform: scale(1.1);
-  border-color: var(--cor-azul-turquesa);
-  box-shadow: 0 6px 12px var(--cor-sombra-escura);
+  transform: scale(1.3);
 }
 
 /* dark mode */
 html.dark-mode .arrow-left,
 html.dark-mode .arrow-right {
   background: var(--cor-cinza-claro);
-  color: var(--cor-branca);
-  border-color: var(--cor-azul-turquesa);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  color: var(--cor-cinza);
+  box-shadow: 0 0 5px var(--cor-branco-claro);
 }
 
 html.dark-mode .arrow-left:hover,
 html.dark-mode .arrow-right:hover {
   color: var(--cor-azul-turquesa);
-  transform: scale(1.1);
-  border-color: var(--cor-verde-agua);
+  transform: scale(1.3);
 }
 
 /*================*/
@@ -368,6 +385,12 @@ html.dark-mode .arrow-right:hover {
   scrollbar-width: none;
 }
 
+/*
+====================================================================
+EDUARDO
+====================================================================
+*/
+
 /* ================================ */
 /* === ESTILOS DOS CARDS DOS LIVROS CLICÁVEIS === */
 /* ================================ */
@@ -417,7 +440,7 @@ html.dark-mode .arrow-right:hover {
     var(--cor-verde-agua), 
     var(--cor-azul-turquesa), 
     var(--cor-verde-agua));
-  border-radius: 32px;
+  border-radius: 30px;
   z-index: -1;
   animation: borderGlow 3s linear infinite;
   background-size: 200% 200%;
@@ -479,7 +502,7 @@ html.dark-mode .arrow-right:hover {
   background: rgba(0, 0, 0, 0.8);
   color: white;
   padding: 12px 20px;
-  border-radius: 25px;
+  border-radius: 30px;
   font-size: 14px;
   font-weight: bold;
   z-index: 10;
@@ -585,7 +608,7 @@ html.dark-mode .arrow-right:hover {
   font-size: 12px;
   font-weight: bold;
   z-index: 3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
 }
 
 .book-status.indisponivel {
@@ -750,7 +773,7 @@ html.dark-mode .book-card::before {
   background: var(--cor-verde-agua);
   color: white;
   padding: 10px 20px;
-  border-radius: 25px;
+  border-radius: 30px;
   text-decoration: none;
   font-weight: 600;
   font-size: 14px;
@@ -952,7 +975,7 @@ html.dark-mode .book-year {
 /* Status com ícone */
 .book-status::before {
     content: '●';
-    margin-right: 5px;
+    margin-right: px;
     font-size: 0.8em;
 }
 

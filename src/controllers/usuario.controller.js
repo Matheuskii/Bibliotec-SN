@@ -37,6 +37,8 @@ export async function obterUsuario(req, res) {
 export async function atualizarUsuario(req, res) {
   try {
     const { nome, email, senha } = req.body;
+    if (!nome || !email || !senha)
+      return res.status(400).json({ erro: "Nome, Email e Senha são obrigatórios" });
 
     await db.execute(
       "UPDATE usuarios SET nome = ?, email = ?, senha = ? WHERE id = ?",
@@ -67,14 +69,21 @@ export async function deletarUsuario(req, res) {
 // ============================
 export async function criarUsuario(req, res) {
   try {
-    const { usuario, email, senha } = req.body;
+    const { nome_completo, email, senha, data_nascimento, celular, curso } = req.body;
 
-    if ((!usuario && !email) || !senha)
-      return res.status(400).json({ erro: "Usuário/Email e Senha são obrigatórios" });
+    if (!nome_completo || !email || !senha || !data_nascimento || !celular || !curso)
+      return res.status(400).json({ erro: "Algum dos campos não foram preenchidos" });
 
+    if ((celular.length < 10 || celular.length > 11) || !/^\d+$/.test(celular)) {
+      return res.status(400).json({ erro: "Número de celular inválido" });
+    }
+    if (senha.length < 6) {
+      return res.status(400).json({ erro: "A senha deve ter pelo menos 6 caracteres" });
+    }
+    
     await db.execute(
-      "INSERT INTO usuarios (nome, email, senha) VALUES (?, ?, ?)",
-      [usuario || null, email || null, senha]
+      "INSERT INTO usuarios (nome, email, senha, data_nascimento, celular, curso) VALUES (?, ?, ?, ?, ? , ?)",
+      [nome_completo, email, senha, data_nascimento, celular, curso]
     );
 
     res.status(201).json({ mensagem: "Usuário criado com sucesso!" });
@@ -91,11 +100,10 @@ export async function recuperarSenha(req, res) {
   try {
     const { usuario, email, novaSenha } = req.body;
 
-    const identificador = usuario || email;
 
     const [rows] = await db.execute(
       "SELECT * FROM usuarios WHERE nome = ? OR email = ?",
-      [identificador, identificador]
+      [usuario, email]
     );
 
     if (rows.length === 0)
@@ -141,6 +149,9 @@ export async function loginUsuario(req, res) {
     });
 
   } catch (err) {
-    res.status(500).json({ mensagem: "Erro ao processar o login." });
+    res.status(500).json({
+      mensagem: "Erro ao processar o login.",
+      erro: err.message
+    });
   }
 }

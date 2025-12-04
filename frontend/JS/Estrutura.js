@@ -1,6 +1,8 @@
 // JS/Estrutura.js
 console.log("Arquivo Estrutura.js carregado");
 console.log(localStorage.getItem("usuarioId"));
+
+
 export async function criarCarrossel(gridId, leftBtn, rightBtn) {
     const containerGrid = document.getElementById(gridId);
 
@@ -344,3 +346,13 @@ if (typeof window !== 'undefined') {
         }
     });
 }
+function nãoLogado() {
+    if (localStorage.getItem("usuarioId")) {
+        return;
+        
+    }
+
+    alert("Você não está logado. Por favor, faça login para continuar.");
+    window.location.href = "login.html";
+}
+nãoLogado();

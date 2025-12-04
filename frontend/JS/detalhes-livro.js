@@ -45,8 +45,8 @@ class DetalhesLivro {
         container.innerHTML = `
             <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
             
-            <div class="livro-detalhes">
-                <div class="livro-header">
+            <div class="background-detalhes">
+                <div class="background-livro">
                     <div class="capa-container">
                         <img src="${livro.caminho_capa || './images/capa-default.jpg'}" 
                              alt="Capa de ${livro.titulo}">
@@ -79,7 +79,7 @@ class DetalhesLivro {
                             </div>
                             <div class="meta-item">
                                 <strong>Status</strong>
-                                <span class="status ${livro.disponivel ? 'disponivel' : 'indisponivel'}">
+                                <span class="status ${livro.ativo == 1 ? 'disponivel' : 'indisponivel'}">
                                     ${livro.disponivel ? 'Disponível' : 'Indisponível'}
                                 </span>
                             </div>
@@ -91,11 +91,11 @@ class DetalhesLivro {
                                     📚 Emprestar Livro
                                 </button>` :
                 `<button class="btn-acao btn-reservar" onclick="reservarLivro(${livro.id})">
-                                    ⏰ Reservar Livro
+                                    ( ͡° ͜ʖ ͡°) Reservar Livro
                                 </button>`
             }
                             <button class="btn-acao btn-favorito" onclick="adicionarFavoritos(${livro.id})">
-                                ❤️ Adicionar aos Favoritos
+                                (👉ﾟヮﾟ)👉 Adicionar aos Favoritos
                             </button>
                         </div>
                     </div>
@@ -169,8 +169,8 @@ function reservarLivro(id) {
                 alert('Reserva cancelada.');
                 return;
             }
-            
-            
+
+
             const usuarioId = localStorage.getItem('usuarioId');
             const livroId = id;
             const data_retirada = new Date().toISOString().split('T')[0];
@@ -202,7 +202,7 @@ function adicionarFavoritos(id) {
                 alert('Você precisa estar logado para adicionar favoritos.');
                 return;
             }
-            
+
             const livroId = id;
 
             const response = await fetch(`http://localhost:3000/favoritos`, {

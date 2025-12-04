@@ -1,18 +1,109 @@
-/* Estilos para a página de detalhes do livro */
-.container-detalhes {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
+:root {
+  --cor-azul-turquesa: #4a67df;
+  --cor-verde-agua: #2fd6cb;
+  --cor-cinza-claro: #31414e;
+  --cor-cinza: #26333d;
+  --cor-branco-claro: #e9f0ef;
+  --cor-branca: #ffffff;
 }
 
-.livro-detalhes {
-    background: var(--bg-card);
-    border-radius: 15px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+/*======================*/
+/* === LOGO DO SITE === */
+/*======================*/
+/* light mode */
+.logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  border: 6px solid var(--cor-branco-claro);
+  border-radius: 50%;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cor-cinza);
+}
+
+/* dark mode */
+html.dark-mode h1 {
+  color: var(--cor-branca);
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* light mode */
+body {
+  font-family: Arial, sans-serif;
+  background: var(--cor-branco-claro);
+  min-height: 100vh;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 15px 20px;
+  background: var(--cor-branca);
+}
+
+.dark-mode-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s;
+  border-radius: 10px;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--cor-branco-claro);
+  transform: scale(1.1);
+}
+
+/* dark mode */
+html.dark-mode body {
+  background: var(--cor-cinza);
+}
+
+html.dark-mode header {
+  background: var(--cor-cinza);
+}
+
+html.dark-mode .dark-mode-toggle:hover {
+  background: var(--cor-cinza-claro);
+  transform: scale(1.1);
+}
+
+
+.container-detalhes {
+    max-width: 100%;
+    margin: 40px auto;
+    padding: 0 15%;
+}
+
+.background-detalhes {
+    background: var(--cor-branca);
+    border-radius: 30px;
+    box-shadow: 0 15px 5px rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
-.livro-header {
+.background-livro {
     display: flex;
     gap: 40px;
     padding: 40px;
@@ -20,15 +111,15 @@
 }
 
 .capa-container {
-    flex: 0 0 300px;
+    flex: 0 0 350px;
     min-width: 250px;
 }
 
 .capa-container img {
     width: 100%;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.2);
 }
 
 .info-container {
@@ -39,79 +130,81 @@
 .info-container h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
-    color: var(--text-color);
+    color: var(--cor-cinza);
 }
 
 .info-container .autor {
     font-size: 1.3rem;
-    color: var(--primary-color);
+    color: var(--cor-verde-agua);
     margin-bottom: 25px;
+    font-weight: bold;
+    font-style: italic;
 }
 
 .meta-info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    gap: 20px;
     margin-bottom: 30px;
 }
 
 .meta-item {
-    background: var(--bg-meta);
+    background: var(--cor-branco-claro);
     padding: 15px;
-    border-radius: 8px;
-    border-left: 4px solid var(--primary-color);
+    border-radius: 30px;
+    border-left: 4px solid var(--cor-verde-agua);
 }
 
 .meta-item strong {
     display: block;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
+    font-size: 1.2rem;
+    color: var(--cor-cinza);
     margin-bottom: 5px;
 }
 
 .meta-item span {
-    font-size: 1.1rem;
-    color: var(--text-color);
+    font-size: 1rem;
+    color: var(--cor-cinza-claro);
 }
 
 .status {
     display: inline-block;
-    padding: 5px 10px;
-    border-radius: 20px;
+    padding: 5px 20px;
+    border-radius: 30px;
     font-size: 0.9rem;
     font-weight: bold;
 }
 
 .status.disponivel {
-    background: #d4edda;
-    color: #155724;
+    background: #c7ffd4;
+    color: #006818;
 }
 
 .status.indisponivel {
-    background: #f8d7da;
-    color: #721c24;
+    background: #ffbec3;
+    color: #81000d;
 }
 
 .acoes-livro {
     display: flex;
-    gap: 15px;
+    gap: 20px;
     flex-wrap: wrap;
-    margin-top: 30px;
+    margin-top: 50px;
 }
 
 .btn-acao {
-    padding: 12px 25px;
+    padding: 15px 20px;
     border: none;
-    border-radius: 8px;
+    border-radius: 15px;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .btn-emprestar {
-    background: var(--primary-color);
-    color: white;
+    background: var(--cor-azul-turquesa);
+    color: rgb(255, 0, 0);
 }
 
 .btn-emprestar:hover {
@@ -120,22 +213,24 @@
 }
 
 .btn-reservar {
-    background: #ffc107;
-    color: #212529;
+    background: var(--cor-branco-claro);
+    color: var(--cor-cinza);
 }
 
 .btn-reservar:hover {
-    background: #e0a800;
+    background: var(--cor-verde-agua);
+    color: var(--cor-branca);
     transform: translateY(-2px);
 }
 
 .btn-favorito {
-    background: #6c757d;
-    color: white;
+    background: var(--cor-cinza-claro);
+    color: var(--cor-branca);
 }
 
 .btn-favorito:hover {
-    background: #545b62;
+    background: #ff0000;
+    color: var(--cor-branca);
     transform: translateY(-2px);
 }
 
@@ -144,26 +239,27 @@
 }
 
 .sinopse {
+    margin-top: 40px;
     margin-bottom: 40px;
 }
 
 .sinopse h2 {
     font-size: 1.8rem;
     margin-bottom: 20px;
-    color: var(--text-color);
+    color: var(--var-cinza);
 }
 
 .sinopse p {
     line-height: 1.8;
     font-size: 1.1rem;
-    color: var(--text-color);
+    color: var(--var-cinza-claro);
 }
 
 .loading {
     text-align: center;
     padding: 60px;
     font-size: 1.2rem;
-    color: var(--text-secondary);
+    color: var(--cor-azul-turquesa);
 }
 
 .btn-voltar {
@@ -174,12 +270,12 @@
     font-size: 1rem;
     padding: 10px 20px;
     border-radius: 8px;
-    background: var(--bg-card);
+    background: var(--cor-branca);
     transition: all 0.3s ease;
 }
 
 .btn-voltar:hover {
-    background: var(--primary-color);
+    background: var(--cor-verde-agua);
     color: white;
 }
 

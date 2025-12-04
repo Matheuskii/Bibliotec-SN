@@ -61,7 +61,7 @@ body {
   border: 2px solid #e0e0e0;
   border-radius: 25px;
   font-size: 15px;
-  transition: border-color 0.3s;
+  transition: border 0.3s;
 }
 
 .input-field:focus {
@@ -134,8 +134,8 @@ body {
 
 .sr-only {
   position: absolute;
-  width: 1px;
-  height: 1px;
+  width: 10px;
+  height: 100px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
