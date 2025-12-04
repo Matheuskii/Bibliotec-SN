@@ -26,7 +26,7 @@ h1 {
   font-size: 2.5rem;
   font-weight: 700;
   letter-spacing: 2px;
-  color: var(--cor-cinza-claro);
+  color: var(--cor-branca);
 }
 
 /* dark mode */
@@ -54,13 +54,23 @@ body {
   line-height: 2;
 }
 
-header {
+header.top-header {
+  display: flex;
+  padding: 0px 10px;
+  margin-top: 5px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background: var(--cor-azul-turquesa);
+}
+
+header.abaixo-header {
   background: linear-gradient(
     var(--cor-azul-turquesa) 0%,
-    var(--cor-verde-agua) 45%,
-    var(--cor-branco-claro) 85%);
-  padding: 30px 0;
+    var(--cor-verde-agua) 50%);
+  padding: 0px 0px 20px;
   text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .dark-mode-toggle {
@@ -77,6 +87,7 @@ header {
 .dark-mode-toggle:hover {
   background: var(--cor-azul-turquesa);
   transform: scale(1.1);
+  margin-top: 5px;
 }
 
 /* dark mode */
@@ -84,10 +95,17 @@ html.dark-mode body {
   background: var(--cor-cinza-claro);
 }
 
-html.dark-mode header {
+html.dark-mode header.top-header {
+  background: #000000;
+  margin-top: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+html.dark-mode header.abaixo-header {
   background: linear-gradient(
     #000000 0%,
-    var(--cor-cinza) 60%, 
+    var(--cor-cinza) 60%,
     var(--cor-cinza-claro) 90%);
   color: var(--cor-branca);
 }
@@ -105,8 +123,10 @@ nav {
   display: flex;
   justify-content: center;
   gap: 40px;
-  padding: 20px;
-  background:var(--cor-branco-claro);
+  margin-top: 20px;
+  background:var(--cor-branca);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
 }
 
 nav a {
@@ -127,7 +147,7 @@ nav a:hover {
 
 /* dark mode */
 html.dark-mode nav {
-  background: var(--cor-cinza-claro);
+  background: var(--cor-cinza);
 }
 
 html.dark-mode nav a {
@@ -161,7 +181,7 @@ html.dark-mode nav a:hover {
   max-width: 100%;
   margin: 0 auto;
   padding: 10px 30% 10px;
-  background: var(--cor-branco-claro);
+  background: var(--cor-branca);
   width: 100%;
   position: relative;
 }
@@ -199,23 +219,18 @@ html.dark-mode .search-bar {
 /*===========================================*/
 /* light mode */
 .catalogo {
-  padding: 40px 0 10px 0;
   margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0;
   background: var(--cor-branco-claro);
   width: 100%;
 }
 
 .catalogo-header {
   text-align: center;
-  margin-bottom: 40px;
-  padding: 20px;
+  padding: 40px;
   background: var(--cor-branca);
-  border-radius: 30px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  margin-left: 200px;
-  margin-right: 200px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
 }
 
 .catalogo-header h2 {
@@ -225,6 +240,7 @@ html.dark-mode .search-bar {
   position: relative;
   display: inline-block;
   padding-bottom: 15px;
+  letter-spacing: 3.5px;
 }
 
 .catalogo-header h2::after {
@@ -268,9 +284,10 @@ html.dark-mode .catalogo-header h2::after {
   flex-wrap: wrap;
   padding: 30px 20px;
   background-color: var(--cor-branca);
-  border-radius: 30px;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
   margin-bottom: 40px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
   margin-left: 500px;
   margin-right: 500px;
 }
@@ -360,7 +377,7 @@ html.dark-mode .filter-btn.active {
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* nao sei o que isso faz */ 
+/* nao sei o que isso faz */
 /*
 .book-card.visible {
   animation: fadeIn 0.3s ease;
