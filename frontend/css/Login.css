@@ -28,12 +28,13 @@
 /*===================================*/
 body {
   margin: 0;
-  padding: 0;
+  padding: 20px;
   font-family: Arial, sans-serif;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background: linear-gradient(50deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
 }
 
@@ -47,6 +48,18 @@ body {
   max-width: 380px;
   text-align: center;
 }
+
+.login-container-abaixo {
+  background: var(--cor-branco-claro);
+  padding: 20px 0px;
+  border-radius: 30px;
+  box-shadow: 10px 15px 15px rgba(0, 0, 0, 0.3);
+  border: 6px solid #26333d1b;
+  width: 90%;
+  max-width: 380px;
+  margin-top: 20px;
+}
+
 
 .login-form {
   display: flex;
@@ -98,10 +111,7 @@ body {
 }
 
 .btn-login,
-.btn-cadastro,
-.btn-recuperar,
-.btnLogin,
-.btnCadastrar {
+.btn-recuperar {
   width: 100%;
   padding: 20px;
   margin: 10px 0;
@@ -116,10 +126,7 @@ body {
 }
 
 .btn-login:hover,
-.btn-cadastro:hover,
-.btn-recuperar:hover,
-.btnLogin:hover,
-.btnCadastrar:hover {
+.btn-recuperar:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 15px rgba(74, 103, 223, 0.3);
 }
