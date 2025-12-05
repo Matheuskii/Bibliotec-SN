@@ -2,8 +2,9 @@
 /* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
 /*==================================================*/
 :root {
-  --cor-azul-turquesa: #4a67df;
+ --cor-azul-turquesa: #4a67df;
   --cor-verde-agua: #2fd6cb;
+  --cor-cinza-claro: #31414e;
   --cor-cinza: #26333d;
   --cor-branco-claro: #e9f0ef;
   --cor-branca: #ffffff;
@@ -14,10 +15,12 @@
 /*======================*/
 /* light mode */
 .logo {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 30px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.281);
+  margin: 30px;
 }
 
 /*===================================*/
@@ -31,19 +34,15 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
-}
-
-.login-form {
-  display: flex;
-  flex-direction: column;
+  background: linear-gradient(50deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
 }
 
 .login-container {
-  background: var(--cor-branca);
-  padding: 40px;
-  border-radius: 15px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  background: var(--cor-branco-claro);
+  padding: 50px 40px 80px;
+  border-radius: 30px;
+  box-shadow: 10px 15px 15px rgba(0, 0, 0, 0.3);
+  border: 6px solid #26333d1b;
   width: 90%;
   max-width: 380px;
   text-align: center;
@@ -55,13 +54,22 @@ body {
 }
 
 .input-field {
-  width: 100%;
-  padding: 14px;
-  margin: 12px 0;
-  border: 2px solid #e0e0e0;
-  border-radius: 25px;
+  width: 90%;
+  padding: 15px 20px;
+  margin: 15px 0;
+  border: 3px solid transparent;
+  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-verde-agua)),
+    linear-gradient(to left, #0000005d, var(--cor-branca));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 2px 3px 7px rgba(0, 0, 0, 0.3);
+  border-radius: 30px;
   font-size: 15px;
   transition: border 0.3s;
+}
+
+.input-field::placeholder {
+  color: var(--cor-branca);
 }
 
 .input-field:focus {
@@ -73,20 +81,20 @@ body {
 .options {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
-  margin: 15px 0;
+  font-size: 15px;
+  margin: 10px 0 50px;
   color: var(--cor-cinza);
 }
 
 .options a {
-  text-decoration: none;
-  color: var(--cor-azul-turquesa);
+  color: #31414e55;
   cursor: pointer;
-  font-weight: 600;
+  font-style: italic;
 }
 
 .options a:hover {
-  text-decoration: underline;
+  color: var(--cor-azul-turquesa);
+  font-weight: bold;
 }
 
 .btn-login,
@@ -95,10 +103,10 @@ body {
 .btnLogin,
 .btnCadastrar {
   width: 100%;
-  padding: 14px;
+  padding: 20px;
   margin: 10px 0;
   border: none;
-  border-radius: 25px;
+  border-radius: 15px;
   color: var(--cor-branca);
   font-size: 16px;
   font-weight: 600;
@@ -118,29 +126,18 @@ body {
 
 .login-link {
   margin-top: 20px;
-  color: var(--cor-cinza);
+  color: var(--cor-azul-turquesa);
   font-size: 14px;
+  font-style: italic;
 }
 
 .login-link a {
   color: var(--cor-azul-turquesa);
   text-decoration: none;
-  font-weight: 600;
 }
 
 .login-link a:hover {
   text-decoration: underline;
-}
-
-.sr-only {
-  position: absolute;
-  width: 10px;
-  height: 100px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
 }
 
 a {

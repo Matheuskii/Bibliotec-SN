@@ -15,8 +15,8 @@
 /*======================*/
 /* light mode */
 .logo {
-  width: 80px;
-  height: 80px;
+  width: 550px;
+  height: 550px;
   object-fit: contain;
   border: 6px solid var(--cor-branco-claro);
   border-radius: 50%;
