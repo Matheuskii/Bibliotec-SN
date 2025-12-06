@@ -15,10 +15,10 @@
 /*======================*/
 /* light mode */
 .logo {
-  width: 550px;
-  height: 550px;
+  width: 80px;   
+  height: 80px;
   object-fit: contain;
-  border: 6px solid var(--cor-branco-claro);
+  border: 3px solid var(--cor-branco-claro); 
   border-radius: 50%;
 }
 

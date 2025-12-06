@@ -1,3 +1,6 @@
+// ===============================================
+// LÓGICA DE LOGIN
+// ===============================================
 const loginForm = document.getElementById("loginForm");
 
 if (loginForm) {
@@ -26,25 +29,40 @@ if (loginForm) {
 
       const dados = await resposta.json();
 
-      alert(dados.mensagem || dados.message);
+      if (!dados.sucesso) {
+        alert(dados.mensagem || "Erro ao fazer login.");
+        return;
+      }
 
+      // --- SUCESSO NO LOGIN ---
       if (dados.sucesso) {
+        // 1. Salva os dados críticos no navegador
         localStorage.setItem("nomeUsuario", dados.usuario.nome);
-        alert(`Bem-vindo, ${dados.usuario.nome}!`);
-        console.log("Dados do usuário:", dados.usuario);
+        localStorage.setItem("usuarioId", dados.usuario.id);
+        
+        // [IMPORTANTE] Salva o perfil para controlar acesso ao Admin
+        localStorage.setItem("perfilUsuario", dados.usuario.perfil); 
 
-        if (dados.usuario.id) {
-          localStorage.setItem("usuarioId", dados.usuario.id);
+        alert(`Bem-vindo, ${dados.usuario.nome}!`);
+        console.log("Login realizado. Perfil:", dados.usuario.perfil);
+
+        if (dados.usuario.perfil === 'Admin') {
+            window.location.href = "Admin.html";
+        } else {
+            // Se for Aluno, vai para a loja
+            window.location.href = "Inicio.html";
         }
-        console.log("ID do usuário armazenado:", dados.usuario.id);
-        window.location.href = "Inicio.html";
       }
     } catch (erro) {
-      alert("Erro ao fazer login.");
+      console.error(erro);
+      alert("Erro ao conectar com o servidor.");
     }
   });
 }
 
+// ===============================================
+// LÓGICA DE CADASTRO
+// ===============================================
 const cadastroForm = document.getElementById("cadastroForm");
 
 if (cadastroForm) {
@@ -55,7 +73,8 @@ if (cadastroForm) {
 }
 
 async function cadastrarUsuario() {
-  const nome_completo = document.getElementById("loginInput").value.trim();
+  // Pega os valores pelos novos IDs (Compatível com RN07)
+  const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
   const data_nascimento = document.getElementById("dataNascimento").value;
   const celular = document.getElementById("celular").value.trim();
@@ -63,37 +82,34 @@ async function cadastrarUsuario() {
   const senha = document.getElementById("senha").value.trim();
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
+  // Validações
   if (senha !== confirmarSenha) {
     alert("As senhas não coincidem.");
     return;
   }
 
-  const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-  if (!isEmail) {
+  if (!email.includes("@") || !email.includes(".")) {
     alert("Por favor, insira um email válido.");
     return;
   }
-  if (data_nascimento === "" || isNaN(new Date(data_nascimento).getTime()) || new Date(data_nascimento) > new Date()) {
-    alert("Por favor, insira uma data de nascimento válida.");
+  
+  if (!data_nascimento) {
+    alert("Por favor, insira sua data de nascimento.");
     return;
   }
-  if (curso === "" || curso.length < 2) {
-    alert("Por favor, insira o curso.");
-    return;
-  }
-  const dataFormat = new Date(data_nascimento);
-  const dia = String(dataFormat.getDate()).padStart(2, "0");
-  const mes = String(dataFormat.getMonth() + 1).padStart(2, "0");
-  const ano = dataFormat.getFullYear();
-  const data_nascimento_formatada = `${ano}-${mes}-${dia}`;
+
+  // Prepara o objeto para enviar ao backend
+  // Nota: O backend espera 'nome_completo' ou 'usuario' dependendo da versão,
+  // vamos enviar ambos para garantir.
   const payload = {
-    nome_completo,
-    email,
-    data_nascimento: data_nascimento_formatada,
-    celular,
-    curso,
-    senha,
+    nome_completo: nome, 
+    usuario: nome, // Fallback
+    email: email,
+    data_nascimento: data_nascimento,
+    celular: celular,
+    curso: curso,
+    senha: senha,
+    perfil: 'Aluno' // Quem se cadastra pelo site é sempre Aluno (RN01 implícita)
   };
 
   try {
@@ -105,13 +121,15 @@ async function cadastrarUsuario() {
 
     const dados = await resposta.json();
 
-    alert(dados.mensagem || dados.message);
-
     if (resposta.status === 201) {
-      redirecionarParaLogin();
+      alert("Cadastro realizado com sucesso! Faça login.");
+      window.location.href = "Login.html";
+    } else {
+        alert(dados.mensagem || "Erro ao cadastrar.");
     }
   } catch (erro) {
-    alert("Erro ao cadastrar usuário.");
+    console.error(erro);
+    alert("Erro ao conectar com o servidor.");
   }
 }
 
@@ -160,6 +178,7 @@ async function recuperarSenha() {
       redirecionarParaLogin();
     }
   } catch (err) {
+    console.error(err);
     alert("Erro ao recuperar senha.");
   }
 }

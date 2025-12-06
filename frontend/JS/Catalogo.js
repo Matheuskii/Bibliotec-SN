@@ -1,89 +1,94 @@
+import { criarCardLivroClicavel } from "./Estrutura.js";
+
 const API = 'http://localhost:3000/livros';
 
-
 document.addEventListener('DOMContentLoaded', async () => {
-  const grid = document.getElementById('todos-livros');
-  const filterBtns = document.querySelectorAll('.filter-btn');
+    const grid = document.getElementById('todos-livros');
+    const filterBtns = document.querySelectorAll('.filter-btn');
 
-  const livros = await carregarLivros();
+    // 1. Carrega os livros
+    const livros = await carregarLivros();
 
-  if (!livros.length) {
-    grid.innerHTML = '<p>Nenhum livro disponível</p>';
-    return;
-  }
+    // 2. Renderiza todos inicialmente
+    renderizarLivros(livros, grid);
 
-  renderizarLivros(livros);
-
-  const bookCards = document.querySelectorAll('.book-card');
-
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const filter = btn.getAttribute('data-filter');
-      
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      
-      filtrarLivros(filter, livros);
+    // 3. Configura os botões de filtro
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove 'active' de todos e adiciona no clicado
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const filter = btn.getAttribute('data-filter');
+            filtrarLivros(filter, livros, grid);
+        });
     });
-  });
-
-  function filtrarLivros(filtro, livrosCompletos) {
-    grid.innerHTML = '';
-
-    let livrosFiltrados = livrosCompletos;
-
-    if (filtro === 'ebook') {
-      livrosFiltrados = livrosCompletos.filter(l => l.formato === 'E-book');
-    } else if (filtro === 'audiolivro') {
-      livrosFiltrados = livrosCompletos.filter(l => l.formato === 'Audiobook');
-    } else if (filtro === 'genero-romance') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('romance'));
-    } else if (filtro === 'genero-ficcao') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('ficção') || l.genero?.toLowerCase().includes('ficcao'));
-    } else if (filtro === 'genero-humor') {
-      livrosFiltrados = livrosCompletos.filter(l => l.genero.toLowerCase().includes('humor'));
-    }
-
-    renderizarLivros(livrosFiltrados);
-  }
 });
 
-function renderizarLivros(livros) {
-  const grid = document.getElementById('todos-livros');
-  grid.innerHTML = '';
+// --- FUNÇÃO DE FILTRAGEM MELHORADA ---
+function filtrarLivros(filtro, livrosCompletos, gridElement) {
+    let livrosFiltrados = livrosCompletos;
 
-  if (!livros.length) {
-    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">Nenhum livro encontrado nesta categoria</p>';
-    return;
-  }
+    // Função auxiliar para limpar texto (remove acentos e põe minúsculo)
+    // Ex: "Ficção" vira "ficcao"
+    const limpar = (texto) => {
+        return texto ? texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
+    };
 
-  livros.forEach(livro => {
-    const card = document.createElement('div');
-    card.className = 'book-card';
+    if (filtro !== 'todos') {
+        livrosFiltrados = livrosCompletos.filter(livro => {
+            const genero = limpar(livro.genero);
+            const formato = limpar(livro.formato);
 
-    card.innerHTML = `
-      <div class="book-cover">
-        <img src="${livro.caminho_capa}" alt="${livro.titulo}">
-      </div>
-      <div class="book-info">
-        <div class="book-title">${livro.titulo}</div>
-        <div class="book-author">${livro.autor || 'Autor desconhecido'}</div>
-        <div class="book-category">${livro.genero || 'Sem gênero'}</div>
-        <div class="book-format">${livro.formato || 'Formato desconhecido'}</div>
-      </div>
-    `;
+            // Lógica dos filtros
+            if (filtro === 'ebook') {
+                return formato === 'e-book';
+            } 
+            if (filtro === 'audiolivro') {
+                return formato === 'audiobook';
+            } 
+            if (filtro === 'genero-romance') {
+                return genero.includes('romance');
+            } 
+            if (filtro === 'genero-ficcao') {
+                // Pega "Ficção", "Ficcao Cientifica", "Sci-Fi", etc.
+                return genero.includes('ficcao') || genero.includes('cientifica');
+            } 
+            if (filtro === 'genero-humor') {
+                // Pega "Humor", "Comédia", "Sátira"
+                return genero.includes('humor') || genero.includes('comedia') || genero.includes('satira');
+            }
+            return true;
+        });
+    }
 
-    grid.appendChild(card);
-  });
+    renderizarLivros(livrosFiltrados, gridElement);
 }
 
+// --- FUNÇÃO DE RENDERIZAÇÃO (USA O ESTRUTURA.JS) ---
+function renderizarLivros(livros, gridElement) {
+    gridElement.innerHTML = '';
+
+    if (!livros || livros.length === 0) {
+        gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Nenhum livro encontrado nesta categoria 😢</p>';
+        return;
+    }
+
+    livros.forEach(livro => {
+        // AQUI ESTÁ O SEGREDO: Usamos a função importada que já tem o onclick!
+        const card = criarCardLivroClicavel(livro);
+        gridElement.appendChild(card);
+    });
+}
+
+// --- BUSCA NA API ---
 async function carregarLivros() {
-  try {
-    const resposta = await fetch(API);
-    const livros = await resposta.json();
-    return livros;
-  } catch (erro) {
-    console.error('Erro ao carregar livros:', erro);
-    return [];
-  }
+    try {
+        const resposta = await fetch(API);
+        const livros = await resposta.json();
+        return livros;
+    } catch (erro) {
+        console.error('Erro ao carregar livros:', erro);
+        return [];
+    }
 }

@@ -179,3 +179,37 @@ export async function excluirReserva (req, res){
     res.status(500).json({ erro: err.message });
   }
 }
+
+
+
+// ... suas outras funções (listarReservas, criarReserva, etc) ...
+
+export async function listarReservasPorUsuario(req, res) {
+    try {
+        const usuarioId = req.params.usuario_id;
+        
+        // SQL turbinado: Pega dados da reserva + dados do livro (incluindo capa!)
+        const query = `
+            SELECT 
+                r.id as reserva_id,
+                r.data_retirada,
+                r.data_devolucao,
+                r.confirmado_email,
+                l.id as livro_id,
+                l.titulo,
+                l.autor,
+                l.caminho_capa
+            FROM reservas r
+            INNER JOIN livros l ON r.livro_id = l.id
+            WHERE r.usuario_id = ?
+            ORDER BY r.data_retirada DESC
+        `;
+
+        const [reservas] = await db.execute(query, [usuarioId]);
+        res.json(reservas);
+
+    } catch (erro) {
+        console.error('Erro ao buscar reservas do usuário:', erro);
+        res.status(500).json({ erro: erro.message });
+    }
+}
