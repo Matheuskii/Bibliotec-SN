@@ -1,6 +1,8 @@
 // JS/Estrutura.js
 console.log("Arquivo Estrutura.js carregado");
 console.log(localStorage.getItem("usuarioId"));
+
+
 export async function criarCarrossel(gridId, leftBtn, rightBtn) {
     const containerGrid = document.getElementById(gridId);
 
@@ -194,11 +196,16 @@ export function criarCardLivroClicavel(livro) {
     card.className = 'book-card';
     card.dataset.id = livro.id;
     card.title = `Clique para ver detalhes de "${livro.titulo}"`;
+    
+    // ============================================================
+    // CORREÇÃO AQUI: Mudamos de 'livro.disponivel' para 'livro.ativo'
+    // O banco retorna 1 (true) ou 0 (false) na coluna 'ativo'
+    // ============================================================
+    const estaDisponivel = livro.ativo === 1;
 
-    // Adiciona status de disponibilidade
-    const statusClass = livro.disponivel !== false ? 'disponivel' : 'indisponivel';
-    const statusText = livro.disponivel !== false ? 'Disponível' : 'Indisponível';
-
+    const statusClass = estaDisponivel ? 'disponivel' : 'indisponivel';
+    const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
+    
     card.innerHTML = `
         <span class="book-status ${statusClass}">${statusText}</span>
         <div class="book-cover">
@@ -342,4 +349,40 @@ if (typeof window !== 'undefined') {
             inicializarCarrosseis();
         }
     });
+}
+
+export function verificarEstadoLogin() {
+    const btnAuth = document.getElementById("btnAuth");
+    const btnAdmin = document.getElementById("btnAdminPanel"); // Novo botão
+    
+    if (!btnAuth) return;
+
+    const usuarioId = localStorage.getItem("usuarioId");
+    const perfil = localStorage.getItem("perfilUsuario"); // Pega se é Aluno ou Admin
+
+    if (usuarioId) {
+        // --- USUÁRIO LOGADO ---
+        btnAuth.textContent = "Sair"; 
+        btnAuth.href = "#"; 
+        
+        // Se for Admin, mostra o botão do Painel
+        if (perfil === 'Admin' && btnAdmin) {
+            btnAdmin.style.display = "inline-block";
+        }
+
+        // Lógica de Logout
+        btnAuth.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (confirm("Tem certeza que deseja sair?")) {
+                localStorage.clear(); // Limpa ID, Nome e Perfil
+                alert("Você saiu do sistema.");
+                window.location.href = "Login.html";
+            }
+        });
+    } else {
+        // --- USUÁRIO NÃO LOGADO ---
+        btnAuth.textContent = "Login";
+        btnAuth.href = "Login.html";
+        if (btnAdmin) btnAdmin.style.display = "none";
+    }
 }

@@ -105,8 +105,7 @@ html.dark-mode header.top-header {
 html.dark-mode header.abaixo-header {
   background: linear-gradient(
     #000000 0%,
-    var(--cor-cinza) 60%,
-    var(--cor-cinza-claro) 90%);
+      var(--cor-cinza) 100%);
   color: var(--cor-branca);
 }
 
@@ -204,12 +203,12 @@ html.dark-mode ::placeholder {
 }
 
 html.dark-mode .search-container {
-  background: var(--cor-cinza-claro);
+  background: var(--cor-cinza);
 }
 
 html.dark-mode .search-bar {
   background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-cinza)),
-    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+    linear-gradient(to left, var(--cor-cinza-claro), #141414);
   background-origin: border-box;
   background-clip: padding-box, border-box;
 }
@@ -228,7 +227,7 @@ html.dark-mode .search-bar {
   text-align: center;
   padding: 40px;
   background: var(--cor-branca);
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 }
@@ -252,7 +251,7 @@ html.dark-mode .search-bar {
   width: 100px;
   height: 4px;
   background: var(--cor-verde-agua);
-  border-radius: 2px;
+  border-radius: 30px;
 }
 
 /* dark mode */
@@ -262,7 +261,7 @@ html.dark-mode .catalogo {
 
 html.dark-mode .catalogo-header {
   background: var(--cor-cinza);
-  box-shadow: 0 0 50px var(--cor-cinza);
+  box-shadow: 0 15px 50px #000000;
 }
 
 html.dark-mode .catalogo-header h2 {
@@ -287,7 +286,7 @@ html.dark-mode .catalogo-header h2::after {
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   margin-bottom: 40px;
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
   margin-left: 500px;
   margin-right: 500px;
 }
@@ -320,7 +319,7 @@ html.dark-mode .catalogo-header h2::after {
 /* dark mode */
 html.dark-mode .filter-container {
   background-color: var(--cor-cinza);
-  box-shadow: 0 0 50px var(--cor-cinza);
+  box-shadow: 0 30px 20px #191d23;
 }
 
 html.dark-mode .filter-btn {
@@ -332,7 +331,7 @@ html.dark-mode .filter-btn:hover {
   background-color: var(--cor-cinza-claro);
   color: var(--cor-branca);
   transform: translateY(-2px);
-  box-shadow: 0 0 20px var(--cor-cinza-claro);
+  box-shadow: 0 0 20px #000000;
 }
 
 html.dark-mode .filter-btn.active {
@@ -367,7 +366,7 @@ html.dark-mode .filter-btn.active {
   background-color: var(--cor-branca);
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   animation: fadeIn 1s ease;
 }
@@ -457,6 +456,7 @@ html.dark-mode .filter-btn.active {
 
 html.dark-mode .book-card {
   background: var(--cor-cinza);
+  box-shadow: 0 15px 50px #000000;
 }
 
 html.dark-mode .book-title {

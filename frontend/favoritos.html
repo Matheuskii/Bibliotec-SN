@@ -1,27 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favoritados</title>
+    <title>BiblioTec - Favoritos</title>
+    <link rel="stylesheet" href="./css/Inicio.css"> 
+    <link rel="stylesheet" href="./css/favoritos.css">
+    
+    <script>
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
 </head>
 <body>
-    <header class="header-principal">
-    <div class="logo"></div>
-    <img class="logo-img" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
-    <h1>BIBLIO TEC</h1>
+    <header>
+        <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+        <h1>BIBLIO TEC</h1>
+        <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
     </header>
+
     <nav>
-        <a href="./inicio.html">Início</a>
-        <a href="./catalogo.html">Catálogo</a>
+        <a href="./Inicio.html">Início</a>
+        <a href="./Catalogo.html">Catálogo</a>
+        </nav>
 
-    </nav>
-    <main>
-        <h2>Livros Favoritados</h2>
-        <div class="favoritos-container" id="favoritos-container">
+    <main class="favoritos-wrapper">
+        <h2 class="titulo-secao">Meus Livros Favoritos ❤️</h2>
 
+        <div id="gridFavoritos" class="favoritos-grid">
+            <p style="text-align:center; width:100%">Carregando...</p>
         </div>
     </main>
+
+   <script type="module">
+        import { initDarkMode } from "./JS/darkMode.js"; 
+        // Nota: verifique se o arquivo no disco é 'darkMode.js' ou 'DarkMode.js'
+        // Se for 'DarkMode.js' (maiúsculo), mude na linha acima.
+        
+        // Inicia manualmente para garantir
+        initDarkMode();
+    </script>
+
     <script src="./JS/favoritos.js" defer></script>
 </body>
 </html>

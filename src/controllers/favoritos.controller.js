@@ -10,12 +10,10 @@ export async function listarFavoritos(req, res) {
                 f.livro_id,
                 f.data_favoritado,
                 u.nome as usuario_nome,
-                u.email as usuario_email,
                 l.titulo as livro_titulo,
                 l.autor as livro_autor,
-                l.isbn as livro_isbn,
-                l.ano_publicacao as livro_ano_publicacao,
-                l.ativo as livro_disponivel_ou_ativo
+                l.caminho_capa,  -- <--- ADICIONE ESTA LINHA
+                l.isbn as livro_isbn
             FROM favoritos f
             LEFT JOIN usuarios u ON f.usuario_id = u.id
             LEFT JOIN livros l ON f.livro_id = l.id
@@ -28,12 +26,8 @@ export async function listarFavoritos(req, res) {
         const [favoritos] = await db.execute(sql, params);
         return res.status(200).json(favoritos);
     } catch (erro) {
-        console.error('Erro ao listar livros Favoritos:', erro);
-        return res.status(500).json({
-            sucesso: false,
-            mensagem: 'Erro ao listar livros Favoritos',
-            erro: erro.message
-        });
+        console.error('Erro ao listar favoritos:', erro);
+        return res.status(500).json({ erro: erro.message });
     }
 }
 
