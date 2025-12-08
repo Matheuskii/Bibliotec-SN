@@ -1,0 +1,71 @@
+/*==================================================*/
+/* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
+/*==================================================*/
+:root {
+  --cor-azul-turquesa: #4a67df;
+  --cor-verde-agua: #2fd6cb;
+  --cor-cinza: #26333d;
+  --cor-branco-claro: #e9f0ef;
+  --cor-branca: #ffffff;
+}
+
+/*======================*/
+/* === LOGO DO SITE === */
+/*======================*/
+/* light mode */
+.logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 30px;
+  object-fit: contain;
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container {
+  background: var(--cor-branca);
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 380px;
+  text-align: center;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-field {
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: 2px solid #e0e0e0;
+  border-radius: 25px;
+  font-size: 15px;
+  transition: border 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--cor-verde-agua);
+  box-shadow: 0 0 8px rgba(47, 214, 203, 0.2);
+}

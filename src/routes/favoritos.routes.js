@@ -7,7 +7,7 @@ import {listarFavoritos,
 
 const router = express.Router();
 
-router.get("/", listarFavoritos);
+router.get("/:usuario_id", listarFavoritos);
 router.post("/", criarFavoritos);
 router.delete("/:id", deletarFavorito);
 

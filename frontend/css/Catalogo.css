@@ -1,0 +1,481 @@
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
+:root {
+  --cor-azul-turquesa: #4a67df;
+  --cor-verde-agua: #2fd6cb;
+  --cor-cinza-claro: #31414e;
+  --cor-cinza: #26333d;
+  --cor-branco-claro: #e9f0ef;
+  --cor-branca: #ffffff;
+}
+
+/*======================*/
+/* === LOGO DO SITE === */
+/*======================*/
+/* light mode */
+.logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  border: 6px solid var(--cor-branco-claro);
+  border-radius: 50%;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: var(--cor-branca);
+}
+
+/* dark mode */
+html.dark-mode .logo-img {
+  border: 6px solid var(--cor-branco-claro);
+}
+
+html.dark-mode h1 {
+  color: var(--cor-branca);
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* light mode */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--cor-branco-claro);
+  line-height: 2;
+}
+
+header.top-header {
+  display: flex;
+  padding: 0px 10px;
+  margin-top: 5px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background: var(--cor-azul-turquesa);
+}
+
+header.abaixo-header {
+  background: linear-gradient(
+    var(--cor-azul-turquesa) 0%,
+    var(--cor-verde-agua) 50%);
+  padding: 0px 0px 20px;
+  text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.dark-mode-toggle {
+  margin-left: auto;
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px 15px;
+  transition: all 0.3s;
+  border-radius: 30px;
+}
+
+.dark-mode-toggle:hover {
+  background: var(--cor-azul-turquesa);
+  transform: scale(1.1);
+  margin-top: 5px;
+}
+
+/* dark mode */
+html.dark-mode body {
+  background: var(--cor-cinza-claro);
+}
+
+html.dark-mode header.top-header {
+  background: #000000;
+  margin-top: 0px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+html.dark-mode header.abaixo-header {
+  background: linear-gradient(
+    #000000 0%,
+      var(--cor-cinza) 100%);
+  color: var(--cor-branca);
+}
+
+html.dark-mode .dark-mode-toggle:hover {
+  background: var(--cor-cinza);
+  transform: scale(1.1);
+}
+
+/*============================*/
+/* === NAVIGATION DO SITE === */
+/*============================*/
+/* light mode */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 20px;
+  background:var(--cor-branca);
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+}
+
+nav a {
+  text-decoration: none;
+  color: var(--cor-cinza);
+  font-size: 18px;
+  font-weight: 500;
+  padding: 10px 20px;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+nav a:hover {
+  background: var(--cor-branca);
+  color: var(--cor-verde-agua);
+  text-decoration: underline;
+}
+
+/* dark mode */
+html.dark-mode nav {
+  background: var(--cor-cinza);
+}
+
+html.dark-mode nav a {
+  color: var(--cor-branca);
+}
+
+html.dark-mode nav a:hover {
+  background: var(--cor-cinza);
+  color: var(--cor-azul-turquesa);
+}
+
+/*===================================*/
+/* === BARRA DE PESQUISA DO SITE === */
+/*===================================*/
+.search-icon {
+  position: absolute;
+  right: 32%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* light mode */
+.search-bar::placeholder {
+  color: var(--cor-branca);
+}
+
+.search-container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 10px 30% 10px;
+  background: var(--cor-branca);
+  width: 100%;
+  position: relative;
+}
+
+.search-bar {
+  width: 100%;
+  padding: 20px 50% 20px 20px;
+  border: 5px solid transparent;
+  border-radius: 30px;
+  font-size: 1rem;
+  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-branco-claro), #b8b8b8);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/* dark mode */
+html.dark-mode ::placeholder {
+  color: var(--cor-branca);
+}
+
+html.dark-mode .search-container {
+  background: var(--cor-cinza);
+}
+
+html.dark-mode .search-bar {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-cinza)),
+    linear-gradient(to left, var(--cor-cinza-claro), #141414);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+}
+
+/*===========================================*/
+/* === PARADA ONDE FICA OS ANUNCIAMENTOS === */
+/*===========================================*/
+/* light mode */
+.catalogo {
+  margin-bottom: 0px;
+  background: var(--cor-branco-claro);
+  width: 100%;
+}
+
+.catalogo-header {
+  text-align: center;
+  padding: 40px;
+  background: var(--cor-branca);
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
+.catalogo-header h2 {
+  font-size: 2.2rem;
+  color: var(--cor-cinza-claro);
+  font-weight: 700;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 15px;
+  letter-spacing: 3.5px;
+}
+
+.catalogo-header h2::after {
+  content: '';
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: var(--cor-verde-agua);
+  border-radius: 30px;
+}
+
+/* dark mode */
+html.dark-mode .catalogo {
+  background: var(--cor-cinza-claro);
+}
+
+html.dark-mode .catalogo-header {
+  background: var(--cor-cinza);
+  box-shadow: 0 15px 50px #000000;
+}
+
+html.dark-mode .catalogo-header h2 {
+  color: var(--cor-branco-claro);
+}
+
+html.dark-mode .catalogo-header h2::after {
+  background: var(--cor-azul-turquesa);
+}
+
+/*==============================*/
+/* === FILTROS DE CATEGORIA === */
+/*==============================*/
+/* light mode */
+.filter-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 30px 20px;
+  background-color: var(--cor-branca);
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+  margin-left: 500px;
+  margin-right: 500px;
+}
+
+.filter-btn {
+  padding: 10px 24px;
+  border: 3px solid var(--cor-branco-claro);
+  background-color: transparent;
+  color: var(--cor-verde-agua);
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: var(--transicao);
+  white-space: nowrap;
+}
+
+.filter-btn:hover {
+  background-color: var(--cor-branco-claro);
+  color: var(--cor-verde-agua);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px var(--cor-branco-claro);
+}
+
+.filter-btn.active {
+  background-color: var(--cor-verde-agua);
+  color: var(--cor-branca);
+}
+
+/* dark mode */
+html.dark-mode .filter-container {
+  background-color: var(--cor-cinza);
+  box-shadow: 0 30px 20px #191d23;
+}
+
+html.dark-mode .filter-btn {
+  border: 3px solid var(--cor-azul-turquesa);
+  color: var(--cor-azul-turquesa);
+}
+
+html.dark-mode .filter-btn:hover {
+  background-color: var(--cor-cinza-claro);
+  color: var(--cor-branca);
+  transform: translateY(-2px);
+  box-shadow: 0 0 20px #000000;
+}
+
+html.dark-mode .filter-btn.active {
+  background-color: var(--cor-azul-turquesa);
+  color: var(--cor-branca);
+  box-shadow: 0 0 20px var(--cor-azul-turquesa);
+}
+
+/*================*/
+/* === LIVROS === */
+/*================*/
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* light mode */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(275px, 0fr));
+  gap: 75px;
+  padding: 75px 75px;
+}
+
+.book-card {
+  background-color: var(--cor-branca);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  animation: fadeIn 1s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* nao sei o que isso faz */
+/*
+.book-card.visible {
+  animation: fadeIn 0.3s ease;
+}
+*/
+
+.book-cover{
+  height: 400px;
+  width: 275px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 3rem;
+}
+
+.book-cover img {
+  border-radius: 15px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.book-info {
+  padding: 25px;
+  text-align: center;
+}
+
+.book-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cor-cinza);
+  margin-bottom: 5px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.book-author {
+  font-size: 1.2rem;
+  color: var(--cor-branco-claro);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.book-price {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cor-verde-agua);
+  margin-bottom: 8px;
+}
+
+.book-category {
+  font-size: 0.85rem;
+  color: var(--cor-cinza);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 3.5px;
+  margin-bottom: 15px;
+}
+
+.book-format {
+  font-size: 0.8rem;
+  color: var(--cor-verde-agua);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.3px;
+  background-color: var(--cor-branco-claro);
+  padding: 5px 20px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* dark mode */
+
+html.dark-mode .book-card {
+  background: var(--cor-cinza);
+  box-shadow: 0 15px 50px #000000;
+}
+
+html.dark-mode .book-title {
+  color: var(--cor-branco-claro);
+}
+
+html.dark-mode .book-author {
+  color: var(--cor-cinza-claro);
+}
+
+html.dark-mode .book-price {
+  color: var(--cor-branca);
+}
+
+html.dark-mode .book-category {
+  color: var(--cor-branca);
+}
+
+html.dark-mode .book-format {
+  color: var(--cor-azul-turquesa);
+  background-color: var(--cor-cinza-claro);
+}

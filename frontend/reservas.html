@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BiblioTec - Minhas Reservas</title>
+    <link rel="stylesheet" href="./css/Inicio.css">
+    <link rel="stylesheet" href="./css/reservas.css"> <script>
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+        <h1>BIBLIO TEC</h1>
+        <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+    </header>
+
+    <nav>
+        <a href="./Inicio.html">Início</a>
+        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./favoritos.html">Favoritos</a>
+        <a href="./Login.html" id="btnAuth">Login</a>
+    </nav>
+
+    <main class="reservas-wrapper">
+        <h2 class="titulo-secao">Minhas Reservas 📅</h2>
+
+        <div id="gridReservas" class="reservas-list">
+            <p style="text-align: center; width: 100%;">Carregando suas reservas...</p>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initDarkMode } from "./JS/darkMode.js";
+        import { verificarEstadoLogin } from "./JS/Estrutura.js";
+
+        initDarkMode();
+        verificarEstadoLogin();
+    </script>
+    <script src="./JS/reservas.js" defer></script>
+</body>
+</html>

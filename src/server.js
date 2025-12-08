@@ -4,6 +4,8 @@
 import express from "express"
 import bodyParser from "body-parser";
 import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 import usuarioRoutes from "./routes/usuario.routes.js";
 import livrosRoutes from "./routes/livros.routes.js";
@@ -11,11 +13,17 @@ import avaliacoesRoutes from "./routes/avaliacao.routes.js";
 import reservasRoutes from "./routes/reservas.routes.js"
 import favoritosRoutes from "./routes/favoritos.routes.js"
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const app = express();
 
 // ============================
 //  Configuração do servidor
 // ============================
-const app = express();
+
+
+app.use(express.static(path.join(__dirname, "../frontend")));
+
 app.use(cors());
 app.use(bodyParser.json());
 

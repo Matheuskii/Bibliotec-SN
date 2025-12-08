@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BiblioTec - Catálogo</title>
+  <link rel="stylesheet" href="./css/Catalogo.css" />
+  <script>
+    if (localStorage.getItem('darkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+</head>
+
+<body>
+  <header class="top-header">
+    <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+  </header>
+  <header class="abaixo-header">
+    <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+    <h1>BIBLIO TEC</h1>
+  </header>
+
+
+  <nav>
+    <a href="./inicio.html">inicio</a>
+    <a href="./favoritos.html">favoritos</a>
+<a href="./login.html" class="login-link" id="btnAuth">Login</a>
+  </nav>
+
+  <div class="search-container">
+    <input type="text" class="search-bar" placeholder="Pesquisar..." />
+    <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
+  </div>
+
+  <main class="catalogo">
+    <div class="catalogo-header">
+      <h2>Catálogo De Livros</h2>
+    </div>
+
+    <div class="filter-container">
+      <button class="filter-btn active" data-filter="todos">Todos</button>
+      <button class="filter-btn" data-filter="ebook">E-books</button>
+      <button class="filter-btn" data-filter="genero-romance">Romance</button>
+      <button class="filter-btn" data-filter="genero-ficcao">Ficção Científica</button>
+      <button class="filter-btn" data-filter="genero-humor">Humor</button>
+      <button class="filter-btn" data-filter="audiolivro">Audiolivros</button>
+    </div>
+
+    <div class="books-grid" id="todos-livros">
+          </div>
+  </main>
+
+<script type="module" src="./JS/Catalogo.js" defer></script>
+</body>
+
+<script type="module">
+  import { criarCarrossel } from "./JS/Estrutura.js";
+  import { verificarEstadoLogin } from "./JS/Estrutura.js"; 
+  import { initDarkMode } from "./JS/DarkMode.js";
+
+  initDarkMode();
+  verificarEstadoLogin();
+  criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
+  criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
+</script>
+
+<script>
+  // Inicializar dark mode antes de qualquer coisa
+  (function () {
+    const darkModeBtn = document.getElementById('dark-mode-btn');
+    const htmlElement = document.documentElement;
+
+    // Padrão: modo escuro ativado
+    const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+
+    if (isDarkMode) {
+      htmlElement.classList.add('dark-mode');
+      if (darkModeBtn) DarkModeBtn.textContent = '☀️';
+    }
+
+    // Listener para o botão
+    if (darkModeBtn) {
+      darkModeBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+        if (isCurrentlyDark) {
+          htmlElement.classList.remove('dark-mode');
+          darkModeBtn.textContent = '🌙';
+          localStorage.setItem('DarkMode', 'false');
+        } else {
+          htmlElement.classList.add('dark-mode');
+          darkModeBtn.textContent = '☀️';
+          localStorage.setItem('DarkMode', 'true');
+        }
+      });
+    }
+  })();
+</script>
+<script type="module" src="./JS/DarkMode.js" defer></script>
+</body>
+
+</html>
