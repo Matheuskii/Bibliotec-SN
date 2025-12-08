@@ -7,11 +7,17 @@
   <title>BiblioTec - Login</title>
   <link rel="stylesheet" href="./css/Login.css">
   <script type="module" src="./JS/telas_forms.js" defer></script>
+  <script>
+    if (localStorage.getItem('darkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
 </head>
 
 <body>
+  <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
   <main class="login-container">
-    <img src="./images/LogoBibliotec.png" alt="Logo BiblioTec" class="logo">
+    <img src="./images/Logo-Bibliotec.png" alt="Logo BiblioTec" class="logo">
 
     <form id="loginForm" class="login-form">
       <input type="text" id="loginInput" name="loginInput" placeholder="Usuário ou Email" class="input-field" required>
@@ -26,7 +32,7 @@
         <a onclick="esqueciSenha()">Esqueceu sua senha?</a>
       </div>
 
-      <button type="submit" class="btn-login">Entrar</button>
+      <button type="submit" class="btn-login">Jogar</button>
     </form>
   </main>
 
@@ -45,6 +51,41 @@
       window.location.href = './cadastro.html';
     }
   </script>
+
+  <script>
+    // Inicializar dark mode antes de qualquer coisa
+    (function () {
+      const darkModeBtn = document.getElementById('dark-mode-btn');
+      const htmlElement = document.documentElement;
+
+      // Padrão: modo escuro ativado
+      const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+
+      if (isDarkMode) {
+        htmlElement.classList.add('dark-mode');
+        if (darkModeBtn) darkModeBtn.textContent = '☀️';
+      }
+
+      // Listener para o botão
+      if (darkModeBtn) {
+        darkModeBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+          if (isCurrentlyDark) {
+            htmlElement.classList.remove('dark-mode');
+            darkModeBtn.textContent = '🌙';
+            localStorage.setItem('DarkMode', 'false');
+          } else {
+            htmlElement.classList.add('dark-mode');
+            darkModeBtn.textContent = '☀️';
+            localStorage.setItem('DarkMode', 'true');
+          }
+        });
+      }
+    })();
+  </script>
+  <script type="module" src="./JS/DarkMode.js" defer></script>
 </body>
 
 </html>

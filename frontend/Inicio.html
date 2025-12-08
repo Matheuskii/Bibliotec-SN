@@ -20,13 +20,14 @@
     <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
   </header>
 
- <nav>
+  <nav>
     <a href="./catalogo.html">Catálogo</a>
     <a href="./favoritos.html">Favoritos</a>
-    <a href="./reservas.html">Minhas Reservas</a> <a href="./Admin.html" id="btnAdminPanel" style="display: none; color: #ff4757; font-weight: bold;">Painel Admin</a>
+    <a href="./reservas.html">Minhas Reservas</a> <a href="./Admin.html" id="btnAdminPanel"
+      style="display: none; color: #ff4757; font-weight: bold;">Painel Admin</a>
     <a href="./login.html" class="login-link" id="btnAuth">Login</a>
   </nav>
-  
+
   <div class="search-container">
     <input type="text" class="search-bar" placeholder="Pesquisar..." />
     <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
@@ -63,12 +64,12 @@
     import { initDarkMode } from "./JS/darkMode.js";
 
     initDarkMode();
-    
-    verificarEstadoLogin(); 
+
+    verificarEstadoLogin();
 
     criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
     criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
-</script>
+  </script>
 
   <script>
     // Inicializar dark mode antes de qualquer coisa
