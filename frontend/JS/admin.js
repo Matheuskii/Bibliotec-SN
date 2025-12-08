@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarLivros();
     carregarAlunos();
     carregarReservas();
-    
+
     // Configura o nome do Admin logado
     const nomeAdmin = localStorage.getItem("nomeUsuario");
     if(nomeAdmin) document.getElementById("adminNome").textContent = nomeAdmin;
@@ -33,7 +33,7 @@ window.mostrarSecao = (secaoId) => {
 
     // Mostra a escolhida
     document.getElementById(`secao-${secaoId}`).style.display = 'block';
-    
+
     // Atualiza título e classe active (simulação simples)
     const mapTitulos = {
         'livros': 'Gerenciar Livros',
@@ -56,10 +56,10 @@ async function carregarLivros() {
         livros.forEach(livro => {
             const tr = document.createElement("tr");
             const ativo = Number(livro.ativo) === 1;
-            
+
             // RN11: Livros podem estar cadastrados porém inativos
-            const statusBadge = ativo 
-                ? `<span class="badge-status ativo">Ativo</span>` 
+            const statusBadge = ativo
+                ? `<span class="badge-status ativo">Ativo</span>`
                 : `<span class="badge-status inativo">Inativo</span>`;
 
             // Prepara objeto para edição
@@ -114,14 +114,14 @@ async function salvarLivro(e) {
         idioma: document.getElementById("idioma").value, // RN09
         ano_publicacao: document.getElementById("ano_publicacao").value,
         isbn: document.getElementById("isbn").value,
-        formato: "Físico", // Default conforme RN
+        formato: "Físico",
         caminho_capa: document.getElementById("caminho_capa").value,
         sinopse: document.getElementById("sinopse").value,
         ativo: document.getElementById("ativo").checked ? 1 : 0
     };
 
     try {
-        const response = await fetch(url, {
+        const response = await fetch(API, {
             method: metodo,
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dados)
@@ -144,17 +144,17 @@ window.deletarLivro = async (id) => {
 }
 
 // ==========================================
-// LÓGICA DE ALUNOS (RF01, RN04, RN07)
+// LÓGICA DE ALUNOS
 // ==========================================
 async function carregarAlunos() {
     try {
         const response = await fetch(`${API_URL}/usuarios`);
         const usuarios = await response.json();
-        
+
         const tbody = document.getElementById("tabelaAlunosBody");
         tbody.innerHTML = "";
 
-        // Filtra apenas ALUNOS (RN01 diz que admin cadastra alunos)
+        // Filtra apenas ALUNOS
         const alunos = usuarios.filter(u => u.perfil === 'Aluno');
 
         alunos.forEach(aluno => {
@@ -178,11 +178,9 @@ async function carregarAlunos() {
 
 async function salvarAluno(e) {
     e.preventDefault();
-    
-    // RN04: Admin cadastra sem senha
-    // Como o Banco (MySQL) exige senha (NOT NULL), geramos uma provisória.
-    // RN05: Diz que aluno recebe email para mudar senha (simulado aqui)
-    const senhaProvisoria = "mudar123"; 
+
+
+    const senhaProvisoria = "mudar123";
 
     const dados = {
         nome: document.getElementById("nomeAluno").value, // Adaptando nome_completo -> nome (conforme seu banco)
@@ -190,14 +188,11 @@ async function salvarAluno(e) {
         data_nascimento: document.getElementById("nascAluno").value,
         celular: document.getElementById("celularAluno").value,
         curso: document.getElementById("cursoAluno").value,
-        senha: senhaProvisoria 
+        senha: senhaProvisoria
     };
 
-    // Ajuste de nomenclatura se seu endpoint espera "usuario" ou "nome"
-    // No seu backend (usuario.controller.js -> criarUsuario), ele espera:
-    // { usuario (ou email), email, senha } + nome no update.
-    // Vou usar a rota /cadastrar que já fizemos que aceita tudo.
-    
+
+
     // CORREÇÃO: O seu backend 'criarUsuario' espera { nome_completo ... } ou { usuario, email, senha }
     // Vamos enviar o objeto compátivel com o seu controller de cadastro:
     const payload = {
@@ -239,7 +234,7 @@ window.deletarAluno = async (id) => {
 }
 
 // ==========================================
-// LÓGICA DE RESERVAS (RF06)
+// LÓGICA DE RESERVAS
 // ==========================================
 async function carregarReservas() {
     try {
@@ -247,7 +242,7 @@ async function carregarReservas() {
         // A rota GET /reservas (listarReservas no controller) já faz um JOIN com usuários e livros
         const response = await fetch(`${API_URL}/reservas`);
         const reservas = await response.json();
-        
+
         // Verifica estrutura da resposta (seu backend retorna {sucesso, dados: []} ou direto [])
         const lista = reservas.dados ? reservas.dados : reservas;
 
@@ -258,7 +253,7 @@ async function carregarReservas() {
 
         lista.forEach(reserva => {
             const tr = document.createElement("tr");
-            
+
             // Formatando datas
             const retirada = new Date(reserva.data_retirada).toLocaleDateString('pt-BR');
             const devolucao = new Date(reserva.data_devolucao).toLocaleDateString('pt-BR');

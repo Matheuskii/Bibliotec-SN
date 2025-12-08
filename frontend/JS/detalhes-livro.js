@@ -38,14 +38,10 @@ class DetalhesLivro {
     renderizarLivro(livro) {
         const container = document.getElementById('detalhes-container');
 
-        // ============================================================
-        // CORREÇÃO AQUI: Normaliza o status do livro
-        // Garante que funciona se vier "1" (string) ou 1 (number)
-        // ============================================================
+
         const statusNumber = Number(livro.ativo);
         const estaDisponivel = (statusNumber === 1);
 
-        // Prepara classes e textos baseados na variável confiável
         const statusClass = estaDisponivel ? 'disponivel' : 'indisponivel';
         const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
 
@@ -95,9 +91,9 @@ class DetalhesLivro {
 
                         <div class="acoes-livro">
 
-                                <button class="btn-acao btn-reservar" onclick="reservarLivro(${livro.id})">
+                                <button class="btn-acao btn-reservar">
 
-                                <button class="btn-acao btn-emprestar" onclick="emprestarLivro(${livro.id})">
+                                <button class="btn-acao btn-emprestar" onclick="reservarLivro(${livro.id})">
                                     📚 Emprestar Livro
                                 </button>
 
@@ -139,7 +135,7 @@ class DetalhesLivro {
             genero: "Romance",
             isbn: "9788525404640",
             numero_paginas: "256",
-            ativo: 1, // Exemplo corrigido para usar ativo
+            ativo: 1,
             sinopse: "Dom Casmurro é uma das grandes obras...",
             caminho_capa: "./images/capa-default.jpg"
         };
@@ -159,7 +155,7 @@ class DetalhesLivro {
 }
 
 // ==========================================
-// FUNÇÕES GLOBAIS (Não precisam de alteração)
+// FUNÇÕES GLOBAIS
 // ==========================================
 
 window.emprestarLivro = function(id) {
@@ -225,7 +221,6 @@ window.adicionarFavoritos = function(id) {
             const dados = await response.json();
 
             if (!response.ok) {
-                // Se for erro 409 (Já existe), avisa diferente
                 if(response.status === 409) {
                     alert('Este livro já está nos seus favoritos!');
                     return;
