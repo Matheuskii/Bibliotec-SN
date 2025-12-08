@@ -22,7 +22,22 @@
         <!-- As informações do livro serão carregadas aqui -->
         <div class="loading">Carregando informações do livro...</div>
     </div>
+    <div id="modalReserva" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3>📅 Realizar Reserva</h3>
+            <p>Até quando você ficará com o livro?</p>
+            
+            <div class="form-group">
+                <label for="dataDevolucao">Data de Devolução:</label>
+                <input type="date" id="dataDevolucao" class="input-data-reserva">
+            </div>
 
+            <div class="modal-actions">
+                <button class="btn-cancelar" onclick="fecharModalReserva()">Cancelar</button>
+                <button class="btn-confirmar" onclick="confirmarReserva()">Confirmar Reserva</button>
+            </div>
+        </div>
+    </div>
     <script src="./JS/detalhes-livro.js" defer></script>
     <script>
         // Dark mode toggle

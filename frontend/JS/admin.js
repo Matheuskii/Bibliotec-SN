@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:3000";
+import { fetchAuth } from "./api.js"; 
 
 document.addEventListener("DOMContentLoaded", () => {
     // Carrega dados iniciais
@@ -10,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const nomeAdmin = localStorage.getItem("nomeUsuario");
     if(nomeAdmin) document.getElementById("adminNome").textContent = nomeAdmin;
 
-    // --- EVENTOS DE SUBMIT ---
     document.getElementById("formLivro").addEventListener("submit", salvarLivro);
     document.getElementById("formAluno").addEventListener("submit", salvarAluno);
 
@@ -100,8 +100,18 @@ window.editarLivro = (livro) => {
     document.getElementById("modalLivro").style.display = "flex";
 }
 
+const token = localStorage.getItem("userToken");
+
 async function salvarLivro(e) {
     e.preventDefault();
+    
+    // Verificação de segurança básica
+    if (!token) {
+        alert("Sessão expirada. Faça login novamente.");
+        window.location.href = "Login.html";
+        return;
+    }
+
     const id = document.getElementById("livroId").value;
     const metodo = id ? "PUT" : "POST";
     const url = id ? `${API_URL}/livros/${id}` : `${API_URL}/livros`;
@@ -111,7 +121,7 @@ async function salvarLivro(e) {
         autor: document.getElementById("autor").value,
         editora: document.getElementById("editora").value,
         genero: document.getElementById("genero").value,
-        idioma: document.getElementById("idioma").value, // RN09
+        idioma: document.getElementById("idioma").value,
         ano_publicacao: document.getElementById("ano_publicacao").value,
         isbn: document.getElementById("isbn").value,
         formato: "Físico",
@@ -121,28 +131,45 @@ async function salvarLivro(e) {
     };
 
     try {
-        const response = await fetch(API, {
-            method: metodo,
-            headers: { "Content-Type": "application/json" },
+        const res = await fetch(url, {
+            method: metodo, 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // <--- OBRIGATÓRIO: Envia o crachá
+            },
             body: JSON.stringify(dados)
         });
-        if(response.ok) {
+        
+        if(res.ok) {
             alert("Livro salvo com sucesso!");
             fecharModal('modalLivro');
             carregarLivros();
         } else {
-            alert("Erro ao salvar livro.");
+            // Mostra o erro real do backend (ex: "Token expirado")
+            const erro = await res.json();
+            alert("Erro: " + (erro.mensagem || erro.erro));
         }
     } catch(err) { console.error(err); }
 }
 
 window.deletarLivro = async (id) => {
+    if(!token) return alert("Faça login.");
+
     if(confirm("Tem certeza que deseja excluir?")) {
-        await fetch(`${API_URL}/livros/${id}`, { method: "DELETE" });
-        carregarLivros();
+        const res = await fetch(`${API_URL}/livros/${id}`, { 
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}` // <--- OBRIGATÓRIO
+            }
+        });
+        
+        if(res.ok) {
+            carregarLivros();
+        } else {
+            alert("Erro ao excluir.");
+        }
     }
 }
-
 // ==========================================
 // LÓGICA DE ALUNOS
 // ==========================================

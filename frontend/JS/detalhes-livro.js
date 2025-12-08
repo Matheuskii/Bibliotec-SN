@@ -162,51 +162,94 @@ window.emprestarLivro = function(id) {
     alert(`Funcionalidade de empréstimo (Livro ID: ${id}) em desenvolvimento!`);
 }
 
+// Variável global para saber qual livro está sendo reservado
+let livroIdParaReserva = null;
+
+// 1. Função chamada ao clicar no botão "Reservar" na tela
 window.reservarLivro = function(id) {
-    async function processarReserva(id) {
-        try {
-            const input = prompt('Digite a data de devolução (YYYY-MM-DD):');
-            if (!input || isNaN(new Date(input).getTime())) {
-                alert('Data inválida. Reserva cancelada.');
-                return;
-            }
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem("userToken"); // Pega o token
 
-            const usuarioId = localStorage.getItem('usuarioId');
-            if (!usuarioId) {
-                alert("Você precisa fazer login para reservar.");
-                window.location.href = "Login.html";
-                return;
-            }
-
-            const livroId = id;
-            const data_retirada = new Date().toISOString().split('T')[0];
-            const data_devolucao = input;
-
-            const response = await fetch(`http://localhost:3000/reservas`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroId, data_retirada, data_devolucao })
-            });
-
-            const dados = await response.json();
-
-            if (!response.ok) {
-                throw new Error(dados.mensagem || 'Erro ao reservar o livro');
-            }
-            alert('Livro reservado com sucesso!');
-        } catch (error) {
-            console.error('Erro:', error);
-            alert(error.message);
-        }
+    if (!usuarioId || !token) {
+        alert("Você precisa fazer login para reservar.");
+        window.location.href = "Login.html";
+        return;
     }
-    processarReserva(id);
+
+    // Guarda o ID para usar depois
+    livroIdParaReserva = id;
+
+    // Configura a data mínima para "Amanhã"
+    const inputData = document.getElementById("dataDevolucao");
+    const amanha = new Date();
+    amanha.setDate(amanha.getDate() + 1);
+    const dataMinima = amanha.toISOString().split("T")[0]; // Formato YYYY-MM-DD
+    
+    inputData.min = dataMinima; 
+    inputData.value = dataMinima; // Já deixa preenchido com amanhã
+
+    // Mostra o Modal
+    document.getElementById("modalReserva").style.display = "flex";
 }
+
+// 2. Função para fechar o modal
+window.fecharModalReserva = function() {
+    document.getElementById("modalReserva").style.display = "none";
+}
+
+// 3. Função que envia para o backend (chamada pelo botão Confirmar)
+window.confirmarReserva = async function() {
+    const dataDevolucao = document.getElementById("dataDevolucao").value;
+    
+    if (!dataDevolucao) {
+        alert("Por favor, selecione uma data.");
+        return;
+    }
+
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem("userToken"); 
+    const dataRetirada = new Date().toISOString().split('T')[0]; // 
+
+    try {
+        const response = await fetch(`http://localhost:3000/reservas`, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // <--- ENVIA O CRACHÁ
+            },
+            body: JSON.stringify({ 
+                usuario_id: usuarioId, 
+                livro_id: livroIdParaReserva, 
+                data_retirada: dataRetirada, 
+                data_devolucao: dataDevolucao 
+            })
+        });
+
+        const dados = await response.json();
+
+        if (!response.ok) {
+            throw new Error(dados.mensagem || 'Erro ao reservar o livro');
+        }
+
+        alert('🎉 Livro reservado com sucesso!');
+        fecharModalReserva();
+        location.reload(); // 
+
+    } catch (error) {
+        console.error('Erro:', error);
+        alert(error.message);
+    }
+}
+
 
 window.adicionarFavoritos = function(id) {
     async function processarFavorito(id) {
         try {
             const usuarioId = localStorage.getItem('usuarioId');
-            if (!usuarioId) {
+            const token = localStorage.getItem("userToken"); // <--- 1. PEGA O TOKEN
+
+            // Verifica se tem ID e Token
+            if (!usuarioId || !token) {
                 alert('Você precisa estar logado para adicionar favoritos.');
                 window.location.href = "Login.html";
                 return;
@@ -214,20 +257,32 @@ window.adicionarFavoritos = function(id) {
 
             const response = await fetch(`http://localhost:3000/favoritos`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` // <--- 2. ENVIA O TOKEN AQUI
+                },
                 body: JSON.stringify({ usuario_id: usuarioId, livro_id: id })
             });
 
             const dados = await response.json();
 
             if (!response.ok) {
+                // Tratamento especial se o livro já estiver nos favoritos (Erro 409)
                 if(response.status === 409) {
                     alert('Este livro já está nos seus favoritos!');
                     return;
                 }
+                // Tratamento se o token expirou (Erro 401 ou 403)
+                if(response.status === 401 || response.status === 403) {
+                    alert('Sua sessão expirou. Faça login novamente.');
+                    window.location.href = "Login.html";
+                    return;
+                }
                 throw new Error(dados.mensagem || 'Erro ao adicionar aos favoritos');
             }
-            alert('Livro adicionado aos favoritos com sucesso!');
+            
+            alert('❤️ Livro adicionado aos favoritos com sucesso!');
+            
         } catch (error) {
             console.error('Erro:', error);
             alert(error.message);

@@ -36,19 +36,26 @@ app.get("/teste", authMiddleware, (req, res) => {
   res.send("🚀 Rota de teste funcionando!");
 });
 
-// Usa as rotas de usuários
-app.use("/usuarios", authMiddleware, usuarioRoutes);
-// Usa as rotas de livros
-app.use("/livros", authMiddleware, livrosRoutes);
-// Usa as rotas de avaliações
-app.use("/avaliacoes",authMiddleware,avaliacoesRoutes);
-// Usa as rotas de reservas
-app.use("/reservas", authMiddleware,reservasRoutes);
-//Usa as rotas de favoritos
-app.use("/favoritos", authMiddleware,favoritosRoutes);
-// Rotas protegidas podem ser acessadas após o middleware de autenticação
+// ... (imports e configs) ...
 
+// Rota de teste pública
+app.get("/", (req, res) => {
+  res.send("🚀 API rodando com sucesso!");
+});
 
+// === ROTAS PÚBLICAS (NÃO PRECISAM DE TOKEN) ===
+// Login e Cadastro devem ser livres
+app.use("/usuarios", usuarioRoutes); 
+
+// === ROTAS MISTAS (A lógica de proteção fica NO ARQUIVO DE ROTAS) ===
+// Precisamos liberar o GET /livros para o catálogo funcionar sem login
+app.use("/livros", livrosRoutes); 
+
+// === ROTAS PROTEGIDAS (PRECISAM DE TOKEN) ===
+// Reservar e Favoritar exigem login sempre
+app.use("/avaliacoes", authMiddleware, avaliacoesRoutes);
+app.use("/reservas", authMiddleware, reservasRoutes);
+app.use("/favoritos", authMiddleware, favoritosRoutes);
 // ============================
 //  Inicia o servidor
 // ============================

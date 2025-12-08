@@ -42,6 +42,7 @@ if (loginForm) {
         
         // [IMPORTANTE] Salva o perfil para controlar acesso ao Admin
         localStorage.setItem("perfilUsuario", dados.usuario.perfil); 
+        localStorage.setItem("userToken", dados.token);
 
         alert(`Bem-vindo, ${dados.usuario.nome}!`);
         console.log("Login realizado. Perfil:", dados.usuario.perfil);

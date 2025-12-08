@@ -58,20 +58,42 @@
     </div>
   </section>
 
-  <script type="module">
+<script type="module">
     import { criarCarrossel, verificarEstadoLogin } from "./JS/Estrutura.js";
     import { initDarkMode } from "./JS/darkMode.js";
 
     initDarkMode();
-    
     verificarEstadoLogin(); 
 
-    criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos");
-    criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas");
-</script>
+    // --- CARROSSEL 1: MAIS VENDIDOS ---
+    // Lógica: Mostrar livros de Fantasia, Romance ou os primeiros 10 livros do banco
+    criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos", (livro) => {
+        // Normaliza o texto para evitar erros de acentuação
+        const genero = livro.genero ? livro.genero.toLowerCase() : "";
+        const id = Number(livro.id);
+        
+        // Regra: Gêneros populares OU IDs antigos (clássicos)
+        return genero.includes('fantasia') || 
+               genero.includes('romance') || 
+               genero.includes('infantil') ||
+               id <= 5; 
+    });
 
+    // --- CARROSSEL 2: OFERTAS ---
+    // Lógica: Mostrar livros de Terror, Suspense ou E-books (geralmente mais baratos)
+    criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas", (livro) => {
+        const genero = livro.genero ? livro.genero.toLowerCase() : "";
+        const formato = livro.formato ? livro.formato.toLowerCase() : "";
+        
+        // Regra: Gêneros de nicho OU E-books
+        return genero.includes('terror') || 
+               genero.includes('suspense') || 
+               genero.includes('policial') ||
+               formato === 'e-book';
+    });
+</script>
   <script>
-    // Inicializar dark mode antes de qualquer coisa
+   
     (function () {
       const darkModeBtn = document.getElementById('dark-mode-btn');
       const htmlElement = document.documentElement;
