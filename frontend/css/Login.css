@@ -36,7 +36,7 @@ html.dark-mode .logo {
 /* light mode */
 body {
   margin: 0;
-  padding: 20px;
+  padding: 0px;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
@@ -62,11 +62,25 @@ body {
   padding: 20px 0px;
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
-  box-shadow: 0px 15px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 10px 15px 10px rgba(0, 0, 0, 0.3);
   border-bottom: 7px solid #26333d1b;
   width: 80%;
   max-width: 380px;
   margin-top: 0px;
+}
+
+.dark-mode-toggle {
+  background: var(--cor-branca);
+  border: none;
+  box-shadow: 5px 15px 5px rgba(0, 0, 0, 0.3);
+  border-top: 5px solid #26333d1b;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 5px 20px;
+  margin: 0px 0px 0px 300px;
+  transition: all 0.3s;
 }
 
 /* dark mode */
@@ -77,10 +91,18 @@ html.dark-mode body {
 html.dark-mode .login-container {
   background: var(--cor-cinza);
   box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3);
+  border: 6px solid #31414e55;
 }
 
 html.dark-mode .login-container-abaixo {
   background: var(--cor-cinza);
+  box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3);
+  border-bottom: 7px solid #31414e55;
+}
+
+html.dark-mode .dark-mode-toggle {
+  background: var(--cor-cinza);
+  border-top: 7px solid #31414e55;
 }
 
 .login-form {
@@ -189,8 +211,7 @@ html.dark-mode .options a:hover {
   color: var(--cor-branca);
 }
 
-.btn-login:hover,
-.btn-recuperar:hover {
+.btn-login:hover {
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   font-size: 18px;
@@ -214,23 +235,30 @@ html.dark-mode .options a:hover {
   width: 72%;
   padding: 15px;
   margin: 10px 57px;
+  color: var(--cor-cinza)
 }
 
 /* dark mode */
 html.dark-mode .btn-login,
 .btn-recuperar {
-  color: var(--cor-cinza);
-  background: linear-gradient(to right, var(--cor-verde-agua), var(--cor-azul-turquesa));
+  color: var(--cor-branca);
+  background: var(--cor-cinza-claro);
 }
 
 html.dark-mode .btn-login:hover {
-  color: var(--cor-branca);
+  background: var(--cor-azul-turquesa);
 }
 
 html.dark-mode .btn-cadastro {
   background: linear-gradient(to left, rgba(74, 104, 223, 0.3), rgba(47, 214, 203, 0.3));
   color: rgba(38, 51, 61, 0.3);
   color: rgba(255, 255, 255, 0.3);
+  background: var(--cor-cinza-claro);
+  color: var(--cor-cinza);
+}
+
+html.dark-mode .btn-cadastro:hover {
+  color: var(--cor-branca)
 }
 
 /*===================================*/
