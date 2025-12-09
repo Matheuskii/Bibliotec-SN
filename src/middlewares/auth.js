@@ -1,7 +1,6 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
-// Carrega as variáveis de ambiente
 dotenv.config();
 
 // Tenta pegar do .env
@@ -11,7 +10,6 @@ const JWT_SECRET = process.env.JWT_SECRET_KEY;
 if (!JWT_SECRET) {
     console.error("🔴 ERRO GRAVE: A variável JWT_SECRET_KEY não foi encontrada no .env!");
 } else {
-    // console.log("🟢 Autenticação carregada com chave segura do .env");
 }
 // ===========================
 

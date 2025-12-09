@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec - Minhas Reservas</title>
     <link rel="stylesheet" href="./css/Inicio.css">
-    <link rel="stylesheet" href="./css/reservas.css"> <script>
+    <link rel="stylesheet" href="./css/reservas.css">
+    <script>
         if (localStorage.getItem('darkMode') !== 'false') {
             document.documentElement.classList.add('dark-mode');
         }
@@ -27,9 +28,27 @@
 
     <main class="reservas-wrapper">
         <h2 class="titulo-secao">Minhas Reservas 📅</h2>
-
-        <div id="gridReservas" class="reservas-list">
-            <p style="text-align: center; width: 100%;">Carregando suas reservas...</p>
+        
+        <!-- Tabela com tbody correto -->
+        <table class="tabela-reservas">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Usuário</th>
+                    <th>Livro</th>
+                    <th>Retirada</th>
+                    <th>Devolução</th>
+                    <th>Confirmado</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="gridReservas">
+                <!-- As reservas serão inseridas aqui via JavaScript -->
+            </tbody>
+        </table>
+        
+        <div id="loading" style="text-align: center; padding: 20px;">
+            Carregando suas reservas...
         </div>
     </main>
 

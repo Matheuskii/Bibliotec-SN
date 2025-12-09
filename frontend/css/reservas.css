@@ -125,3 +125,68 @@ html.dark-mode .card-reserva { background: #26333d; }
 html.dark-mode .reserva-titulo { color: #fff; }
 html.dark-mode .reserva-autor { color: #ccc; }
 html.dark-mode .reserva-datas { background: #31414e; }
+
+
+
+
+.tabela-reservas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabela-reservas thead {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.tabela-reservas th {
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.tabela-reservas td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabela-reservas tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+.tabela-reservas tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.btn-cancelar {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-cancelar:hover {
+    background-color: #d32f2f;
+}
+
+/* Estilo para modo escuro */
+.dark-mode .tabela-reservas {
+    background-color: #2d2d2d;
+    color: #e0e0e0;
+}
+
+.dark-mode .tabela-reservas thead {
+    background-color: #388E3C;
+}
+
+.dark-mode .tabela-reservas tbody tr:hover {
+    background-color: #3d3d3d;
+}
