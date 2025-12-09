@@ -454,3 +454,59 @@ html.dark-mode .input-data-reserva {
     border-color: #444;
     color: white;
 }
+
+/* === SEÇÃO DE AVALIAÇÕES === */
+.separador-secao {
+    height: 1px;
+    background: #e0e0e0;
+    margin: 40px 0;
+}
+.comunidade-container {
+    display: flex;
+    gap: 40px;
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 15px;
+}
+.painel-media {
+    flex: 1;
+    text-align: center;
+    border-right: 1px solid #ddd;
+}
+.nota-gigante {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #333;
+}
+.estrelas-fixas {
+    font-size: 1.5rem;
+    color: #ccc; /* Fundo cinza, o gradiente JS preenche */
+}
+.painel-comentarios {
+    flex: 2;
+}
+.estrelas-input .star-icon {
+    font-size: 2rem;
+    color: #ddd;
+    cursor: pointer;
+}
+.estrelas-input .star-icon.active {
+    color: #ffd700;
+}
+.review-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+}
+.btn-toggle-form {
+    padding: 10px 20px;
+    border: 2px solid #4a67df;
+    background: transparent;
+    color: #4a67df;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+}
+/* Dark Mode */
+html.dark-mode .comunidade-container { background: #26333d; }
+html.dark-mode .nota-gigante, html.dark-mode .review-autor { color: #fff; }
+html.dark-mode .review-texto { color: #ccc; }

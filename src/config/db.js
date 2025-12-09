@@ -2,11 +2,15 @@ import mysql from "mysql2/promise";
 // ============================
 //  Conexão com o MariaDB
 // ============================
+const user_env = process.env.DB_USER || "root";
+const password_env = process.env.DB_PASSWORD || "senai";
+const database_env = process.env.DB_NAME || "dblivraria";
+const host_env = process.env.DB_HOST || "localhost";
 export const db = await mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "senai",
-  database: "dblivraria",
+  host: host_env,
+  user: user_env,
+  password: password_env,
+  database: database_env,
   port: 3306,
 });
 

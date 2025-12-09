@@ -5,92 +5,64 @@ document.addEventListener("DOMContentLoaded", () => {
 const container = document.getElementById("gridReservas");
 const usuarioId = localStorage.getItem("usuarioId");
 
-async function carregarMinhasReservas() {
-    if (!usuarioId) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <p>Faça login para ver suas reservas.</p>
-                <a href="Login.html" style="color:var(--azul-turquesa)">Ir para Login</a>
-            </div>`;
-        return;
-    }
-
-    const token = localStorage.getItem("userToken"); // <--- PEGA O TOKEN
-
+async function carregarReservas() {
+    console.log("Carregando todas as reservas...");
+    console.log("Token atual:", localStorage.getItem("userToken"));
     try {
-        const response = await fetch(`http://localhost:3000/reservas/usuario/${usuarioId}`, {
+       let token = localStorage.getItem("userToken");
+
+    // --- CORREÇÃO DE SEGURANÇA ---
+    if (token) {
+        // Remove aspas duplas se elas existirem por acidente
+        token = token.replace(/"/g, ''); 
+    }
+    // -----------------------------
+
+    console.log("Token Limpo:", token);
+
+        const response = await fetch(`${API_URL}/reservas`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                'Authorization': `Bearer ${token}` // lembre-se de enviar o token
             }
         });
 
-        // ============================================================
-        // CORREÇÃO CRÍTICA AQUI:
-        // Faltava essa linha para criar a variável 'reservas'
-        // ============================================================
-        const reservas = await response.json(); 
-
-        container.innerHTML = "";
-
-        // Verifica se o servidor retornou erro de token
         if (response.status === 401 || response.status === 403) {
-            alert("Sessão expirada. Faça login novamente.");
-            window.location.href = "Login.html";
+            console.error("Token inválido ou expirado");
             return;
         }
 
-        // Verifica se reservas existe e é um array antes de checar length
-        if (!reservas || !Array.isArray(reservas) || reservas.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <h3>Nenhuma reserva encontrada 📅</h3>
-                    <p>Você ainda não reservou nenhum livro.</p>
-                    <a href="Catalogo.html" class="btn-voltar" style="margin-top:20px; display:inline-block; text-decoration:none; color: var(--azul-turquesa);">Ir para o Catálogo</a>
-                </div>`;
-            return;
-        }
+        const reservas = await response.json();
+        
+      
+        const lista = reservas.dados ? reservas.dados : reservas;
 
-        reservas.forEach(reserva => {
-            const card = document.createElement("div");
-            card.className = "card-reserva";
+        const tbody = document.getElementById("tabelaReservasBody");
+        tbody.innerHTML = "";
 
-            // Tratamento de fuso horário para a data não voltar 1 dia
-            const dataRetirada = new Date(reserva.data_retirada).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-            const dataDevolucao = new Date(reserva.data_devolucao).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
-            
-            const capa = reserva.caminho_capa || './images/capa-default.jpg';
+        if(!Array.isArray(lista)) return;
 
-            card.innerHTML = `
-                <img src="${capa}" alt="Capa" class="reserva-img" onerror="this.src='./images/capa-default.jpg'">
-                
-                <div class="reserva-info">
-                    <div class="reserva-titulo">${reserva.titulo}</div>
-                    <div class="reserva-autor">${reserva.autor}</div>
-                    
-                    <div class="reserva-datas">
-                        <div class="data-item">
-                            <strong>Retirada</strong>
-                            <span>${dataRetirada}</span>
-                        </div>
-                        <div class="data-item">
-                            <strong>Devolução</strong>
-                            <span>${dataDevolucao}</span>
-                        </div>
-                    </div>
+        lista.forEach(reserva => {
+            const tr = document.createElement("tr");
 
-                    <button class="btn-cancelar" onclick="cancelarReserva(${reserva.reserva_id})">
-                        Cancelar Reserva
-                    </button>
-                </div>
+            // Formatando datas
+            const retirada = new Date(reserva.data_retirada).toLocaleDateString('pt-BR');
+            const devolucao = new Date(reserva.data_devolucao).toLocaleDateString('pt-BR');
+
+            tr.innerHTML = `
+                <td>${reserva.id}</td>
+                <td>${reserva.usuario_nome || 'ID: ' + reserva.usuario_id}</td>
+                <td>${reserva.livro_titulo || 'ID: ' + reserva.livro_id}</td>
+                <td>${retirada}</td>
+                <td>${devolucao}</td>
+                <td>${reserva.confirmado_email ? '✅' : '⏳'}</td>
             `;
-            container.appendChild(card);
+            tbody.appendChild(tr);
         });
 
     } catch (error) {
-        console.error("Erro:", error);
-        container.innerHTML = "<p>Erro ao carregar reservas.</p>";
+        console.error("Erro ao carregar reservas", error);
     }
 }
 

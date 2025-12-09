@@ -17,15 +17,15 @@ import favoritosRoutes from "./routes/favoritos.routes.js"
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const app = express();
-
+const PORT = process.env.PORT || 3000;
 // ============================
 //  Configuração do servidor
 // ============================
+app.use(cors());
 
 
 app.use(express.static(path.join(__dirname, "../frontend")));
 
-app.use(cors());
 app.use(bodyParser.json());
 
 // Rota principal (teste rápido)
@@ -53,11 +53,10 @@ app.use("/livros", livrosRoutes);
 
 // === ROTAS PROTEGIDAS (PRECISAM DE TOKEN) ===
 // Reservar e Favoritar exigem login sempre
-app.use("/avaliacoes", authMiddleware, avaliacoesRoutes);
+app.use("/avaliacoes", avaliacoesRoutes);
 app.use("/reservas", authMiddleware, reservasRoutes);
 app.use("/favoritos", authMiddleware, favoritosRoutes);
 // ============================
 //  Inicia o servidor
 // ============================
-const PORT = 3000;
 app.listen(PORT, () => console.log(`✅ Servidor rodando na porta ${PORT}`));
