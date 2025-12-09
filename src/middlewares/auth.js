@@ -1,5 +1,7 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
+dotenv.config();
 // ⚠️ IMPORTANTE: Sempre use variáveis de ambiente (process.env)
 const JWT_SECRET = process.env.JWT_SECRET_KEY || 'sua_chave_secreta_aqui';
 const JWT_EXPIRATION = '24h'; // Usado apenas na GERAÇÃO do token
