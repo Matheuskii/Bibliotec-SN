@@ -35,6 +35,8 @@ html.dark-mode .logo {
 /*===================================*/
 /* light mode */
 body {
+  width: auto;
+  zoom: 0.88;
   margin: 0;
   padding: 0px;
   font-family: Arial, sans-serif;
@@ -42,7 +44,6 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
   background: linear-gradient(50deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
 }
 
@@ -66,7 +67,7 @@ body {
   border-bottom: 7px solid #26333d1b;
   width: 80%;
   max-width: 380px;
-  margin-top: 0px;
+  margin-bottom: 30px;
 }
 
 .dark-mode-toggle {
@@ -79,7 +80,7 @@ body {
   font-size: 25px;
   cursor: pointer;
   padding: 5px 20px;
-  margin: 0px 0px 0px 300px;
+  margin: 10px 0px 0px 300px;
   transition: all 0.3s;
 }
 
@@ -98,6 +99,7 @@ html.dark-mode .login-container-abaixo {
   background: var(--cor-cinza);
   box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3);
   border-bottom: 7px solid #31414e55;
+  margin-bottom: 20px;
 }
 
 html.dark-mode .dark-mode-toggle {
@@ -140,19 +142,31 @@ html.dark-mode .dark-mode-toggle {
 
 /* dark mode */
 html.dark-mode .input-field {
-  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-azul-turquesa)),
+  background-image: linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza-claro)),
     linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
 }
 
 html.dark-mode .input-field::placeholder {
   color: var(--cor-cinza);
   font-weight: bold;
+  transition: 1s;
+}
+
+html.dark-mode .input-field:hover {
+  background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
 }
 
 html.dark-mode .input-field:focus {
   outline: none;
-  border-color: #0000005d;
-  box-shadow: 0 0 8px rgba(47, 214, 203, 0.2);
+  border: 3px solid var(--cor-azul-turquesa);
+  background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  transition: 1s;
+}
+
+html.dark-mode .input-field:focus::placeholder {
+  color: var(--cor-branca)
 }
 
 /* ============================ */
@@ -196,8 +210,7 @@ html.dark-mode .options a:hover {
 /* === JOGAR-SEA E CADASTRO === */
 /* ============================ */
 /* light mode */
-.btn-login,
-.btn-recuperar {
+.btn-login {
   width: 100%;
   padding: 30px;
   border: none;
@@ -239,8 +252,7 @@ html.dark-mode .options a:hover {
 }
 
 /* dark mode */
-html.dark-mode .btn-login,
-.btn-recuperar {
+html.dark-mode .btn-login {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
 }
@@ -260,28 +272,3 @@ html.dark-mode .btn-cadastro {
 html.dark-mode .btn-cadastro:hover {
   color: var(--cor-branca)
 }
-
-/*===================================*/
-/*=== ta em algum lugar isso aqui ===*/
-/*===================================*/
-/*
-.login-link {
-  margin-top: 20px;
-  color: var(--cor-verde-agua);
-  font-size: 14px;
-  font-style: italic;
-}
-
-.login-link a {
-  color: var(--cor-azul-turquesa);
-  text-decoration: none;
-}
-
-.login-link a:hover {
-  text-decoration: underline;
-}
-
-a {
-  cursor: pointer;
-}
-*/
