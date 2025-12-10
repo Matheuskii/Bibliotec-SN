@@ -44,7 +44,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(50deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
 }
 
 .login-container {
@@ -71,7 +71,7 @@ body {
 }
 
 .dark-mode-toggle {
-  background: var(--cor-branca);
+  background: var(--cor-branco-claro);
   border: none;
   box-shadow: 5px 15px 5px rgba(0, 0, 0, 0.3);
   border-top: 5px solid #26333d1b;
@@ -121,7 +121,7 @@ html.dark-mode .dark-mode-toggle {
   padding: 15px 20px;
   margin: 15px 0;
   border: 3px solid transparent;
-  background-image: linear-gradient(to left, var(--cor-verde-agua), var(--cor-verde-agua)),
+  background-image: linear-gradient(to left, var(--cor-branco-claro), var(--cor-branco-claro)),
     linear-gradient(to left, #0000005d, var(--cor-branca));
   background-origin: border-box;
   background-clip: padding-box, border-box;
@@ -132,12 +132,27 @@ html.dark-mode .dark-mode-toggle {
 }
 
 .input-field::placeholder {
-  color: var(--cor-branca);
+  color: rgba(38, 51, 61, 0.3);
+  font-weight: bold;
+  transition: 1s;
+}
+
+.input-field:hover {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-branco-claro), var(--cor-branca));
 }
 
 .input-field:focus {
   outline: none;
-  border-color: #0000005d;
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: 1s;
+}
+
+.input-field:focus::placeholder {
+  color: var(--cor-branca)
 }
 
 /* dark mode */
@@ -219,14 +234,21 @@ html.dark-mode .options a:hover {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
-  background: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua));
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-  color: var(--cor-branca);
+  background: var(--cor-branco-claro);
+  color: rgba(38, 51, 61, 0.3);
 }
 
 .btn-login:hover {
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to left, #4a68dfb6, #2fd6cbc4);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: var(--cor-branca);
   font-size: 18px;
 }
 
@@ -255,6 +277,7 @@ html.dark-mode .options a:hover {
 html.dark-mode .btn-login {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
+   border: none;
 }
 
 html.dark-mode .btn-login:hover {
@@ -264,7 +287,6 @@ html.dark-mode .btn-login:hover {
 html.dark-mode .btn-cadastro {
   background: linear-gradient(to left, rgba(74, 104, 223, 0.3), rgba(47, 214, 203, 0.3));
   color: rgba(38, 51, 61, 0.3);
-  color: rgba(255, 255, 255, 0.3);
   background: var(--cor-cinza-claro);
   color: var(--cor-cinza);
 }

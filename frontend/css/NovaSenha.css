@@ -14,10 +14,11 @@
   max-width: 380px;
   text-align: center;
   margin-bottom: 61px;
+  margin: 35px 0px 0px 0px;
 }
 
 .dark-mode-toggle {
-  background: var(--cor-branca);
+  background: var(--cor-branco-claro);
   border: none;
   box-shadow: 5px 15px 5px rgba(0, 0, 0, 0.3);
   border-top: 5px solid #26333d1b;
@@ -30,7 +31,7 @@
   transition: all 0.3s;
 }
 
- /* dark mode */
+/* dark mode */
 html.dark-mode .login-container {
   margin-bottom: 52px;
 }
@@ -48,9 +49,9 @@ html.dark-mode .login-container {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s;
-  background: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background: var(--cor-branco-claro);
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
-  color: var(--cor-branca);
+  color: rgba(38, 51, 61, 0.3);
   margin-top: 50px
 }
 
@@ -58,6 +59,8 @@ html.dark-mode .login-container {
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
   font-size: 18px;
+  background: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  color: var(--cor-branca);
 }
 
 /* dark mode */
@@ -69,4 +72,3 @@ html.dark-mode .btn-recuperar {
 html.dark-mode .btn-recuperar:hover {
   background: var(--cor-azul-turquesa);
 }
-
