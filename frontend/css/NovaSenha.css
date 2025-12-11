@@ -13,8 +13,7 @@
   width: 90%;
   max-width: 380px;
   text-align: center;
-  margin-bottom: 61px;
-  margin: 35px 0px 0px 0px;
+  margin: 60px;
 }
 
 .dark-mode-toggle {
@@ -56,17 +55,23 @@ html.dark-mode .login-container {
 }
 
 .btn-recuperar:hover {
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  font-size: 18px;
-  background: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-image: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to right, #4a68dfb6, #2fd6cbc4);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
   color: var(--cor-branca);
+  font-size: 18px;
 }
 
 /* dark mode */
 html.dark-mode .btn-recuperar {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
+  border: none;
 }
 
 html.dark-mode .btn-recuperar:hover {

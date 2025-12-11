@@ -33,18 +33,38 @@ html.dark-mode .logo {
 /*===================================*/
 /* === CORPO E ESTRUTURA DO SITE === */
 /*===================================*/
+@keyframes lavaFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 75%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 25%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 /* light mode */
 body {
   width: auto;
-  zoom: 0.88;
-  margin: 0;
+  zoom: 0.92;
+  margin: 80px;
   padding: 0px;
   font-family: Arial, sans-serif;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-size: 400% 400%;
+  animation: lavaFlow 10s infinite;
 }
 
 .login-container {
@@ -86,7 +106,9 @@ body {
 
 /* dark mode */
 html.dark-mode body {
-  background: var(--cor-cinza);
+ background: linear-gradient(250deg, #000000, var(--cor-cinza-claro), #000000);
+  background-size: 400% 400%;
+  animation: lavaFlow 15s infinite;
 }
 
 html.dark-mode .login-container {
@@ -277,7 +299,7 @@ html.dark-mode .options a:hover {
 html.dark-mode .btn-login {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
-   border: none;
+  border: none;
 }
 
 html.dark-mode .btn-login:hover {

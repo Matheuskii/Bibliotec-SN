@@ -4,7 +4,7 @@
 /* === CORPO E ESTRUTURA DO SITE === */
 /*===================================*/
 body {
-  margin: 22px;
+  margin: 30px;
 }
 
 .login-container {
@@ -16,7 +16,7 @@ body {
   flex-direction: column;
 }
 
-.sr-only {
+html.dark-mode .sr-only {
   color: var(--cor-branco-claro);
 }
 
@@ -40,8 +40,8 @@ body {
   border-right: 5px solid transparent;
   transform: translateY(-3px);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
-    linear-gradient(to left, #4a68dfb6, #2fd6cbc4);
+  background-image: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to right, #4a68dfb6, #2fd6cbc4);
   background-origin: border-box;
   background-clip: padding-box, border-box;
   color: var(--cor-branca);
@@ -52,9 +52,21 @@ body {
 html.dark-mode .btn-cadastro2 {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
-   border: none;
+  border: none;
 }
 
 html.dark-mode .btn-cadastro2:hover {
   background: var(--cor-azul-turquesa);
+}
+
+.login-link a {
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .login-link {
+  color: var(--cor-branco-claro);
+}
+
+html.dark-mode .login-link a {
+  color: var(--cor-azul-turquesa);
 }
