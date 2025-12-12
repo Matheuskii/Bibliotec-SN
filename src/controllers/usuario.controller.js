@@ -1,5 +1,5 @@
 import { db } from "../config/db.js";
-// Assumindo que o gerarToken está sendo importado de um local correto, como '../utils/auth.js' ou '../middlewares/auth.js'
+import { enviarEmailVerificacao } from "../services/email.services.js";
 import { gerarToken } from "../middlewares/auth.js";
 
 // ============================
@@ -107,31 +107,63 @@ export async function deletarUsuario(req, res) {
 // ============================
 export async function criarUsuario(req, res) {
   try {
-    // ... (demais validações)
+    const { nome, nome_completo, email, senha, data_nascimento, celular, curso } = req.body;
+    const nomeFinal = nome || nome_completo;
 
+    // Validações...
+    if (!nomeFinal || !email || !senha) return res.status(400).json({ erro: "Dados incompletos" });
 
-    const { nome, nome_completo, email, senha, data_nascimento, celular, curso, perfil } = req.body;
-    const nomeFinal = nome || nome_completo;
+    // Gera código de 6 dígitos
+    const codigo = Math.floor(100000 + Math.random() * 900000).toString();
 
-    const perfilseguro = 'Aluno';
+    // Salva com verificado = 0
+    const perfilSeguro = 'Aluno';
 
     await db.execute(
-      "INSERT INTO usuarios (nome, email, senha, data_nascimento, celular, curso, perfil) VALUES (?, ?, ?, ?, ?, ?, ?)",
-      [nomeFinal, email, senha, data_nascimento, celular, curso, perfilseguro]
+      "INSERT INTO usuarios (nome, email, senha, data_nascimento, celular, curso, perfil, codigo_verificacao, verificado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 0)",
+      [nomeFinal, email, senha, data_nascimento, celular, curso, perfilSeguro, codigo]
     );
 
-    // Removeu a sintaxe errada e a lógica de token (que não deve estar aqui)
-    res.status(201).json({ mensagem: "Usuário criado com sucesso!" });
+    // Envia o e-mail
+    await enviarEmailVerificacao(email, codigo);
+
+    res.status(201).json({
+        sucesso: true,
+        mensagem: "Usuário criado! Verifique seu e-mail.",
+        email: email // Devolve o email para o front saber quem verificar
+    });
 
   } catch (err) {
-    // Erro de duplicidade (email já existe)
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ erro: "Este email já está cadastrado." });
-    }
+    if (err.code === 'ER_DUP_ENTRY') return res.status(409).json({ erro: "E-mail já cadastrado." });
     res.status(500).json({ erro: err.message });
   }
 }
 
+export async function verificarCodigo(req, res) {
+    try {
+        const { email, codigo } = req.body;
+
+        const [rows] = await db.execute(
+            "SELECT id FROM usuarios WHERE email = ? AND codigo_verificacao = ?",
+            [email, codigo]
+        );
+
+        if (rows.length === 0) {
+            return res.status(400).json({ sucesso: false, mensagem: "Código inválido ou e-mail incorreto." });
+        }
+
+        // Se achou, marca como verificado e limpa o código
+        await db.execute(
+            "UPDATE usuarios SET verificado = 1, codigo_verificacao = NULL WHERE email = ?",
+            [email]
+        );
+
+        res.json({ sucesso: true, mensagem: "Conta verificada com sucesso! Faça login." });
+
+    } catch (err) {
+        res.status(500).json({ erro: err.message });
+    }
+}
 // ============================
 // Recuperar senha
 // ============================
@@ -171,40 +203,54 @@ export async function recuperarSenha(req, res) {
 export async function loginUsuario(req, res) {
   try {
     const { usuario, email, senha } = req.body;
+
+    // Aceita logar tanto por E-mail quanto por Nome
     const identificador = email || usuario;
 
+    console.log("Tentativa de login:", identificador);
+
+    // 1. Busca o usuário no banco
     const [rows] = await db.execute(
       "SELECT * FROM usuarios WHERE (nome = ? OR email = ?) AND senha = ?",
       [identificador, identificador, senha]
     );
 
+    // 2. Se não achar ninguém ou senha errada
     if (rows.length === 0) {
       return res.status(401).json({
         sucesso: false,
-        mensagem: "Credenciais inválidas."
+        mensagem: "Credenciais inválidas (Usuário ou senha incorretos)."
       });
     }
 
     const usuarioLogado = rows[0];
 
-    delete usuarioLogado.senha;
+    // 3. VERIFICAÇÃO DE E-MAIL (A Mágica acontece aqui) 🔐
+    // Se a coluna 'verificado' for 0, bloqueia o login!
+    if (usuarioLogado.verificado === 0) {
+        return res.status(403).json({
+            sucesso: false,
+            mensagem: "Conta não verificada! Por favor, verifique seu e-mail antes de entrar."
+        });
+    }
 
+    // 4. Se passou, gera o token
+    delete usuarioLogado.senha; // Não manda a senha de volta
     const token = gerarToken(usuarioLogado);
 
+    // 5. Sucesso
     res.status(200).json({
       sucesso: true,
-      mensagem: "Login bem-sucedido!",
+      mensagem: "Login realizado com sucesso!",
       usuario: usuarioLogado,
       token: token
     });
 
   } catch (err) {
-
-    if (!res.headersSent) {
-        res.status(500).json({
-          mensagem: "Erro ao processar o login.",
-          erro: err.message
-        });
-    }
+    console.error("ERRO NO LOGIN:", err); // Mostra o erro real no terminal
+    res.status(500).json({
+      mensagem: "Erro interno no servidor ao tentar logar.",
+      erro: err.message
+    });
   }
 }

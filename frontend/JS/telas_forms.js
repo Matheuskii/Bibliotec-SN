@@ -1,3 +1,6 @@
+// Variável global para guardar o e-mail enquanto o usuário digita o código
+let emailParaVerificar = "";
+
 // ===============================================
 // LÓGICA DE LOGIN
 // ===============================================
@@ -74,7 +77,7 @@ if (cadastroForm) {
 }
 
 async function cadastrarUsuario() {
-  // Pega os valores pelos novos IDs (Compatível com RN07)
+  // 1. Pega os valores
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
   const data_nascimento = document.getElementById("dataNascimento").value;
@@ -83,34 +86,20 @@ async function cadastrarUsuario() {
   const senha = document.getElementById("senha").value.trim();
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
-  // Validações
-  if (senha !== confirmarSenha) {
-    alert("As senhas não coincidem.");
-    return;
-  }
+  // 2. Validações
+  if (senha !== confirmarSenha) return alert("As senhas não coincidem.");
+  if (!email.includes("@") || !email.includes(".")) return alert("Insira um email válido.");
+  if (!data_nascimento) return alert("Insira sua data de nascimento.");
 
-  if (!email.includes("@") || !email.includes(".")) {
-    alert("Por favor, insira um email válido.");
-    return;
-  }
-
-  if (!data_nascimento) {
-    alert("Por favor, insira sua data de nascimento.");
-    return;
-  }
-
-  // Prepara o objeto para enviar ao backend
-  // Nota: O backend espera 'nome_completo' ou 'usuario' dependendo da versão,
-  // vamos enviar ambos para garantir.
   const payload = {
     nome_completo: nome,
-    usuario: nome, // Fallback
+    usuario: nome,
     email: email,
     data_nascimento: data_nascimento,
     celular: celular,
     curso: curso,
     senha: senha,
-    perfil: 'Aluno' // Quem se cadastra pelo site é sempre Aluno (RN01 implícita)
+    perfil: 'Aluno'
   };
 
   try {
@@ -122,18 +111,73 @@ async function cadastrarUsuario() {
 
     const dados = await resposta.json();
 
+    // 3. Verifica o Status da Resposta
     if (resposta.status === 201) {
-      alert("Cadastro realizado com sucesso! Faça login.");
-      window.location.href = "Login.html";
+        // --- SUCESSO ---
+        console.log("✅ SUCESSO! Backend respondeu 201.");
+
+        const modal = document.getElementById("modalVerificacao");
+
+        if (modal) {
+            console.log("✅ Modal encontrado no HTML!");
+
+            // Define a variável global para usar na confirmação
+            emailParaVerificar = email;
+
+            // Preenche o email no texto do modal
+            const displayEmail = document.getElementById("emailDisplay");
+            if(displayEmail) displayEmail.textContent = email;
+
+            // Mostra o modal
+            modal.style.display = "flex";
+        } else {
+            console.error("❌ ERRO CRÍTICO: O elemento <div id='modalVerificacao'> não existe no Cadastro.html!");
+            alert("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.");
+        }
+
     } else {
-        alert(dados.mensagem || "Erro ao cadastrar.");
+        // --- ERRO (Ex: Email duplicado) ---
+        console.warn("⚠️ Backend retornou erro:", dados);
+        alert(dados.erro || dados.mensagem || "Erro ao realizar cadastro.");
     }
+
   } catch (erro) {
-    console.error(erro);
-    alert("Erro ao conectar com o servidor.");
+    console.error("❌ Erro de conexão:", erro);
+    alert("Erro de conexão com o servidor.");
   }
 }
 
+// NOVA FUNÇÃO: CHAMADA PELO BOTÃO DO MODAL
+window.confirmarCodigo = async function() {
+    const codigoInput = document.getElementById("codigoInput");
+    const codigo = codigoInput ? codigoInput.value.trim() : "";
+
+    if (!codigo) return alert("Digite o código.");
+
+    try {
+        const resposta = await fetch("http://localhost:3000/usuarios/verificar", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: emailParaVerificar, codigo: codigo })
+        });
+
+        const dados = await resposta.json();
+
+        if (dados.sucesso) {
+            alert("✅ Conta verificada com sucesso! Faça login.");
+            window.location.href = "Login.html";
+        } else {
+            alert("❌ " + dados.mensagem);
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao verificar código.");
+    }
+}
+
+// ===============================================
+// LÓGICA DE RECUPERAÇÃO DE SENHA
+// ===============================================
 const newpassForm = document.getElementById("newpassForm");
 
 if (newpassForm) {
