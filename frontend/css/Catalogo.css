@@ -381,17 +381,6 @@ html.dark-mode .filter-btn.active {
 /*================*/
 /* === LIVROS === */
 /*================*/
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /* light mode */
 .books-grid {
@@ -414,13 +403,6 @@ html.dark-mode .filter-btn.active {
   transform: translateY(-10px);
   box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
 }
-
-/* nao sei o que isso faz */
-/*
-.book-card.visible {
-  animation: fadeIn 0.3s ease;
-}
-*/
 
 .book-cover {
   height: 400px;
@@ -458,41 +440,16 @@ html.dark-mode .filter-btn.active {
 
 .book-author {
   font-size: 1.2rem;
-  color: var(--cor-branco-claro);
+  color: #999;
   margin-bottom: 10px;
   font-style: italic;
 }
 
-.book-price {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: var(--cor-verde-agua);
-  margin-bottom: 8px;
-}
-
-.book-category {
-  font-size: 0.85rem;
-  color: var(--cor-cinza);
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 3.5px;
-  margin-bottom: 15px;
-}
-
-.book-format {
-  font-size: 0.8rem;
-  color: var(--cor-verde-agua);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.3px;
-  background-color: var(--cor-branco-claro);
-  padding: 5px 20px;
-  border-radius: 4px;
-  display: inline-block;
+.book-year {
+  color: var(--cor-cinza-claro);
 }
 
 /* dark mode */
-
 html.dark-mode .book-card {
   background: var(--cor-cinza);
   box-shadow: 0 15px 50px #000000;
@@ -503,18 +460,9 @@ html.dark-mode .book-title {
 }
 
 html.dark-mode .book-author {
-  color: var(--cor-cinza-claro);
+  color: #666;
 }
 
-html.dark-mode .book-price {
-  color: var(--cor-branca);
-}
-
-html.dark-mode .book-category {
-  color: var(--cor-branca);
-}
-
-html.dark-mode .book-format {
-  color: var(--cor-azul-turquesa);
-  background-color: var(--cor-cinza-claro);
+html.dark-mode .book-year {
+  color: var(--cor-branco-claro);
 }

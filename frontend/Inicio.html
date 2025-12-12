@@ -23,8 +23,8 @@
   <nav>
     <a href="./catalogo.html">Catálogo</a>
     <a href="./favoritos.html">Favoritos</a>
-    <a href="./reservas.html">Minhas Reservas</a> <a href="./Admin.html" id="btnAdminPanel"
-      style="display: none; color: #ff4757; font-weight: bold;">Painel Admin</a>
+    <a href="./reservas.html">Minhas Reservas</a>
+    <a href="./Admin.html" id="btnAdminPanel" style="display: none; color: #ff4757; font-weight: bold;">Painel Admin</a>
     <a href="./login.html" id="btnAuth" style="text-decoration: none; color: #4a67df; font-weight: bold;">Login</a>
   </nav>
 
@@ -59,42 +59,55 @@
     </div>
   </section>
 
-<script type="module">
+  <footer class="footer">
+    <div class="footer-content">
+      <p class="footer-text">© 2024 BiblioTec - Todos os direitos reservados</p>
+      <div class="footer-links">
+        <a href="#">Sobre</a>
+        <a href="#">Termos de Uso</a>
+        <a href="#">Privacidade</a>
+        <a href="#">Contato</a>
+      </div>
+      <p class="footer-text">Feito com 💙 para os amantes de livros</p>
+    </div>
+  </footer>
+
+  <script type="module">
     import { criarCarrossel, verificarEstadoLogin } from "./JS/Estrutura.js";
     import { initDarkMode } from "./JS/darkMode.js";
 
     initDarkMode();
-    verificarEstadoLogin(); 
+    verificarEstadoLogin();
 
     // --- CARROSSEL 1: MAIS VENDIDOS ---
     // Lógica: Mostrar livros de Fantasia, Romance ou os primeiros 10 livros do banco
     criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos", (livro) => {
-        // Normaliza o texto para evitar erros de acentuação
-        const genero = livro.genero ? livro.genero.toLowerCase() : "";
-        const id = Number(livro.id);
-        
-        // Regra: Gêneros populares OU IDs antigos (clássicos)
-        return genero.includes('fantasia') || 
-               genero.includes('romance') || 
-               genero.includes('infantil') ||
-               id <= 5; 
+      // Normaliza o texto para evitar erros de acentuação
+      const genero = livro.genero ? livro.genero.toLowerCase() : "";
+      const id = Number(livro.id);
+
+      // Regra: Gêneros populares OU IDs antigos (clássicos)
+      return genero.includes('fantasia') ||
+        genero.includes('romance') ||
+        genero.includes('infantil') ||
+        id <= 5;
     });
 
     // --- CARROSSEL 2: OFERTAS ---
     // Lógica: Mostrar livros de Terror, Suspense ou E-books (geralmente mais baratos)
     criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas", (livro) => {
-        const genero = livro.genero ? livro.genero.toLowerCase() : "";
-        const formato = livro.formato ? livro.formato.toLowerCase() : "";
-        
-        // Regra: Gêneros de nicho OU E-books
-        return genero.includes('terror') || 
-               genero.includes('suspense') || 
-               genero.includes('policial') ||
-               formato === 'e-book';
+      const genero = livro.genero ? livro.genero.toLowerCase() : "";
+      const formato = livro.formato ? livro.formato.toLowerCase() : "";
+
+      // Regra: Gêneros de nicho OU E-books
+      return genero.includes('terror') ||
+        genero.includes('suspense') ||
+        genero.includes('policial') ||
+        formato === 'e-book';
     });
-</script>
+  </script>
   <script>
-   
+
     (function () {
       const darkModeBtn = document.getElementById('dark-mode-btn');
       const htmlElement = document.documentElement;
