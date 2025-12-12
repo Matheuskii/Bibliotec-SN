@@ -1,94 +1,149 @@
-document.addEventListener("DOMContentLoaded", () => {
-    carregarMinhasReservas();
-});
+const API_URL = "http://localhost:3000";
 
-const container = document.getElementById("gridReservas");
-const usuarioId = localStorage.getItem("usuarioId");
-
-async function carregarMinhasReservas() {
-    if (!usuarioId) {
-        container.innerHTML = `
-            <div class="empty-state">
-                <p>Faça login para ver suas reservas.</p>
-                <a href="Login.html" style="color:var(--azul-turquesa)">Ir para Login</a>
-            </div>`;
-        return;
-    }
-
+// Função para carregar reservas
+window.carregarReservas = async function() {
+    console.log("Carregando todas as reservas...");
+    
     try {
-        // Chama a NOVA rota com /usuario/ID
-        const response = await fetch(`http://localhost:3000/reservas/usuario/${usuarioId}`);
-        const reservas = await response.json();
+        let token = localStorage.getItem("userToken");
 
-        container.innerHTML = "";
-
-        if (!reservas || reservas.length === 0) {
-            container.innerHTML = `
-                <div class="empty-state">
-                    <h3>Nenhuma reserva encontrada 📅</h3>
-                    <p>Você ainda não reservou nenhum livro.</p>
-                </div>`;
+        // Limpar token
+        if (token) {
+            token = token.replace(/"/g, ''); 
+        }
+        
+        if (!token) {
+            console.error("Nenhum token encontrado");
+            window.location.href = "./Login.html";
             return;
         }
 
-        reservas.forEach(reserva => {
-            const card = document.createElement("div");
-            card.className = "card-reserva";
+        console.log("Token Limpo:", token);
 
-            // Formatar datas para PT-BR (DD/MM/AAAA)
-            const dataRetirada = new Date(reserva.data_retirada).toLocaleDateString('pt-BR');
-            // Ajuste para data de devolução (às vezes vem com timezone, new Date resolve)
-            const dataDevolucao = new Date(reserva.data_devolucao).toLocaleDateString('pt-BR');
+        const response = await fetch(`${API_URL}/reservas`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        // Tratar erros de autenticação
+        if (response.status === 401 || response.status === 403) {
+            console.error("Token inválido ou expirado");
+            localStorage.removeItem("userToken");
+            window.location.href = "./Login.html";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Dados recebidos:", data);
+        
+        // Obter a lista de reservas
+        const lista = data.dados ? data.dados : data;
+        
+        // Acessar o tbody após o DOM estar carregado
+        const tbody = document.getElementById("gridReservas");
+        const loading = document.getElementById("loading");
+        
+        console.log("tbody encontrado:", tbody);
+        
+        if (!tbody) {
+            console.error("Elemento tbody não encontrado!");
+            return;
+        }
+
+        // Limpar conteúdo anterior
+        tbody.innerHTML = '';
+        
+        if (!Array.isArray(lista) || lista.length === 0) {
+            loading.innerHTML = "<p>Nenhuma reserva encontrada.</p>";
+            return;
+        }
+
+        // Ocultar mensagem de carregamento
+        loading.style.display = 'none';
+
+        // Adicionar cada reserva na tabela
+        lista.forEach(reserva => {
+            const tr = document.createElement("tr");
             
-            const capa = reserva.caminho_capa || './images/capa-default.jpg';
-
-            card.innerHTML = `
-                <img src="${capa}" alt="Capa" class="reserva-img">
+            // Formatar datas
+            const retirada = reserva.data_retirada 
+                ? new Date(reserva.data_retirada).toLocaleDateString('pt-BR')
+                : 'N/A';
                 
-                <div class="reserva-info">
-                    <div class="reserva-titulo">${reserva.titulo}</div>
-                    <div class="reserva-autor">${reserva.autor}</div>
-                    
-                    <div class="reserva-datas">
-                        <div class="data-item">
-                            <strong>Retirada</strong>
-                            <span>${dataRetirada}</span>
-                        </div>
-                        <div class="data-item">
-                            <strong>Devolução</strong>
-                            <span>${dataDevolucao}</span>
-                        </div>
-                    </div>
+            const devolucao = reserva.data_devolucao 
+                ? new Date(reserva.data_devolucao).toLocaleDateString('pt-BR')
+                : 'N/A';
 
-                    <button class="btn-cancelar" onclick="cancelarReserva(${reserva.reserva_id})">
-                        Cancelar Reserva
+            tr.innerHTML = `
+                <td>${reserva.id || 'N/A'}</td>
+                <td>${reserva.usuario_nome || 'ID: ' + (reserva.usuario_id || 'N/A')}</td>
+                <td>${reserva.livro_titulo || 'ID: ' + (reserva.livro_id || 'N/A')}</td>
+                <td>${retirada}</td>
+                <td>${devolucao}</td>
+                <td>${reserva.confirmado_email ? '✅' : '⏳'}</td>
+                <td>
+                    <button onclick="cancelarReserva(${reserva.id})" class="btn-cancelar">
+                        Cancelar
                     </button>
-                </div>
+                </td>
             `;
-            container.appendChild(card);
+            tbody.appendChild(tr);
         });
 
     } catch (error) {
-        console.error("Erro:", error);
-        container.innerHTML = "<p>Erro ao carregar reservas.</p>";
+        console.error("Erro ao carregar reservas", error);
+        const loading = document.getElementById("loading");
+        if (loading) {
+            loading.innerHTML = `<p style="color: red;">Erro ao carregar reservas: ${error.message}</p>`;
+        }
     }
 }
 
+// Função global para cancelar reserva
 window.cancelarReserva = async function(id) {
-    if(!confirm("Tem certeza que deseja cancelar esta reserva?")) return;
+    if (!confirm("Tem certeza que deseja cancelar esta reserva?")) return;
+
+    let token = localStorage.getItem("userToken");
+    if (token) {
+        token = token.replace(/"/g, '');
+    }
 
     try {
-        const response = await fetch(`http://localhost:3000/reservas/${id}`, {
-            method: "DELETE"
+        const response = await fetch(`${API_URL}/reservas/${id}`, {
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
 
         if (response.ok) {
-            alert("Reserva cancelada!");
-            carregarMinhasReservas(); // Atualiza a lista
+            alert("Reserva cancelada com sucesso!");
+            carregarReservas(); // Recarrega a lista
         } else {
-            alert("Erro ao cancelar.");
+            alert("Erro ao cancelar reserva.");
         }
     } catch (error) {
+        console.error("Erro:", error);
         alert("Erro de conexão.");
     }
 };
+
+// Aguardar o DOM carregar completamente
+document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOM carregado, iniciando carregamento de reservas...");
+    carregarReservas();
+});
+
+// Fallback caso o script seja carregado após o DOM
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', carregarReservas);
+} else {
+    carregarReservas();
+}

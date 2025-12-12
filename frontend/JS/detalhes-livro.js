@@ -1,12 +1,8 @@
 class DetalhesLivro {
     constructor() {
-        this.livroId = this.obterIdDaURL();
+        // Pega o ID da URL (ex: detalhes-livro.html?id=1)
+        this.livroId = new URLSearchParams(window.location.search).get('id');
         this.init();
-    }
-
-    obterIdDaURL() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('id');
     }
 
     async init() {
@@ -14,7 +10,6 @@ class DetalhesLivro {
             this.mostrarErro('Livro não encontrado');
             return;
         }
-
         await this.carregarLivro();
     }
 
@@ -31,19 +26,21 @@ class DetalhesLivro {
 
         } catch (error) {
             console.error('Erro ao carregar livro:', error);
-            this.usarDadosExemplo();
+            this.mostrarErro('Erro ao carregar informações do livro.');
         }
     }
 
     renderizarLivro(livro) {
         const container = document.getElementById('detalhes-container');
-
-
-        const statusNumber = Number(livro.ativo);
-        const estaDisponivel = (statusNumber === 1);
-
+    
+        // Verifica se o livro está ativo (disponível)
+        // O banco retorna 1 ou 0. Convertemos para booleano.
+        const estaDisponivel = (livro.ativo === 1);
         const statusClass = estaDisponivel ? 'disponivel' : 'indisponivel';
         const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
+
+        // Capa padrão caso não tenha
+        const capa = livro.caminho_capa || './images/capa-default.jpg';
 
         container.innerHTML = `
             <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
@@ -51,7 +48,7 @@ class DetalhesLivro {
             <div class="background-detalhes">
                 <div class="background-livro">
                     <div class="capa-container">
-                        <img src="${livro.caminho_capa || './images/capa-default.jpg'}"
+                        <img src="${capa}"
                              alt="Capa de ${livro.titulo}"
                              onerror="this.src='./images/capa-default.jpg'">
                     </div>
@@ -63,23 +60,19 @@ class DetalhesLivro {
                         <div class="meta-info-grid">
                             <div class="meta-item">
                                 <strong>ISBN</strong>
-                                <span>${livro.isbn || 'Não informado'}</span>
+                                <span>${livro.isbn || 'N/A'}</span>
                             </div>
                             <div class="meta-item">
                                 <strong>Editora</strong>
-                                <span>${livro.editora || 'Não informada'}</span>
+                                <span>${livro.editora || 'N/A'}</span>
                             </div>
                             <div class="meta-item">
-                                <strong>Ano de Publicação</strong>
+                                <strong>Ano</strong>
                                 <span>${livro.ano_publicacao || 'N/A'}</span>
                             </div>
                             <div class="meta-item">
                                 <strong>Gênero</strong>
-                                <span>${livro.genero || 'Não informado'}</span>
-                            </div>
-                            <div class="meta-item">
-                                <strong>Formato</strong>
-                                <span>${livro.formato || 'N/A'}</span>
+                                <span>${livro.genero || 'N/A'}</span>
                             </div>
                             <div class="meta-item">
                                 <strong>Status</strong>
@@ -90,16 +83,12 @@ class DetalhesLivro {
                         </div>
 
                         <div class="acoes-livro">
-
-                                <button class="btn-acao btn-reservar">
-
-                                <button class="btn-acao btn-emprestar" onclick="reservarLivro(${livro.id})">
-                                    📚 Emprestar Livro
-                                </button>
-
+                            <button class="btn-acao btn-reservar" onclick="reservarLivro(${livro.id})">
+                                📅 Reservar Livro
+                            </button>
 
                             <button class="btn-acao btn-favorito" onclick="adicionarFavoritos(${livro.id})">
-                                (👉ﾟヮﾟ)👉 Adicionar aos Favoritos
+                                ❤️ Adicionar aos Favoritos
                             </button>
                         </div>
                     </div>
@@ -108,135 +97,242 @@ class DetalhesLivro {
                 <div class="livro-body">
                     <div class="sinopse">
                         <h2>Sinopse</h2>
-                        <p>${livro.sinopse || 'Sinopse não disponível para este livro.'}</p>
+                        <p>${livro.sinopse || 'Sem descrição disponível.'}</p>
                     </div>
-
-                    ${livro.observacoes ? `
-                        <div class="observacoes">
-                            <h2>Observações</h2>
-                            <p>${livro.observacoes}</p>
-                        </div>
-                    ` : ''}
                 </div>
             </div>
         `;
 
         // Atualiza título da aba do navegador
-        document.title = `${livro.titulo} - ${livro.autor} | BiblioTec`;
-    }
+        document.title = `${livro.titulo} | BiblioTec`;
 
-    usarDadosExemplo() {
-        const livroExemplo = {
-            id: this.livroId,
-            titulo: "Dom Casmurro",
-            autor: "Machado de Assis",
-            editora: "Editora Garnier",
-            ano_publicacao: "1899",
-            genero: "Romance",
-            isbn: "9788525404640",
-            numero_paginas: "256",
-            ativo: 1,
-            sinopse: "Dom Casmurro é uma das grandes obras...",
-            caminho_capa: "./images/capa-default.jpg"
-        };
-        this.renderizarLivro(livroExemplo);
+        // === IMPORTANTE: Carrega as avaliações depois de desenhar o livro ===
+        if(window.carregarAvaliacoesdoLivro) {
+            window.carregarAvaliacoesdoLivro();
+        }
     }
 
     mostrarErro(mensagem) {
         const container = document.getElementById('detalhes-container');
-        container.innerHTML = `
-            <div class="erro">
-                <h2>Ops! Algo deu errado</h2>
-                <p>${mensagem}</p>
-                <a href="./Inicio.html" class="btn-voltar">Voltar para a página inicial</a>
-            </div>
-        `;
+        container.innerHTML = `<div class="erro"><h2>Ops!</h2><p>${mensagem}</p><a href="Inicio.html" class="btn-voltar">Voltar</a></div>`;
     }
 }
 
 // ==========================================
-// FUNÇÕES GLOBAIS
+// FUNÇÕES GLOBAIS (AVALIAÇÕES, RESERVAS, FAVORITOS)
 // ==========================================
 
-window.emprestarLivro = function(id) {
-    alert(`Funcionalidade de empréstimo (Livro ID: ${id}) em desenvolvimento!`);
+// --- 1. AVALIAÇÕES ---
+window.carregarAvaliacoesdoLivro = async function() {
+    const params = new URLSearchParams(window.location.search);
+    const idLivro = params.get('id');
+
+    // Elementos do DOM (Verifica se existem antes de usar)
+    const container = document.getElementById('lista-avaliacoes');
+    const elNota = document.getElementById('valor-media-grande');
+    const elTotal = document.getElementById('total-votos');
+    const elEstrelas = document.getElementById('estrelas-media');
+
+    try {
+        const response = await fetch(`http://localhost:3000/avaliacoes/livro/${idLivro}`);
+
+        if (!response.ok) {
+            console.warn("Avaliações indisponíveis.");
+            if(container) container.innerHTML = "<p>Comentários indisponíveis no momento.</p>";
+            return;
+        }
+
+        const dados = await response.json();
+
+        // Atualiza Painel de Média
+        if(dados.media !== undefined && elNota) {
+            const mediaFormatada = parseFloat(dados.media).toFixed(1);
+            elNota.textContent = mediaFormatada;
+            if(elTotal) elTotal.textContent = `Baseado em ${dados.total_avaliacoes} avaliações`;
+
+            // Pinta estrelas da média
+            if(elEstrelas) {
+                const percentual = (mediaFormatada / 5) * 100;
+                elEstrelas.style.background = `linear-gradient(90deg, #ffd700 ${percentual}%, #ccc ${percentual}%)`;
+                elEstrelas.style.webkitBackgroundClip = "text";
+                elEstrelas.style.webkitTextFillColor = "transparent";
+            }
+        }
+
+        // Atualiza Lista de Comentários
+        if(container && dados.comentarios) {
+            container.innerHTML = "";
+
+            if (dados.comentarios.length === 0) {
+                container.innerHTML = "<p>Seja o primeiro a avaliar! ⭐</p>";
+                return;
+            }
+
+            dados.comentarios.forEach(review => {
+                const estrelas = '★'.repeat(Math.round(review.nota)) + '☆'.repeat(5 - Math.round(review.nota));
+                const data = new Date(review.data_avaliacao).toLocaleDateString('pt-BR');
+
+                const div = document.createElement('div');
+                div.className = 'review-item';
+                div.innerHTML = `
+                    <div class="review-header">
+                        <span class="review-autor">${review.usuario_nome}</span>
+                        <span class="review-nota" style="color: #ffd700">${estrelas}</span>
+                    </div>
+                    <p class="review-texto">${review.comentario}</p>
+                    <span class="review-data">${data}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+    } catch (erro) {
+        console.error("Erro avaliações:", erro);
+    }
 }
+
+window.selecionarEstrela = function(nota) {
+    document.getElementById('notaInput').value = nota;
+    document.querySelectorAll('.star-icon').forEach((s, i) => {
+        if (i < nota) s.classList.add('active');
+        else s.classList.remove('active');
+    });
+}
+
+window.toggleFormulario = function() {
+    const form = document.getElementById('form-avaliacao-box');
+    const token = localStorage.getItem("userToken");
+
+    if (!token) {
+        alert("Faça login para escrever uma avaliação!");
+        window.location.href = "Login.html";
+        return;
+    }
+
+    form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+}
+
+window.enviarAvaliacao = async function() {
+    const idLivro = new URLSearchParams(window.location.search).get('id');
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem('userToken');
+    const nota = document.getElementById('notaInput').value;
+    const comentario = document.getElementById('comentarioInput').value;
+
+    if (nota == "0") {
+        alert("Por favor, selecione as estrelas!");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:3000/avaliacoes", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ usuario_id: usuarioId, livro_id: idLivro, nota, comentario })
+        });
+
+        if (response.ok) {
+            alert("Avaliação enviada!");
+            location.reload();
+        } else {
+            alert("Erro ao enviar avaliação.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro de conexão.");
+    }
+}
+
+// --- 2. RESERVAS ---
+let livroIdParaReserva = null;
 
 window.reservarLivro = function(id) {
-    async function processarReserva(id) {
-        try {
-            const input = prompt('Digite a data de devolução (YYYY-MM-DD):');
-            if (!input || isNaN(new Date(input).getTime())) {
-                alert('Data inválida. Reserva cancelada.');
-                return;
-            }
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem("userToken");
 
-            const usuarioId = localStorage.getItem('usuarioId');
-            if (!usuarioId) {
-                alert("Você precisa fazer login para reservar.");
-                window.location.href = "Login.html";
-                return;
-            }
-
-            const livroId = id;
-            const data_retirada = new Date().toISOString().split('T')[0];
-            const data_devolucao = input;
-
-            const response = await fetch(`http://localhost:3000/reservas`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroId, data_retirada, data_devolucao })
-            });
-
-            const dados = await response.json();
-
-            if (!response.ok) {
-                throw new Error(dados.mensagem || 'Erro ao reservar o livro');
-            }
-            alert('Livro reservado com sucesso!');
-        } catch (error) {
-            console.error('Erro:', error);
-            alert(error.message);
-        }
+    if (!usuarioId || !token) {
+        alert("Você precisa fazer login para reservar.");
+        window.location.href = "Login.html";
+        return;
     }
-    processarReserva(id);
+
+    livroIdParaReserva = id;
+
+    const inputData = document.getElementById("dataDevolucao");
+    const amanha = new Date();
+    amanha.setDate(amanha.getDate() + 1);
+    const dataMinima = amanha.toISOString().split("T")[0];
+
+    inputData.min = dataMinima;
+    inputData.value = dataMinima;
+    document.getElementById("modalReserva").style.display = "flex";
 }
 
-window.adicionarFavoritos = function(id) {
-    async function processarFavorito(id) {
-        try {
-            const usuarioId = localStorage.getItem('usuarioId');
-            if (!usuarioId) {
-                alert('Você precisa estar logado para adicionar favoritos.');
-                window.location.href = "Login.html";
-                return;
-            }
-
-            const response = await fetch(`http://localhost:3000/favoritos`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ usuario_id: usuarioId, livro_id: id })
-            });
-
-            const dados = await response.json();
-
-            if (!response.ok) {
-                if(response.status === 409) {
-                    alert('Este livro já está nos seus favoritos!');
-                    return;
-                }
-                throw new Error(dados.mensagem || 'Erro ao adicionar aos favoritos');
-            }
-            alert('Livro adicionado aos favoritos com sucesso!');
-        } catch (error) {
-            console.error('Erro:', error);
-            alert(error.message);
-        }
-    }
-    processarFavorito(id);
+window.fecharModalReserva = function() {
+    document.getElementById("modalReserva").style.display = "none";
 }
 
-// Inicializar quando a página carregar
+window.confirmarReserva = async function() {
+    const dataDevolucao = document.getElementById("dataDevolucao").value;
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem("userToken");
+    const dataRetirada = new Date().toISOString().split('T')[0];
+
+    try {
+        const response = await fetch(`http://localhost:3000/reservas`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroIdParaReserva, data_retirada: dataRetirada, data_devolucao: dataDevolucao })
+        });
+
+        if (!response.ok) throw new Error('Erro ao reservar');
+
+        alert('🎉 Livro reservado com sucesso!');
+        fecharModalReserva();
+        location.reload();
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// --- 3. FAVORITOS ---
+window.adicionarFavoritos = async function(id) {
+    const usuarioId = localStorage.getItem('usuarioId');
+    const token = localStorage.getItem("userToken");
+
+    if (!usuarioId || !token) {
+        alert('Faça login para adicionar favoritos.');
+        window.location.href = "Login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/favoritos`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ usuario_id: usuarioId, livro_id: id })
+        });
+
+        if (response.status === 409) return alert('Livro já está nos favoritos!');
+        if (!response.ok) throw new Error('Erro ao favoritar');
+
+        alert('❤️ Adicionado aos favoritos!');
+
+    } catch (error) {
+        alert(error.message);
+    }
+}
+
+// Inicializar
 document.addEventListener('DOMContentLoaded', () => {
     new DetalhesLivro();
 });
