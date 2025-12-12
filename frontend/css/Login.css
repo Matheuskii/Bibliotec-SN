@@ -181,6 +181,7 @@ html.dark-mode .dark-mode-toggle {
 html.dark-mode .input-field {
   background-image: linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza-claro)),
     linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  color: var(--cor-branco-claro);
 }
 
 html.dark-mode .input-field::placeholder {
@@ -192,6 +193,7 @@ html.dark-mode .input-field::placeholder {
 html.dark-mode .input-field:hover {
   background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
     linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  color: var(--cor-branco-claro);
 }
 
 html.dark-mode .input-field:focus {
@@ -200,6 +202,7 @@ html.dark-mode .input-field:focus {
   background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
     linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
   transition: 1s;
+  color: var(--cor-branco-claro);
 }
 
 html.dark-mode .input-field:focus::placeholder {

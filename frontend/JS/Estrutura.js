@@ -219,7 +219,7 @@ export function criarCardLivroClicavel(livro) {
     const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
     
     card.innerHTML = `
-        <span class="book-status ${statusClass}">${statusText}</span>
+       
         <div class="book-cover">
             <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}" 
                  alt="${livro.titulo}"

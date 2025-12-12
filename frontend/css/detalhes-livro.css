@@ -411,7 +411,7 @@ html.dark-mode .sinopse p {
     text-decoration: none;
     font-size: 1rem;
     padding: 10px 20px;
-    border-radius: 8px;
+    border-radius: 15px;
     background: var(--cor-branca);
     transition: all 0.3s ease;
     border: 6px solid #26333d1b;

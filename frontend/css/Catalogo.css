@@ -59,25 +59,22 @@ body {
   line-height: 2;
 }
 
-header.top-header {
-  display: flex;
-  padding: 0px 10px;
-  margin-top: 5px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
-  background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
-  background-size: 400% 400%;
-  animation: lavaFlow 20s infinite;
-}
-
-header.abaixo-header {
-  background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
-  background-size: 400% 400%;
-  animation: lavaFlow 20s infinite;
-  padding: 0px 0px 20px;
-  text-align: center;
-  border-bottom-left-radius: 30px;
-  border-bottom-right-radius: 30px;
+@keyframes lavaFlowDark {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 75%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 25%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 @keyframes lavaFlow {
@@ -102,6 +99,27 @@ header.abaixo-header {
   }
 }
 
+header.top-header {
+  display: flex;
+  padding: 0px 10px;
+  margin-top: 5px;
+  border-top-left-radius: 30px;
+  border-top-right-radius: 30px;
+  background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-size: 400% 400%;
+  animation: lavaFlow 20s infinite;
+}
+
+header.abaixo-header {
+  background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-size: 400% 400%;
+  animation: lavaFlow 20s infinite;
+  padding: 0px 0px 20px;
+  text-align: center;
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+
 .dark-mode-toggle {
   margin-left: auto;
   background: transparent;
@@ -123,13 +141,13 @@ header.abaixo-header {
 html.dark-mode body {
   background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
   background-size: 400% 400%;
-  animation: lavaFlow 20s infinite;
+  animation: lavaFlowDark 20s infinite;
 }
 
 html.dark-mode header.top-header {
   background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
   background-size: 400% 400%;
-  animation: lavaFlow 20s infinite;
+  animation: lavaFlowDark 20s infinite;
   margin-top: 0px;
   border-top-left-radius: 0px;
   border-top-right-radius: 0px;
@@ -138,7 +156,7 @@ html.dark-mode header.top-header {
 html.dark-mode header.abaixo-header {
   background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
   background-size: 400% 400%;
-  animation: lavaFlow 20s infinite;
+  animation: lavaFlowDark 20s infinite;
   color: var(--cor-branca);
 }
 

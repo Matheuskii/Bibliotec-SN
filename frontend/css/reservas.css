@@ -100,7 +100,7 @@ html.dark-mode .tabela-reservas {
     color: var(--cor-branca);
 }
 
-.tabela-reservas thead {
+html.dark-mode .tabela-reservas thead {
     background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
     background-size: 400% 400%;
     animation: lavaFlow 10s infinite;
