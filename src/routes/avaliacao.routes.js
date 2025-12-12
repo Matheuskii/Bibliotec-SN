@@ -1,15 +1,14 @@
 import express from "express";
-import { listarAvaliacoesPorLivro, postarAvaliacoes } from "../controllers/avaliacoes.controller.js";
-import authMiddleware from "../middlewares/auth.js"; 
+import { postarAvaliacoes, listarAvaliacoesPorLivro } from "../controllers/avaliacoes.controller.js";
 
 const router = express.Router();
 
-// --- ROTA PÚBLICA (SEM authMiddleware) ---
-// Todo mundo pode ler, mesmo sem estar logado
-router.get("/livro/:livro_id", listarAvaliacoesPorLivro);
+// Rota para pegar avaliações de um livro específico
+// Ex: GET http://localhost:3000/avaliacoes/livro/5
+router.get("/livro/:id", listarAvaliacoesPorLivro);
 
-// --- ROTA PROTEGIDA (COM authMiddleware) ---
-// Só quem tem token pode postar
-router.post("/", authMiddleware, postarAvaliacoes);
+// Rota para postar nova avaliação
+// Ex: POST http://localhost:3000/avaliacoes
+router.post("/", postarAvaliacoes);
 
 export default router;

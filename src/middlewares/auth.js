@@ -3,10 +3,8 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-// Tenta pegar do .env
-const JWT_SECRET = process.env.JWT_SECRET_KEY;
+const JWT_SECRET = process.env.JWT_SECRET_KEY || 'sua_chave_secreta_aqui';
 
-// === DEBUG DE SEGURANÇA ===
 if (!JWT_SECRET) {
     console.error("🔴 ERRO GRAVE: A variável JWT_SECRET_KEY não foi encontrada no .env!");
 } else {
@@ -15,9 +13,7 @@ if (!JWT_SECRET) {
 
 const JWT_EXPIRATION = '24h';
 
-// 1. Middleware de Autenticação
 export function authMiddleware(req, res, next) {
-    // Libera o "Preflight" do navegador (OPTIONS)
     if (req.method === 'OPTIONS') {
         return next();
     }
@@ -30,6 +26,7 @@ export function authMiddleware(req, res, next) {
 
     const token = authHeader.split(' ')[1];
 
+
     try {
         const decodificado = jwt.verify(token, JWT_SECRET);
         req.usuario = decodificado;
@@ -39,7 +36,6 @@ export function authMiddleware(req, res, next) {
     }
 }
 
-// 2. Middleware de Admin
 export function apenasAdmin(req, res, next) {
     if (req.usuario && req.usuario.perfil === 'Admin') {
         next();

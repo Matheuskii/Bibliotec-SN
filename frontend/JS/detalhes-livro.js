@@ -32,7 +32,7 @@ class DetalhesLivro {
 
     renderizarLivro(livro) {
         const container = document.getElementById('detalhes-container');
-    
+
         // Verifica se o livro está ativo (disponível)
         // O banco retorna 1 ou 0. Convertemos para booleano.
         const estaDisponivel = (livro.ativo === 1);
@@ -276,8 +276,22 @@ window.fecharModalReserva = function() {
 
 window.confirmarReserva = async function() {
     const dataDevolucao = document.getElementById("dataDevolucao").value;
+
+    if (!dataDevolucao) {
+        alert("Por favor, selecione uma data.");
+        return;
+    }
+
     const usuarioId = localStorage.getItem('usuarioId');
     const token = localStorage.getItem("userToken");
+
+    // Validação de segurança
+    if (!usuarioId || !token) {
+        alert("Sessão expirada. Faça login novamente.");
+        window.location.href = "Login.html";
+        return;
+    }
+
     const dataRetirada = new Date().toISOString().split('T')[0];
 
     try {
@@ -287,20 +301,46 @@ window.confirmarReserva = async function() {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             },
-            body: JSON.stringify({ usuario_id: usuarioId, livro_id: livroIdParaReserva, data_retirada: dataRetirada, data_devolucao: dataDevolucao })
+            body: JSON.stringify({
+                usuario_id: usuarioId,
+                livro_id: livroIdParaReserva,
+                data_retirada: dataRetirada,
+                data_devolucao: dataDevolucao
+            })
         });
 
-        if (!response.ok) throw new Error('Erro ao reservar');
+        const dados = await response.json();
+
+        // --- AQUI ESTÁ A MÁGICA PARA TRATAR O 409 ---
+        if (!response.ok) {
+
+            // Se for Conflito de Datas (409)
+            if (response.status === 409) {
+                alert("Ja existe uma reserva para este livro no período solicitado.");
+                // A mensagem virá do backend: "Já existe uma reserva..."
+                return;
+            }
+
+            // Se for erro de Token (401/403)
+            if (response.status === 401 || response.status === 403) {
+                alert("🔒 Você precisa estar logado.");
+                window.location.href = "Login.html";
+                return;
+            }
+
+            throw new Error(dados.mensagem || 'Erro desconhecido');
+        }
+        // -------------------------------------------
 
         alert('🎉 Livro reservado com sucesso!');
         fecharModalReserva();
         location.reload();
 
     } catch (error) {
+        console.error('Erro:', error);
         alert(error.message);
     }
 }
-
 // --- 3. FAVORITOS ---
 window.adicionarFavoritos = async function(id) {
     const usuarioId = localStorage.getItem('usuarioId');

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -12,6 +13,7 @@
         }
     </script>
 </head>
+
 <body>
     <header>
         <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
@@ -19,11 +21,11 @@
         <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
     </header>
 
-    <nav style="display: flex; justify-content: center; gap: 20px; padding: 15px; background: #f4f4f4; margin-bottom: 20px;">
-        <a href="./Inicio.html" style="text-decoration: none; color: #333; font-weight: bold;">Início</a>
-        <a href="./Catalogo.html" style="text-decoration: none; color: #333; font-weight: bold;">Catálogo</a>
-        <a href="./favoritos.html" style="text-decoration: none; color: #333; font-weight: bold;">Favoritos</a>
-        <a href="./reservas.html" style="text-decoration: none; color: #333; font-weight: bold;">Minhas Reservas</a>
+    <nav>
+        <a href="./Inicio.html">Início</a>
+        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./favoritos.html">Favoritos</a>
+        <a href="./reservas.html">Minhas Reservas</a>
         <a href="./Login.html" id="btnAuth" style="text-decoration: none; color: #4a67df; font-weight: bold;">Login</a>
     </nav>
 
@@ -35,7 +37,7 @@
         <div class="modal-content">
             <h3>📅 Realizar Reserva</h3>
             <p>Até quando você ficará com o livro?</p>
-            
+
             <div class="form-group">
                 <label for="dataDevolucao">Data de Devolução:</label>
                 <input type="date" id="dataDevolucao" class="input-data-reserva">
@@ -51,7 +53,7 @@
     <div class="separador-secao"></div>
 
     <section class="comunidade-container">
-        
+
         <div class="painel-media">
             <h3>Opinião dos Leitores</h3>
             <div class="media-display">
@@ -64,7 +66,7 @@
         </div>
 
         <div class="painel-comentarios">
-            
+
             <button id="btn-escrever-review" class="btn-toggle-form" onclick="toggleFormulario()">
                 ✍️ Escrever uma avaliação
             </button>
@@ -84,12 +86,12 @@
             </div>
 
             <div id="lista-avaliacoes" class="lista-reviews">
-                </div>
+            </div>
         </div>
     </section>
 
     <script src="./JS/detalhes-livro.js" defer></script>
-    
+
     <script type="module">
         // Importa apenas a verificação de login para atualizar o botão do menu
         import { verificarEstadoLogin } from "./JS/Estrutura.js";
@@ -100,11 +102,11 @@
         // Lógica do Dark Mode
         const darkModeBtn = document.getElementById('dark-mode-btn');
         const htmlElement = document.documentElement;
-        
+
         if (darkModeBtn) {
-            darkModeBtn.addEventListener('click', function() {
+            darkModeBtn.addEventListener('click', function () {
                 const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-                
+
                 if (isCurrentlyDark) {
                     htmlElement.classList.remove('dark-mode');
                     darkModeBtn.textContent = '🌙';
@@ -118,4 +120,5 @@
         }
     </script>
 </body>
+
 </html>

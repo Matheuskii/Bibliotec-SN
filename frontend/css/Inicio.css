@@ -15,11 +15,12 @@
 /*======================*/
 /* light mode */
 .logo {
-  width: 80px;   
-  height: 80px;
-  object-fit: contain;
-  border: 3px solid var(--cor-branco-claro); 
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
+  box-shadow: 0 10px 7px rgba(0, 0, 0, 0.4);
+  margin: 10px;
+  border: 4px solid var(--cor-branco-claro);
 }
 
 h1 {
@@ -30,6 +31,11 @@ h1 {
 }
 
 /* dark mode */
+html.dark-mode .logo {
+  box-shadow: 0 15px 7px rgba(0, 0, 0, 0.3);
+  border: 5px solid var(--cor-cinza);
+}
+
 html.dark-mode h1 {
   color: var(--cor-branca);
 }
@@ -41,6 +47,28 @@ html.dark-mode h1 {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+@keyframes lavaFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  25% {
+    background-position: 50% 75%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  75% {
+    background-position: 50% 25%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 /* light mode */
@@ -82,6 +110,7 @@ html.dark-mode body {
 
 html.dark-mode header {
   background: var(--cor-cinza);
+  border: 6px solid #31414e55;
 }
 
 html.dark-mode .dark-mode-toggle:hover {
@@ -119,7 +148,9 @@ nav a:hover {
 
 /* dark mode */
 html.dark-mode nav {
-  background: var(--cor-cinza-claro);
+  background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
+  background-size: 400% 400%;
+  animation: lavaFlow 10s infinite;
 }
 
 html.dark-mode nav a {
@@ -129,6 +160,7 @@ html.dark-mode nav a {
 html.dark-mode nav a:hover {
   background: var(--cor-cinza);
   color: var(--cor-azul-turquesa);
+  border: 6px solid #31414e55;
 }
 
 /*===================================*/
@@ -182,7 +214,9 @@ html.dark-mode ::placeholder {
 }
 
 html.dark-mode .search-container {
-  background: var(--cor-cinza-claro);
+  background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
+  background-size: 400% 400%;
+  animation: lavaFlow 10s infinite;
 }
 
 html.dark-mode .search-bar {
@@ -239,13 +273,16 @@ section {
 
 /* dark mode */
 html.dark-mode section {
-  background: var(--cor-cinza-claro);
+  background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
+  background-size: 400% 400%;
+  animation: lavaFlow 10s infinite;
 }
 
 html.dark-mode .section-header {
+  border: 6px solid #31414e55;
   background: var(--cor-cinza);
+
   box-shadow: 0 0 30px var(--cor-cinza);
-  border: 1px solid #2a2a2a;
 }
 
 html.dark-mode .section-header h2 {
@@ -319,7 +356,6 @@ html.dark-mode .arrow-left,
 html.dark-mode .arrow-right {
   background: var(--cor-cinza-claro);
   color: var(--cor-cinza);
-  box-shadow: 0 0 5px var(--cor-branco-claro);
 }
 
 html.dark-mode .arrow-left:hover,
@@ -339,6 +375,11 @@ html.dark-mode .arrow-right:hover {
   background: var(--cor-branca);
   border-radius: 30px;
   margin: 0 50px;
+}
+
+/* dark mode */
+html.dark-mode .books-container {
+  border: 6px solid #31414e55;
 }
 
 /* Overlay de destaque fixo no centro */
@@ -386,9 +427,9 @@ html.dark-mode .arrow-right:hover {
 }
 
 /*
-====================================================================
-EDUARDO
-====================================================================
+============================================================
+>>>>>>>>>>>>>>>>>>>>>    EDUARDO     <<<<<<<<<<<<<<<<<<<<<<<
+============================================================
 */
 
 /* ================================ */
@@ -436,10 +477,10 @@ EDUARDO
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, 
-    var(--cor-verde-agua), 
-    var(--cor-azul-turquesa), 
-    var(--cor-verde-agua));
+  background: linear-gradient(45deg,
+      var(--cor-verde-agua),
+      var(--cor-azul-turquesa),
+      var(--cor-verde-agua));
   border-radius: 30px;
   z-index: -1;
   animation: borderGlow 3s linear infinite;
@@ -450,9 +491,11 @@ EDUARDO
   0% {
     background-position: 0% 50%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -479,9 +522,9 @@ EDUARDO
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, 
-    rgba(47, 214, 203, 0.1) 0%, 
-    rgba(74, 103, 223, 0.1) 100%);
+  background: linear-gradient(135deg,
+      rgba(47, 214, 203, 0.1) 0%,
+      rgba(74, 103, 223, 0.1) 100%);
   opacity: 0;
   transition: opacity 0.3s ease;
   border-radius: 30px;
@@ -632,30 +675,30 @@ EDUARDO
     padding-left: calc(50% - 120px);
     padding-right: calc(50% - 120px);
   }
-  
+
   .book-card {
     width: 260px;
     height: 400px;
   }
-  
+
   .books-container {
     margin: 0 20px;
   }
-  
+
   .section-header {
     margin-left: 20px;
     margin-right: 20px;
     padding: 20px;
   }
-  
+
   .search-container {
     padding: 20px 15% 10px;
   }
-  
+
   .search-bar {
     padding: 15px 40% 15px 15px;
   }
-  
+
   .search-icon {
     right: 18%;
   }
@@ -667,34 +710,34 @@ EDUARDO
     padding-left: calc(50% - 100px);
     padding-right: calc(50% - 100px);
   }
-  
+
   .book-card {
     width: 220px;
     height: 350px;
     padding: 15px;
   }
-  
+
   .book-title {
     font-size: 16px;
   }
-  
+
   .book-author {
     font-size: 12px;
   }
-  
+
   .book-price {
     font-size: 18px;
   }
-  
+
   .section-header h2 {
     font-size: 24px;
   }
-  
+
   nav {
     gap: 10px;
     padding: 15px;
   }
-  
+
   nav a {
     padding: 8px 15px;
     font-size: 16px;
@@ -739,8 +782,8 @@ html.dark-mode .book-card.center:hover {
 
 html.dark-mode .book-cover {
   background: linear-gradient(135deg,
-    var(--cor-azul-turquesa) 0%,
-    var(--cor-verde-agua) 100%);
+      var(--cor-azul-turquesa) 0%,
+      var(--cor-verde-agua) 100%);
 }
 
 html.dark-mode .book-title,
@@ -798,6 +841,7 @@ html.dark-mode .book-card::before {
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -809,12 +853,29 @@ html.dark-mode .book-card::before {
 }
 
 /* Delay para os cards aparecerem em sequência */
-.book-card:nth-child(1) { animation-delay: 0.1s; }
-.book-card:nth-child(2) { animation-delay: 0.2s; }
-.book-card:nth-child(3) { animation-delay: 0.3s; }
-.book-card:nth-child(4) { animation-delay: 0.4s; }
-.book-card:nth-child(5) { animation-delay: 0.5s; }
-.book-card:nth-child(6) { animation-delay: 0.6s; }
+.book-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.book-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.book-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.book-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.book-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.book-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
 
 /* ================================ */
 /* === ESTILOS ADICIONAIS PARA O ESTRUTURA.JS === */
@@ -822,167 +883,175 @@ html.dark-mode .book-card::before {
 
 /* Mensagem quando não há livros */
 .no-books {
-    text-align: center;
-    padding: 40px;
-    font-size: 18px;
-    color: var(--cor-cinza);
-    grid-column: 1 / -1;
-    width: 100%;
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: var(--cor-cinza);
+  grid-column: 1 / -1;
+  width: 100%;
 }
 
 html.dark-mode .no-books {
-    color: var(--cor-branca);
+  color: var(--cor-branca);
 }
 
 /* Badge de ano de publicação */
 .book-year {
-    display: block;
-    font-size: 12px;
-    color: #888;
-    margin-top: 5px;
-    font-style: italic;
+  display: block;
+  font-size: 12px;
+  color: #888;
+  margin-top: 5px;
+  font-style: italic;
 }
 
 html.dark-mode .book-year {
-    color: #aaa;
+  color: #aaa;
 }
 
 /* Melhorias para acessibilidade */
 .book-card:focus {
-    outline: 2px solid var(--cor-azul-turquesa);
-    outline-offset: 4px;
+  outline: 2px solid var(--cor-azul-turquesa);
+  outline-offset: 4px;
 }
 
 /* Loading state para cards */
 .book-card.loading {
-    animation: pulse 1.5s infinite;
+  animation: pulse 1.5s infinite;
 }
 
 @keyframes pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.8; }
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 0.8;
+  }
 }
 
 /* Container para mensagens de erro */
 .error-message {
-    background: #fee;
-    border: 1px solid #fcc;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px;
-    text-align: center;
-    color: #c00;
+  background: #fee;
+  border: 1px solid #fcc;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 20px;
+  text-align: center;
+  color: #c00;
 }
 
 html.dark-mode .error-message {
-    background: #422;
-    border-color: #633;
-    color: #f99;
+  background: #422;
+  border-color: #633;
+  color: #f99;
 }
 
 /* Estilos para o card-link (opção 1) */
 .card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    height: 100%;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  height: 100%;
 }
 
 .card-link:hover {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 /* Responsividade adicional para carrossel */
 @media (max-width: 1024px) {
-    .books-grid {
-        scroll-snap-type: x mandatory;
-    }
-    
-    .book-card {
-        scroll-snap-align: center;
-    }
+  .books-grid {
+    scroll-snap-type: x mandatory;
+  }
+
+  .book-card {
+    scroll-snap-align: center;
+  }
 }
 
 /* Animações de entrada para cards */
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .book-card:nth-child(odd) {
-    animation: slideIn 0.5s ease forwards;
+  animation: slideIn 0.5s ease forwards;
 }
 
 .book-card:nth-child(even) {
-    animation: slideIn 0.5s 0.1s ease forwards;
+  animation: slideIn 0.5s 0.1s ease forwards;
 }
 
 /* Efeito de foco para card ativo */
 .book-card:active {
-    transform: scale(0.97);
-    transition: transform 0.1s;
+  transform: scale(0.97);
+  transition: transform 0.1s;
 }
 
 /* Indicador de interatividade */
 .book-card {
-    position: relative;
+  position: relative;
 }
 
 .book-card::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 30px;
-    pointer-events: none;
-    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 30px;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 /* Melhor contraste para texto no modo escuro */
 html.dark-mode .book-author,
 html.dark-mode .book-year {
-    color: #b0b0b0;
+  color: #b0b0b0;
 }
 
 /* Estilo para preço promocional */
 .book-price.promocional {
-    color: #ff6b6b;
-    font-weight: bold;
-    position: relative;
+  color: #ff6b6b;
+  font-weight: bold;
+  position: relative;
 }
 
 .book-price.promocional::before {
-    content: 'R$ ';
-    font-size: 0.8em;
+  content: 'R$ ';
+  font-size: 0.8em;
 }
 
 /* Container de informações expandido */
 .book-info.expanded {
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 0 0 30px 30px;
-    margin-top: auto;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 30px 30px;
+  margin-top: auto;
 }
 
 /* Status com ícone */
 .book-status::before {
-    content: '●';
-    margin-right: px;
-    font-size: 0.8em;
+  content: '●';
+  margin-right: px;
+  font-size: 0.8em;
 }
 
 .book-status.disponivel::before {
-    color: #2ecc71;
+  color: #2ecc71;
 }
 
 .book-status.indisponivel::before {
-    color: #e74c3c;
+  color: #e74c3c;
 }

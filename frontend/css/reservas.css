@@ -1,12 +1,18 @@
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
 :root {
-    --verde-agua: #2fd6cb;
-    --azul-turquesa: #4a67df;
-    --vermelho-alerta: #ff4757;
-    --texto-cinza: #26333d;
+    --cor-azul-turquesa: #4a67df;
+    --cor-verde-agua: #2fd6cb;
+    --cor-cinza-claro: #31414e;
+    --cor-cinza: #26333d;
+    --cor-branco-claro: #e9f0ef;
+    --cor-branca: #ffffff;
 }
 
 .reservas-wrapper {
-    max-width: 900px; /* Mais estreito para focar na lista */
+    max-width: 900px;
+    /* Mais estreito para focar na lista */
     margin: 0 auto;
     padding: 40px 20px;
     min-height: 60vh;
@@ -32,7 +38,7 @@
     display: flex;
     background: #fff;
     border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     overflow: hidden;
     transition: transform 0.3s;
     border: 1px solid transparent;
@@ -120,11 +126,25 @@
     font-size: 1.2rem;
 }
 
-html.dark-mode .titulo-secao { color: #fff; }
-html.dark-mode .card-reserva { background: #26333d; }
-html.dark-mode .reserva-titulo { color: #fff; }
-html.dark-mode .reserva-autor { color: #ccc; }
-html.dark-mode .reserva-datas { background: #31414e; }
+html.dark-mode .titulo-secao {
+    color: #fff;
+}
+
+html.dark-mode .card-reserva {
+    background: #26333d;
+}
+
+html.dark-mode .reserva-titulo {
+    color: #fff;
+}
+
+html.dark-mode .reserva-autor {
+    color: #ccc;
+}
+
+html.dark-mode .reserva-datas {
+    background: #31414e;
+}
 
 
 
@@ -134,7 +154,7 @@ html.dark-mode .reserva-datas { background: #31414e; }
     border-collapse: collapse;
     margin-top: 20px;
     background-color: white;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }

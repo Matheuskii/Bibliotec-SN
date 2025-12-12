@@ -163,6 +163,8 @@ export async function recuperarSenha(req, res) {
 }
 
 
+
+
 // ============================
 // Login
 // ============================
@@ -171,44 +173,38 @@ export async function loginUsuario(req, res) {
     const { usuario, email, senha } = req.body;
     const identificador = email || usuario;
 
-    // Lembrete CRÍTICO: Este SELECT é o que deve ser reescrito
-    // para buscar a senha HASH e compará-la em JavaScript (com BCrypt).
     const [rows] = await db.execute(
       "SELECT * FROM usuarios WHERE (nome = ? OR email = ?) AND senha = ?",
       [identificador, identificador, senha]
     );
 
-    if (rows.length === 0) {
-      return res.status(401).json({
-        sucesso: false,
-        mensagem: "Credenciais inválidas."
-      });
-    }
+    if (rows.length === 0) {
+      return res.status(401).json({
+        sucesso: false,
+        mensagem: "Credenciais inválidas."
+      });
+    }
 
-    const usuarioLogado = rows[0];
+    const usuarioLogado = rows[0];
 
     delete usuarioLogado.senha;
 
-    const token = gerarToken(usuarioLogado); // OK: Gera o token
+    const token = gerarToken(usuarioLogado);
 
     res.status(200).json({
       sucesso: true,
       mensagem: "Login bem-sucedido!",
       usuario: usuarioLogado,
-      token: token // OK: Retorna o token
+      token: token
     });
 
-    res.status(200).json({
-      sucesso: true,
-      mensagem: "Login bem-sucedido!",
-      usuario: usuarioLogado ,
-      token: token // OK: Retorna o token
-    });
+  } catch (err) {
 
-  } catch (err) {
-    res.status(500).json({
-      mensagem: "Erro ao processar o login.",
-      erro: err.message
-    });
-  }
+    if (!res.headersSent) {
+        res.status(500).json({
+          mensagem: "Erro ao processar o login.",
+          erro: err.message
+        });
+    }
+  }
 }

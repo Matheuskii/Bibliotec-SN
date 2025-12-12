@@ -1,6 +1,13 @@
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
 :root {
-    --vermelho-alerta: #ff4757;
-    --texto-escuro: #26333d;
+    --cor-azul-turquesa: #4a67df;
+    --cor-verde-agua: #2fd6cb;
+    --cor-cinza-claro: #31414e;
+    --cor-cinza: #26333d;
+    --cor-branco-claro: #e9f0ef;
+    --cor-branca: #ffffff;
 }
 
 .favoritos-wrapper {
@@ -65,7 +72,6 @@
     margin-bottom: 5px;
     font-size: 1.1rem;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }

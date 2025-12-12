@@ -39,9 +39,9 @@ if (loginForm) {
         // 1. Salva os dados críticos no navegador
         localStorage.setItem("nomeUsuario", dados.usuario.nome);
         localStorage.setItem("usuarioId", dados.usuario.id);
-        
+
         // [IMPORTANTE] Salva o perfil para controlar acesso ao Admin
-        localStorage.setItem("perfilUsuario", dados.usuario.perfil); 
+        localStorage.setItem("perfilUsuario", dados.usuario.perfil);
         localStorage.setItem("userToken", dados.token);
 
         alert(`Bem-vindo, ${dados.usuario.nome}!`);
@@ -93,7 +93,7 @@ async function cadastrarUsuario() {
     alert("Por favor, insira um email válido.");
     return;
   }
-  
+
   if (!data_nascimento) {
     alert("Por favor, insira sua data de nascimento.");
     return;
@@ -103,7 +103,7 @@ async function cadastrarUsuario() {
   // Nota: O backend espera 'nome_completo' ou 'usuario' dependendo da versão,
   // vamos enviar ambos para garantir.
   const payload = {
-    nome_completo: nome, 
+    nome_completo: nome,
     usuario: nome, // Fallback
     email: email,
     data_nascimento: data_nascimento,

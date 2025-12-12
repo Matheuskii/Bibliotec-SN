@@ -1,8 +1,10 @@
 import { db } from "../config/db.js";
 
+// ============================
+// LISTAR TODAS AS RESERVAS (ADMIN)
+// ============================
 export async function listarReservas(req, res) {
     try {
-        // Query SQL para listar todas as reservas com informações relacionadas
         const query = `
             SELECT
                 r.id,
@@ -31,8 +33,6 @@ export async function listarReservas(req, res) {
             dados: reservas
         });
 
-        // REMOVIDO: finally { db.release() } -> Isso causava o erro!
-
     } catch (erro) {
         console.error('Erro ao listar reservas:', erro);
         return res.status(500).json({
@@ -43,10 +43,14 @@ export async function listarReservas(req, res) {
     }
 }
 
+// ============================
+// CRIAR NOVA RESERVA
+// ============================
 export async function criarReserva(req, res) {
     try {
         const { usuario_id, livro_id, data_retirada, data_devolucao } = req.body;
 
+        // 1. Validação de Campos
         if (!usuario_id || !livro_id || !data_retirada || !data_devolucao) {
             return res.status(400).json({
                 sucesso: false,
@@ -54,75 +58,68 @@ export async function criarReserva(req, res) {
             });
         }
 
-        if (new Date(data_devolucao) <= new Date(data_retirada)) {
+        // 2. Validação de Datas
+        const retirada = new Date(data_retirada);
+        const devolucao = new Date(data_devolucao);
+
+        if (devolucao <= retirada) {
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'A data de devolução deve ser posterior à data de retirada'
             });
         }
 
-        // Verifica usuário
+        // 3. Verifica existência (Usuário e Livro)
         const [usuarios] = await db.execute('SELECT id FROM usuarios WHERE id = ?', [usuario_id]);
-        if (usuarios.length === 0) {
-            return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
-        }
+        if (usuarios.length === 0) return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
 
-        // Verifica livro
         const [livros] = await db.execute('SELECT id FROM livros WHERE id = ?', [livro_id]);
-        if (livros.length === 0) {
-            return res.status(404).json({ sucesso: false, mensagem: 'Livro não encontrado' });
-        }
+        if (livros.length === 0) return res.status(404).json({ sucesso: false, mensagem: 'Livro não encontrado' });
 
-        // Verifica conflitos
-        const [reservasConflitantes] = await db.execute(
-            `SELECT id FROM reservas
-             WHERE livro_id = ?
-             AND (
-                 (data_retirada <= ? AND data_devolucao >= ?) OR
-                 (data_retirada <= ? AND data_devolucao >= ?) OR
-                 (data_retirada >= ? AND data_devolucao <= ?)
-             )`,
-            [
-                livro_id,
-                data_devolucao, data_retirada,
-                data_retirada, data_retirada,
-                data_retirada, data_devolucao
-            ]
-        );
+        // 4. Verifica Conflito de Agenda (Lógica Simplificada)
+        // Regra: (InícioA < FimB) E (FimA > InícioB)
+        const queryConflito = `
+            SELECT id, data_retirada, data_devolucao
+            FROM reservas
+            WHERE livro_id = ?
+            AND data_retirada < ?
+            AND data_devolucao > ?
+        `;
+
+        const [reservasConflitantes] = await db.execute(queryConflito, [
+            livro_id,
+            data_devolucao, // Fim da NOVA reserva
+            data_retirada   // Início da NOVA reserva
+        ]);
 
         if (reservasConflitantes.length > 0) {
+            const conflito = reservasConflitantes[0];
             return res.status(409).json({
                 sucesso: false,
-                mensagem: 'Já existe uma reserva para este livro no período solicitado'
+                mensagem: `Livro indisponível! Já reservado de ${new Date(conflito.data_retirada).toLocaleDateString()} até ${new Date(conflito.data_devolucao).toLocaleDateString()}`
             });
         }
 
-        const query = `
+        // 5. Inserir Reserva
+        const queryInsert = `
             INSERT INTO reservas
             (usuario_id, livro_id, data_retirada, data_devolucao, confirmado_email, criado_em)
             VALUES (?, ?, ?, ?, false, NOW())
         `;
 
-        const [resultado] = await db.execute(query, [
+        const [resultado] = await db.execute(queryInsert, [
             usuario_id,
             livro_id,
             data_retirada,
             data_devolucao
         ]);
 
+        // 6. Retornar Dados Completos (opcional, mas bom para o frontend)
         const [reservaCriada] = await db.execute(
             `SELECT
-                r.id,
-                r.usuario_id,
-                r.livro_id,
-                r.data_retirada,
-                r.data_devolucao,
-                r.confirmado_email,
-                r.criado_em,
-                u.nome as usuario_nome,
-                u.email as usuario_email,
-                l.titulo as livro_titulo,
-                l.autor as livro_autor
+                r.id, r.usuario_id, r.livro_id, r.data_retirada, r.data_devolucao, r.confirmado_email, r.criado_em,
+                u.nome as usuario_nome, u.email as usuario_email,
+                l.titulo as livro_titulo, l.autor as livro_autor
             FROM reservas r
             LEFT JOIN usuarios u ON r.usuario_id = u.id
             LEFT JOIN livros l ON r.livro_id = l.id
@@ -136,12 +133,8 @@ export async function criarReserva(req, res) {
             dados: reservaCriada[0]
         });
 
-        // REMOVIDO: finally { db.release() } -> Isso causava o erro!
-
     } catch (erro) {
         console.error('Erro ao criar reserva:', erro);
-        // O segundo erro (Headers Sent) acontecia aqui, porque o try respondia sucesso, 
-        // o finally quebrava, e o catch tentava responder erro em cima do sucesso.
         if (!res.headersSent) {
             return res.status(500).json({
                 sucesso: false,
@@ -152,6 +145,9 @@ export async function criarReserva(req, res) {
     }
 }
 
+// ============================
+// EXCLUIR RESERVA
+// ============================
 export async function excluirReserva(req, res) {
     try {
         await db.execute("DELETE FROM reservas WHERE id = ?", [req.params.id]);
@@ -161,12 +157,15 @@ export async function excluirReserva(req, res) {
     }
 }
 
+// ============================
+// LISTAR RESERVAS POR USUÁRIO
+// ============================
 export async function listarReservasPorUsuario(req, res) {
     try {
         const usuarioId = req.params.usuario_id;
-        
+
         const query = `
-            SELECT 
+            SELECT
                 r.id as reserva_id,
                 r.data_retirada,
                 r.data_devolucao,
