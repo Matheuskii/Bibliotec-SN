@@ -1,16 +1,13 @@
-/* =========================================
-   PAINEL ADMINISTRATIVO - ESTILO INDEPENDENTE
-   ========================================= */
-
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
 :root {
-    --primary: #4a67df;
-    --secondary: #2fd6cb;
-    --dark: #26333d;
-    --light: #f5f6fa;
-    --white: #ffffff;
-    --danger: #ff4757;
-    --success: #2ecc71;
-    --text-grey: #a4b0be;
+    --cor-azul-turquesa: #4a67df;
+    --cor-verde-agua: #2fd6cb;
+    --cor-cinza-claro: #31414e;
+    --cor-cinza: #26333d;
+    --cor-branco-claro: #e9f0ef;
+    --cor-branca: #ffffff;
 }
 
 * {
@@ -305,6 +302,7 @@ input[type="text"], input[type="email"], input[type="date"], input[type="number"
 input:focus, select:focus, textarea:focus {
     border-color: var(--primary);
     outline: none;
+    box-shadow: 0 0 5px rgba(74, 103, 223, 0.3); 
 }
 
 .modal-actions {
@@ -334,4 +332,130 @@ input:focus, select:focus, textarea:focus {
     border-radius: 8px;
     cursor: pointer;
     font-weight: bold;
+}
+
+.btn-confirmar {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
+
+.btn-confirmar:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
+
+.text-center {
+    text-align: center;
+}
+
+.text-grey {
+    color: var(--text-grey);
+}
+
+.acoes {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.erro {
+    color: var(--danger) !important;
+    padding: 20px !important;
+}
+
+.status-confirmacao {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.status-confirmacao.confirmado {
+    background: rgba(46, 204, 113, 0.15);
+    color: var(--success);
+}
+
+.status-confirmacao.pendente {
+    background: rgba(255, 193, 7, 0.15);
+    color: #ffc107;
+}
+
+/* Animação para fade in */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Scrollbar personalizada */
+.content-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.content-section::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.content-section::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 10px;
+}
+
+.content-section::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .admin-container {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+    }
+    
+    .sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 8px 12px;
+    }
+    
+    .top-bar {
+        padding: 15px;
+    }
+    
+    .actions-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .search-admin {
+        width: 100%;
+        max-width: none;
+    }
+    
+    .tabela-admin {
+        font-size: 0.85rem;
+    }
+    
+    .tabela-admin th,
+    .tabela-admin td {
+        padding: 8px 10px;
+    }
 }

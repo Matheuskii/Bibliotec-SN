@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec - Favoritos</title>
-    <link rel="stylesheet" href="./css/Inicio.css"> 
+    <link rel="stylesheet" href="./css/detalhes-livro.css"> 
     <link rel="stylesheet" href="./css/favoritos.css">
     
     <script>
@@ -21,12 +21,13 @@
     </header>
 
     <nav>
-        <a href="./Inicio.html">Início</a>
-        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./inicio.html">Início</a>
+        <a href="./catalogo.html">Catálogo</a>
+        <a href="./reservas.html">Reservas</a>
         </nav>
 
     <main class="favoritos-wrapper">
-        <h2 class="titulo-secao">Meus Livros Favoritos ❤️</h2>
+        <h2 class="titulo-secao">Meus Livros Favoritos (❁´◡`❁)</h2>
 
         <div id="gridFavoritos" class="favoritos-grid">
             <p style="text-align:center; width:100%">Carregando...</p>
@@ -35,10 +36,6 @@
 
    <script type="module">
         import { initDarkMode } from "./JS/darkMode.js"; 
-        // Nota: verifique se o arquivo no disco é 'darkMode.js' ou 'DarkMode.js'
-        // Se for 'DarkMode.js' (maiúsculo), mude na linha acima.
-        
-        // Inicia manualmente para garantir
         initDarkMode();
     </script>
 

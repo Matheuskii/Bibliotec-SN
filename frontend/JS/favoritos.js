@@ -1,39 +1,20 @@
-async function carregarFavoritos() {
-    try {
-        const usuarioId = localStorage.getItem('usuarioId');
-        if (!usuarioId || usuarioId === null) {
-            alert('Você precisa estar logado para ver seus favoritos.');
-            return;
-        }
-        const resposta = await fetch (`http://localhost:3000/favoritos/${usuarioId}`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        if (!resposta.ok) {
-            throw new Error('Erro ao carregar favoritos');
-        }
-        const favoritos = await resposta.json();
-        console.log(favoritos);
-         }
-        catch (erro) {
-        console.error('Erro ao carregar favoritos:', erro);
-        alert('Não foi possível carregar os favoritos. Tente novamente mais tarde.');
-        }
-}
-carregarFavoritos();
 document.addEventListener("DOMContentLoaded", () => {
     carregarFavoritos();
 });
 
-const gridContainer = document.getElementById("gridFavoritos");
-
-// Recupera o ID salvo no Login (veja telas_forms.js)
-const usuarioId = localStorage.getItem("usuarioId");
-
 async function carregarFavoritos() {
-    if (!usuarioId) {
+    // 1. Definições dentro da função para garantir que o HTML já existe
+    const gridContainer = document.getElementById("gridFavoritos");
+    const usuarioId = localStorage.getItem("usuarioId");
+    const token = localStorage.getItem("userToken");
+
+    console.log("Carregando favoritos para usuário:", usuarioId);
+
+    // 2. Validação se o elemento HTML existe na tela
+    if (!gridContainer) return;
+
+    // 3. Validação de Login
+    if (!usuarioId || !token) {
         gridContainer.innerHTML = `
             <div class="empty-state">
                 <p>Você precisa estar logado para ver seus favoritos.</p>
@@ -43,12 +24,25 @@ async function carregarFavoritos() {
     }
 
     try {
-        // Chama a rota corrigida: GET /favoritos/:id
-        const response = await fetch(`http://localhost:3000/favoritos/${usuarioId}`);
-        const favoritos = await response.json();
+        const response = await fetch(`http://localhost:3000/favoritos/${usuarioId}`, {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}` // Envia o token
+            }
+        });
 
+        // 4. Tratamento de Sessão Expirada
+        if (response.status === 401 || response.status === 403) {
+            alert("Sessão expirada. Faça login novamente.");
+            window.location.href = "Login.html";
+            return;
+        }
+
+        const favoritos = await response.json(); 
         gridContainer.innerHTML = ""; 
 
+        // 5. Lista Vazia
         if (!favoritos || favoritos.length === 0) {
             gridContainer.innerHTML = `
                 <div class="empty-state">
@@ -58,14 +52,16 @@ async function carregarFavoritos() {
             return;
         }
 
+        // 6. Gera os Cards
         favoritos.forEach(fav => {
             const card = document.createElement("div");
             card.className = "card-favorito";
             
-            const capa = fav.caminho_capa ? fav.caminho_capa : './images/capa-default.jpg';
+            // Tratamento de imagem quebrada/vazia
+            const capa = fav.caminho_capa || './images/capa-default.jpg';
 
             card.innerHTML = `
-                <img src="${capa}" alt="${fav.livro_titulo}" onclick="window.location.href='detalhes-livro.html?id=${fav.livro_id}'">
+                <img src="${capa}" alt="${fav.livro_titulo}" onclick="window.location.href='detalhes-livro.html?id=${fav.livro_id}'" style="cursor: pointer;">
                 <div class="card-info">
                     <div class="card-titulo">${fav.livro_titulo}</div>
                     <div class="card-autor">${fav.livro_autor}</div>
@@ -83,22 +79,27 @@ async function carregarFavoritos() {
     }
 }
 
-// Função global para ser chamada pelo onclick do HTML
+// Função de Remover (Global)
 window.removerFavorito = async function(idFavorito) {
     if(!confirm("Deseja remover este livro dos favoritos?")) return;
 
+    const token = localStorage.getItem("userToken");
+
     try {
         const response = await fetch(`http://localhost:3000/favoritos/${idFavorito}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
 
         if (response.ok) {
-            // Remove o elemento visualmente ou recarrega a lista
-            carregarFavoritos(); 
+            carregarFavoritos(); // Recarrega a lista
         } else {
             alert("Erro ao remover.");
         }
     } catch (error) {
+        console.error(error);
         alert("Erro de conexão.");
     }
-};
+}; 

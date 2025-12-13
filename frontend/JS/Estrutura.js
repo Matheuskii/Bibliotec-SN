@@ -1,15 +1,14 @@
 // JS/Estrutura.js
 console.log("Arquivo Estrutura.js carregado");
 console.log(localStorage.getItem("usuarioId"));
+console.log(localStorage.getItem("userToken"));
 
 
-export async function criarCarrossel(gridId, leftBtn, rightBtn) {
+export async function criarCarrossel(gridId, leftBtn, rightBtn, funcaoFiltro = null) {
     const containerGrid = document.getElementById(gridId);
 
-    // Limpar cards estáticos
-    containerGrid.innerHTML = "";
+    containerGrid.innerHTML = ""; // Limpa loading
 
-    // Carregar livros do banco
     const livros = await carregarLivros();
 
     if (livros.length === 0) {
@@ -17,8 +16,20 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn) {
         return;
     }
 
-    // Criar cards com dados do banco
-    livros.forEach((livro) => {
+    // 2. AQUI A MÁGICA: Se passar um filtro, usa ele. Se não, mostra todos.
+    let livrosFiltrados = livros;
+    if (funcaoFiltro) {
+        livrosFiltrados = livros.filter(funcaoFiltro);
+    }
+
+    // Se o filtro for muito rigoroso e não sobrar nada
+    if (livrosFiltrados.length === 0) {
+        containerGrid.innerHTML = "<p class='no-books'>Sem itens nesta categoria</p>";
+        return;
+    }
+
+    // Cria os cards com a lista filtrada
+    livrosFiltrados.forEach((livro) => {
         const card = criarCardLivroClicavel(livro);
         containerGrid.appendChild(card);
     });
@@ -207,7 +218,7 @@ export function criarCardLivroClicavel(livro) {
     const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
     
     card.innerHTML = `
-        <span class="book-status ${statusClass}">${statusText}</span>
+       
         <div class="book-cover">
             <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}"
                  alt="${livro.titulo}"

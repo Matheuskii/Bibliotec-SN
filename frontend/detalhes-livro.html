@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BiblioTec - Detalhes do Livro</title>
     <link rel="stylesheet" href="./css/Detalhes-livro.css" />
     <script>
+        // Evita piscar a tela branca se o dark mode estiver salvo
         if (localStorage.getItem('darkMode') !== 'false') {
             document.documentElement.classList.add('dark-mode');
         }
     </script>
 </head>
+
 <body>
     <header>
         <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
@@ -18,21 +21,91 @@
         <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
     </header>
 
+    <nav>
+        <a href="./Inicio.html">Início</a>
+        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./favoritos.html">Favoritos</a>
+        <a href="./reservas.html">Minhas Reservas</a>
+    </nav>
+
     <div class="container-detalhes" id="detalhes-container">
-        <!-- As informações do livro serão carregadas aqui -->
         <div class="loading">Carregando informações do livro...</div>
     </div>
 
+    <div id="modalReserva" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h3>📅 Realizar Reserva</h3>
+            <p>Até quando você ficará com o livro?</p>
+
+            <div class="form-group">
+                <label for="dataDevolucao">Data de Devolução:</label>
+                <input type="date" id="dataDevolucao" class="input-data-reserva">
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancelar" onclick="fecharModalReserva()">Cancelar</button>
+                <button class="btn-confirmar" onclick="confirmarReserva()">Confirmar Reserva</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="separador-secao"></div>
+
+    <section class="comunidade-container">
+
+        <div class="painel-media">
+            <h3>Opinião dos Leitores</h3>
+            <div class="media-display">
+                <span id="valor-media-grande" class="nota-gigante">0.0</span>
+                <div class="detalhes-media">
+                    <div id="estrelas-media" class="estrelas-fixas">★★★★★</div>
+                    <span id="total-votos" class="total-votos">Baseado em 0 avaliações</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="painel-comentarios">
+
+            <button id="btn-escrever-review" class="btn-toggle-form" onclick="toggleFormulario()">
+                ✍️ Escrever uma avaliação
+            </button>
+
+            <div id="form-avaliacao-box" class="card-avaliacao-form" style="display: none;">
+                <h4>Sua avaliação:</h4>
+                <div class="estrelas-input">
+                    <span class="star-icon" onclick="selecionarEstrela(1)">★</span>
+                    <span class="star-icon" onclick="selecionarEstrela(2)">★</span>
+                    <span class="star-icon" onclick="selecionarEstrela(3)">★</span>
+                    <span class="star-icon" onclick="selecionarEstrela(4)">★</span>
+                    <span class="star-icon" onclick="selecionarEstrela(5)">★</span>
+                    <input type="hidden" id="notaInput" value="0">
+                </div>
+                <textarea id="comentarioInput" placeholder="Conte o que achou..."></textarea>
+                <button class="btn-enviar-review" onclick="enviarAvaliacao()">Publicar</button>
+            </div>
+
+            <div id="lista-avaliacoes" class="lista-reviews">
+            </div>
+        </div>
+    </section>
+
     <script src="./JS/detalhes-livro.js" defer></script>
+
+    <script type="module">
+        // Importa apenas a verificação de login para atualizar o botão do menu
+        import { verificarEstadoLogin } from "./JS/Estrutura.js";
+        verificarEstadoLogin();
+    </script>
+
     <script>
-        // Dark mode toggle
+        // Lógica do Dark Mode
         const darkModeBtn = document.getElementById('dark-mode-btn');
         const htmlElement = document.documentElement;
-        
+
         if (darkModeBtn) {
-            darkModeBtn.addEventListener('click', function() {
+            darkModeBtn.addEventListener('click', function () {
                 const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-                
+
                 if (isCurrentlyDark) {
                     htmlElement.classList.remove('dark-mode');
                     darkModeBtn.textContent = '🌙';
@@ -46,4 +119,5 @@
         }
     </script>
 </body>
+
 </html>

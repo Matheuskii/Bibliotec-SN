@@ -1,5 +1,8 @@
 import { db } from "../config/db.js";
 
+// =========================================================
+// LISTAR TODOS OS FAVORITOS (GERAL / ADMIN)
+// =========================================================
 export async function listarFavoritos(req, res) {
     try {
         const usuarioId = req.params.usuario_id;
@@ -12,7 +15,7 @@ export async function listarFavoritos(req, res) {
                 u.nome as usuario_nome,
                 l.titulo as livro_titulo,
                 l.autor as livro_autor,
-                l.caminho_capa,  -- <--- ADICIONE ESTA LINHA
+                l.caminho_capa,
                 l.isbn as livro_isbn
             FROM favoritos f
             LEFT JOIN usuarios u ON f.usuario_id = u.id
@@ -31,8 +34,9 @@ export async function listarFavoritos(req, res) {
     }
 }
 
-// ---
-
+// =========================================================
+// CRIAR FAVORITO
+// =========================================================
 export async function criarFavoritos(req, res) {
     try {
         const { usuario_id, livro_id} = req.body;
@@ -44,28 +48,15 @@ export async function criarFavoritos(req, res) {
             });
         }
 
-        const [usuarios] = await db.execute(
-            'SELECT id FROM usuarios WHERE id = ?',
-            [usuario_id]
-        );
-        if (usuarios.length === 0) {
-            return res.status(404).json({
-                sucesso: false,
-                mensagem: 'Usuário não encontrado'
-            });
-        }
+        // Verifica Usuário
+        const [usuarios] = await db.execute('SELECT id FROM usuarios WHERE id = ?', [usuario_id]);
+        if (usuarios.length === 0) return res.status(404).json({ sucesso: false, mensagem: 'Usuário não encontrado' });
 
-        const [livros] = await db.execute(
-            'SELECT id FROM livros WHERE id = ?',
-            [livro_id]
-        );
-        if (livros.length === 0) {
-            return res.status(404).json({
-                sucesso: false,
-                mensagem: 'Livro não encontrado'
-            });
-        }
+        // Verifica Livro
+        const [livros] = await db.execute('SELECT id FROM livros WHERE id = ?', [livro_id]);
+        if (livros.length === 0) return res.status(404).json({ sucesso: false, mensagem: 'Livro não encontrado' });
 
+        // Verifica Duplicidade
         const [favoritoExistente] = await db.execute(
             'SELECT id FROM favoritos WHERE usuario_id = ? AND livro_id = ?',
             [usuario_id, livro_id]
@@ -77,13 +68,11 @@ export async function criarFavoritos(req, res) {
             });
         }
 
-        const query = `
-            INSERT INTO favoritos
-            (usuario_id, livro_id, data_favoritado)
-            VALUES (?, ?, NOW())
-        `;
+        // Insere
+        const query = `INSERT INTO favoritos (usuario_id, livro_id, data_favoritado) VALUES (?, ?, NOW())`;
         const [resultado] = await db.execute(query, [usuario_id, livro_id]);
 
+        // Retorna o criado
         const [favoritoCriado] = await db.execute(
             `SELECT
                 f.id,
@@ -120,8 +109,9 @@ export async function criarFavoritos(req, res) {
     }
 }
 
-// ---
-
+// =========================================================
+// DELETAR FAVORITO (POR ID DO FAVORITO)
+// =========================================================
 export async function deletarFavorito (req, res){
     try {
         const id_favorito = req.params.id;
@@ -138,6 +128,9 @@ export async function deletarFavorito (req, res){
     }
 }
 
+// =========================================================
+// DELETAR TUDO POR USUÁRIO
+// =========================================================
 export async function deletarFavoritosPorUsuario(req, res) {
     try {
         const usuarioId = req.params.usuario_id;
@@ -150,17 +143,24 @@ export async function deletarFavoritosPorUsuario(req, res) {
     }
 }
 
+// =========================================================
+// LISTAR FAVORITOS DE UM USUÁRIO (USADO NO FRONTEND)
+// =========================================================
 export async function listarFavoritosPorUsuario(req, res) {
     try {
         console.log('Listando favoritos para o usuário com ID:', req.params.id);
         const usuarioId = req.params.id;
+        
+        // CORREÇÃO AQUI: Adicionado f.id e l.caminho_capa
         const sql = `
             SELECT
+                f.id,               -- OBRIGATÓRIO PARA PODER DELETAR
                 f.usuario_id,
                 f.livro_id,
                 f.data_favoritado,
                 l.titulo as livro_titulo,
                 l.autor as livro_autor,
+                l.caminho_capa,     -- OBRIGATÓRIO PARA MOSTRAR A FOTO
                 l.isbn as livro_isbn,
                 l.ano_publicacao as livro_ano_publicacao,
                 l.ativo as livro_disponivel_ou_ativo

@@ -1,5 +1,7 @@
 import express from "express";
 import * as usuarioController from "../controllers/usuario.controller.js";
+import { verificarCodigo, criarUsuario } from "../controllers/usuario.controller.js";
+
 
 const router = express.Router();
 
@@ -14,7 +16,8 @@ router.get("/", usuarioController.listarUsuario);
 router.get("/:id", usuarioController.obterUsuario);
 
 // Criar usuário
-router.post("/cadastrar", usuarioController.criarUsuario);
+router.post("/cadastrar", criarUsuario);
+router.post("/verificar", verificarCodigo);
 
 // Login
 router.post("/login", usuarioController.loginUsuario);

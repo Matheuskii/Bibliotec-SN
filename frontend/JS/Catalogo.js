@@ -70,7 +70,7 @@ function renderizarLivros(livros, gridElement) {
     gridElement.innerHTML = '';
 
     if (!livros || livros.length === 0) {
-        gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">Nenhum livro encontrado nesta categoria 😢</p>';
+        gridElement.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px; color: #666;">NENHUM livro encontrado nesta categoria 😢</p>';
         return;
     }
 
