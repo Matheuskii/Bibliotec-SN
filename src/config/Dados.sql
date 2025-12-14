@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
--- Versão do servidor:           11.8.2-MariaDB - mariadb.org binary distribution
+-- Versão do servidor:           12.0.2-MariaDB - mariadb.org binary distribution
 -- OS do Servidor:               Win64
--- HeidiSQL Versão:              12.10.0.7000
+-- HeidiSQL Versão:              12.11.0.7065
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -14,87 +14,39 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+-- Copiando dados para a tabela dblivraria.avaliacoes: ~4 rows (aproximadamente)
+INSERT IGNORE INTO `avaliacoes` (`id`, `usuario_id`, `livro_id`, `nota`, `comentario`, `data_avaliacao`) VALUES
+	(1, 1, 1, 5.0, 'História envolvente e personagens cativantes.', '2025-11-30 00:49:53'),
+	(3, 3, 2, 4.0, 'Excelente abordagem sobre tecnologia e negócios.', '2025-11-30 00:49:53'),
+	(4, 1, 4, 5.0, 'Leitura obrigatória para todo desenvolvedor.', '2025-11-30 00:49:53'),
+	(6, 3, 5, 4.8, 'Um clássico atemporal, narrativa impecável.', '2025-11-30 00:49:53');
 
--- Copiando estrutura do banco de dados para dblivraria
-CREATE DATABASE IF NOT EXISTS `dblivraria` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_uca1400_ai_ci */;
-USE `dblivraria`;
+-- Copiando dados para a tabela dblivraria.favoritos: ~3 rows (aproximadamente)
+INSERT IGNORE INTO `favoritos` (`id`, `usuario_id`, `livro_id`, `data_favoritado`) VALUES
+	(2, 5, 11, '2025-12-04 02:00:23'),
+	(4, 5, 4, '2025-12-08 23:24:58'),
+	(5, 1, 2, '2025-12-08 23:57:49');
 
--- Copiando estrutura para tabela dblivraria.avaliacoes
-CREATE TABLE IF NOT EXISTS `avaliacoes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL,
-  `livro_id` int(11) NOT NULL,
-  `nota` decimal(2,1) DEFAULT NULL CHECK (`nota` >= 0 and `nota` <= 5),
-  `comentario` text DEFAULT NULL,
-  `data_avaliacao` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `livro_id` (`livro_id`),
-  CONSTRAINT `avaliacoes_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `avaliacoes_ibfk_2` FOREIGN KEY (`livro_id`) REFERENCES `livros` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
--- Copiando dados para a tabela dblivraria.avaliacoes: ~5 rows (aproximadamente)
-INSERT INTO `avaliacoes` (`id`, `usuario_id`, `livro_id`, `nota`, `comentario`, `data_avaliacao`) VALUES
-	(1, 1, 1, 5.0, 'História envolvente e personagens cativantes.', '2025-10-31 11:37:09'),
-	(4, 1, 4, 5.0, 'Leitura obrigatória para todo desenvolvedor.', '2025-10-31 11:37:09'),
-	(5, 2, 3, 3.5, 'Ideia interessante, mas um pouco confusa em alguns trechos.', '2025-10-31 11:37:09'),
-	(6, 3, 5, 4.8, 'Um clássico atemporal, narrativa impecável.', '2025-10-31 11:37:09'),
-	(7, 5, 7, 5.0, 'Perfeito.', '2025-11-12 12:32:20');
-
--- Copiando estrutura para tabela dblivraria.favoritos
-CREATE TABLE IF NOT EXISTS `favoritos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL,
-  `livro_id` int(11) NOT NULL,
-  `data_favoritado` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `livro_id` (`livro_id`),
-  CONSTRAINT `favoritos_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `favoritos_ibfk_2` FOREIGN KEY (`livro_id`) REFERENCES `livros` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
--- Copiando dados para a tabela dblivraria.favoritos: ~1 rows (aproximadamente)
-INSERT INTO `favoritos` (`id`, `usuario_id`, `livro_id`, `data_favoritado`) VALUES
-	(2, 2, 4, '2025-11-18 13:15:30');
-
--- Copiando estrutura para tabela dblivraria.livros
-CREATE TABLE IF NOT EXISTS `livros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(150) NOT NULL,
-  `autor` varchar(100) NOT NULL,
-  `genero` varchar(100) DEFAULT NULL,
-  `editora` varchar(100) DEFAULT NULL,
-  `ano_publicacao` smallint(6) DEFAULT NULL,
-  `isbn` varchar(20) DEFAULT NULL,
-  `idioma` varchar(50) DEFAULT 'Português',
-  `formato` enum('Físico','E-book','Audiobook') DEFAULT 'Físico',
-  `caminho_capa` varchar(255) DEFAULT NULL,
-  `sinopse` text DEFAULT NULL,
-  `ativo` tinyint(1) DEFAULT 1,
-  `criado_em` timestamp NULL DEFAULT current_timestamp(),
-  `atualizado_em` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
--- Copiando dados para a tabela dblivraria.livros: ~83 rows (aproximadamente)
-INSERT INTO `livros` (`id`, `titulo`, `autor`, `genero`, `editora`, `ano_publicacao`, `isbn`, `idioma`, `formato`, `caminho_capa`, `sinopse`, `ativo`, `criado_em`, `atualizado_em`) VALUES
-	(1, 'Filhas da Lua', 'Carolina França', 'Fantasia / Romance', 'Pandorga', 2018, '9788568263952', 'Português', 'Físico', 'capas/filhasdalua.jpg', 'Trilogia sobre jovens com poderes lunares e uma antiga profecia.', 1, '2025-10-31 11:36:59', '2025-10-31 11:36:59'),
-	(3, 'Mestres do Tempo', 'R. V. Campbell', 'Ficção Científica', 'Arqueiro', 2017, '9788580417432', 'Português', 'Físico', 'capas/mestresdotempo.jpg', 'Explora viagens no tempo e dilemas morais sobre alterar o passado.', 1, '2025-10-31 11:36:59', '2025-10-31 11:36:59'),
-	(4, 'O Código Limpo', 'Robert C. Martin', 'Tecnologia / Programação', 'Alta Books', 2009, '9788576082675', 'Português', 'Físico', 'capas/codigolimpo.jpg', 'Guia essencial sobre boas práticas e padrões de código limpo.', 1, '2025-10-31 11:36:59', '2025-10-31 11:36:59'),
-	(5, 'Dom Casmurro', 'Machado de Assis', 'Romance Clássico', 'Principis', 1899, '9788580574463', 'Português', 'Físico', 'capas/domcasmurro.jpg', 'Um dos maiores clássicos da literatura brasileira, explorando ciúme e ambiguidade.', 1, '2025-10-31 11:36:59', '2025-10-31 11:36:59'),
-	(7, 'A Revolução dos Bichos', 'George Orwell', NULL, NULL, NULL, NULL, 'Português', 'Físico', 'capas/revolucao.jpg', NULL, 1, '2025-11-12 11:38:53', '2025-11-26 12:34:33'),
-	(9, 'O Capital – Volume I', 'Karl Marx', 'Economia / Política', 'Boitempo', 1867, '9788575596821', 'Português', 'Físico', 'capas/ocapital1.jpg', 'Uma análise profunda do capitalismo, suas relações de trabalho e mecanismos de exploração.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(10, 'Manifesto do Partido Comunista', 'Karl Marx & Friedrich Engels', 'Política / História', 'Boitempo', 1848, '9788575590003', 'Português', 'Físico', 'capas/manifestocomunista.jpg', 'Texto fundamental que apresenta as bases do comunismo e a crítica à sociedade burguesa.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(11, 'A Ideologia Alemã', 'Karl Marx & Friedrich Engels', 'Filosofia / Política', 'Boitempo', 1846, '9788575592151', 'Português', 'E-book', 'capas/ideologiaalema.jpg', 'Discussão sobre materialismo histórico e crítica aos jovens hegelianos.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(12, 'Genealogia da Moral', 'Friedrich Nietzsche', 'Filosofia', 'Companhia das Letras', 1887, '9788535930528', 'Português', 'Físico', 'capas/genealogiamoral.jpg', 'Uma investigação crítica sobre os valores morais e sua origem histórica.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(13, 'Assim Falou Zaratustra', 'Friedrich Nietzsche', 'Filosofia', 'Companhia das Letras', 1883, '9788535927207', 'Português', 'Físico', 'capas/zaratustra.jpg', 'Obra poético-filosófica que discute o além-do-homem e a superação dos valores tradicionais.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(14, 'A Ética Protestante e o Espírito do Capitalismo', 'Max Weber', 'Sociologia / Economia', 'Pioneira', 1905, '9788522104928', 'Português', 'Físico', 'capas/weberetica.jpg', 'Estudo clássico sobre a relação entre protestantismo, racionalidade e capitalismo moderno.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(15, 'Vigiar e Punir', 'Michel Foucault', 'Filosofia / Sociologia', 'Vozes', 1975, '9788532616210', 'Português', 'Físico', 'capas/vigiarepunir.jpg', 'Análise histórica do sistema penal e das formas de controle social.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(16, 'A História da Loucura', 'Michel Foucault', 'Filosofia / História', 'Perspectiva', 1961, '9788527302848', 'Português', 'Físico', 'capas/historialoucura.jpg', 'Explora como a sociedade construiu e tratou a “loucura” ao longo dos séculos.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(17, 'Teoria Geral do Emprego, do Juro e da Moeda', 'John Maynard Keynes', 'Economia', 'Nova Fronteira', 1936, '9788520922951', 'Português', 'Físico', 'capas/keynes.jpg', 'Fundamento da macroeconomia moderna e das políticas de intervenção estatal.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
-	(18, 'A Riqueza das Nações', 'Adam Smith', 'Economia / Filosofia', 'Martin Claret', 1776, '9788572328227', 'Português', 'Físico', 'capas/riquezanascoes.jpg', 'Obra fundadora da economia clássica e do liberalismo econômico.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
+-- Copiando dados para a tabela dblivraria.livros: ~86 rows (aproximadamente)
+INSERT IGNORE INTO `livros` (`id`, `titulo`, `autor`, `genero`, `editora`, `ano_publicacao`, `isbn`, `idioma`, `formato`, `caminho_capa`, `sinopse`, `ativo`, `criado_em`, `atualizado_em`) VALUES
+	(1, 'Filhas da XOXO', 'Carolina França', 'Fantasia / Romance', 'Pandorga', 1969, '9788568263952', 'Português', 'Físico', 'capas/filhasdalua.jpg', 'Trilogia sobre jovens com poderes lunares e uma antiga profecia.', 1, '2025-11-30 00:49:53', '2025-12-13 01:25:47'),
+	(2, 'TI para Negócios', 'Edson Perin', 'Tecnologia / Gestão', 'M. Books', 2010, '9788578271541', 'Português', 'E-book', 'capas/tiparanegocios.jpg', 'Mostra como a TI pode impulsionar resultados empresariais.', 0, '2025-11-30 00:49:53', '2025-12-06 20:56:05'),
+	(3, 'Mestres do Tempo', 'R. V. Campbell', 'Ficção Científica', 'Arqueiro', 2017, '9788580417432', 'Português', 'Físico', 'capas/mestresdotempo.jpg', 'Explora viagens no tempo e dilemas morais sobre alterar o passado.', 0, '2025-11-30 00:49:53', '2025-12-06 22:06:26'),
+	(4, 'O Código Limpo', 'Robert C. Martin', 'Tecnologia / Programação', 'Alta Books', 2009, '9788576082675', 'Português', 'Físico', 'capas/codigolimpo.jpg', 'Guia essencial sobre boas práticas e padrões de código limpo.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(5, 'Dom Casmurro', 'Machado de Assis', 'Romance Clássico', 'Principis', 1899, '9788580574463', 'Português', 'Físico', 'capas/domcasmurro.jpg', 'Um dos maiores clássicos da literatura brasileira, explorando ciúme e ambiguidade.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(6, 'O Capital – Volume I', 'Karl Marx', 'Economia / Política', 'Boitempo', 1867, '9788575596821', 'Português', 'Físico', 'capas/ocapital1.jpg', 'Uma análise profunda do capitalismo, suas relações de trabalho e mecanismos de exploração.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(7, 'Manifesto do Partido Comunista', 'Karl Marx & Friedrich Engels', 'Política / História', 'Boitempo', 1848, '9788575590003', 'Português', 'Físico', 'capas/manifestocomunista.jpg', 'Texto fundamental que apresenta as bases do comunismo e a crítica à sociedade burguesa.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(8, 'A Ideologia Alemã', 'Karl Marx & Friedrich Engels', 'Filosofia / Política', 'Boitempo', 1846, '9788575592151', 'Português', 'E-book', 'capas/ideologiaalema.jpg', 'Discussão sobre materialismo histórico e crítica aos jovens hegelianos.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(9, 'Genealogia da Moral', 'Friedrich Nietzsche', 'Filosofia', 'Companhia das Letras', 1887, '9788535930528', 'Português', 'Físico', 'capas/genealogiamoral.jpg', 'Uma investigação crítica sobre os valores morais e sua origem histórica.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(10, 'Assim Falou Zaratustra', 'Friedrich Nietzsche', 'Filosofia', 'Companhia das Letras', 1883, '9788535927207', 'Português', 'Físico', 'capas/zaratustra.jpg', 'Obra poético-filosófica que discute o além-do-homem e a superação dos valores tradicionais.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(11, 'A Ética Protestante e o Espírito do Capitalismo', 'Max Weber', 'Sociologia / Economia', 'Pioneira', 1905, '9788522104928', 'Português', 'Físico', 'capas/weberetica.jpg', 'Estudo clássico sobre a relação entre protestantismo, racionalidade e capitalismo moderno.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(12, 'Vigiar e Punir', 'Michel Foucault', 'Filosofia / Sociologia', 'Vozes', 1975, '9788532616210', 'Português', 'Físico', 'capas/vigiarepunir.jpg', 'Análise histórica do sistema penal e das formas de controle social.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(13, 'A História da Loucura', 'Michel Foucault', 'Filosofia / História', 'Perspectiva', 1961, '9788527302848', 'Português', 'Físico', 'capas/historialoucura.jpg', 'Explora como a sociedade construiu e tratou a "loucura" ao longo dos séculos.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(14, 'Teoria Geral do Emprego, do Juro e da Moeda', 'John Maynard Keynes', 'Economia', 'Nova Fronteira', 1936, '9788520922951', 'Português', 'Físico', 'capas/keynes.jpg', 'Fundamento da macroeconomia moderna e das políticas de intervenção estatal.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(15, 'A Riqueza das Nações', 'Adam Smith', 'Economia / Filosofia', 'Martin Claret', 1776, '9788572328227', 'Português', 'Físico', 'capas/riquezanascoes.jpg', 'Obra fundadora da economia clássica e do liberalismo econômico.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(16, 'O Príncipe', 'Nicolau Maquiavel', 'Política / Filosofia', 'Martin Claret', 1532, '9788572328548', 'Português', 'Físico', 'capas/oprincipe.jpg', 'Análise pragmática sobre poder, liderança e estratégia política.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(17, 'A República', 'Platão', 'Filosofia', 'Martin Claret', 380, '9788572327503', 'Português', 'Físico', 'capas/arepublica.jpg', 'Discussão sobre justiça, política e organização ideal da sociedade.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
+	(18, 'Meditações', 'Marco Aurélio', 'Filosofia Estoica', 'Penguin', 180, '9788563560872', 'Português', 'Físico', 'capas/meditacoes.jpg', 'Reflexões do imperador romano sobre virtude, controle emocional e vida.', 1, '2025-11-30 00:49:53', '2025-11-30 00:49:53'),
 	(19, 'O Príncipe', 'Nicolau Maquiavel', 'Política / Filosofia', 'Martin Claret', 1532, '9788572328548', 'Português', 'Físico', 'capas/oprincipe.jpg', 'Análise pragmática sobre poder, liderança e estratégia política.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
 	(20, 'A República', 'Platão', 'Filosofia', 'Martin Claret', 380, '9788572327503', 'Português', 'Físico', 'capas/arepublica.jpg', 'Discussão sobre justiça, política e organização ideal da sociedade.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
 	(21, 'Meditações', 'Marco Aurélio', 'Filosofia Estoica', 'Penguin', 180, '9788563560872', 'Português', 'Físico', 'capas/meditacoes.jpg', 'Reflexões do imperador romano sobre virtude, controle emocional e vida.', 1, '2025-11-26 13:27:51', '2025-11-26 13:27:51'),
@@ -164,47 +116,20 @@ INSERT INTO `livros` (`id`, `titulo`, `autor`, `genero`, `editora`, `ano_publica
 	(102, 'The Girl with the Dragon Tattoo', 'Stieg Larsson', 'Suspense', 'Knopf', 2005, '9780307269758', 'Inglês', 'Físico', 'capas/dragon-tattoo.jpg', 'Hacker e jornalista investigam mistérios sombrios.', 1, '2025-12-01 12:25:43', '2025-12-01 14:12:19'),
 	(103, 'The Shining', 'Stephen King', 'Horror', 'Anchor', 1977, '9780307743654', 'Inglês', 'Físico', 'capas/shining.jpg', 'Homem enlouquece em hotel amaldiçoado.', 1, '2025-12-01 12:25:43', '2025-12-01 14:12:23');
 
--- Copiando estrutura para tabela dblivraria.reservas
-CREATE TABLE IF NOT EXISTS `reservas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL,
-  `livro_id` int(11) NOT NULL,
-  `data_retirada` date NOT NULL,
-  `data_devolucao` date NOT NULL,
-  `confirmado_email` tinyint(1) DEFAULT 0,
-  `criado_em` timestamp NULL DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  KEY `livro_id` (`livro_id`),
-  CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE,
-  CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`livro_id`) REFERENCES `livros` (`id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+-- Copiando dados para a tabela dblivraria.reservas: ~4 rows (aproximadamente)
+INSERT IGNORE INTO `reservas` (`id`, `usuario_id`, `livro_id`, `data_retirada`, `data_devolucao`, `confirmado_email`, `criado_em`) VALUES
+	(2, 5, 4, '2025-12-08', '2222-02-23', 0, '2025-12-08 23:19:29'),
+	(3, 5, 3, '2025-12-08', '2025-12-09', 0, '2025-12-08 23:22:07'),
+	(5, 1, 1, '2024-12-10', '2024-12-15', 1, '2025-12-09 01:42:47'),
+	(6, 1, 1, '2025-12-09', '2025-12-10', 1, '2025-12-09 03:00:50');
 
--- Copiando dados para a tabela dblivraria.reservas: ~0 rows (aproximadamente)
-
--- Copiando estrutura para tabela dblivraria.usuarios
-CREATE TABLE IF NOT EXISTS `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `senha` varchar(100) NOT NULL,
-  `data_nascimento` date DEFAULT NULL,
-  `celular` varchar(20) DEFAULT NULL,
-  `curso` varchar(100) DEFAULT NULL,
-  `perfil` enum('Aluno','Admin') DEFAULT 'Aluno',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
-
--- Copiando dados para a tabela dblivraria.usuarios: ~7 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_nascimento`, `celular`, `curso`, `perfil`) VALUES
-	(1, 'Vitor Lima', 'vitor.lima@email.com', '1234', NULL, NULL, NULL, 'Admin'),
-	(2, 'Pedro Campos', 'pedro.campos@email.com', 'abcd', NULL, NULL, NULL, 'Aluno'),
-	(3, 'Pedro Gabriel', 'pedro.gabriel@email.com', 'senha123', NULL, NULL, NULL, 'Aluno'),
-	(4, 'Davi Guedes', 'davi.guedes@email.com', 'teste123', NULL, NULL, NULL, 'Aluno'),
-	(5, 'Matheus Lima', 'matheus.lima@email.com', '3210', NULL, NULL, NULL, 'Aluno'),
-	(6, 'Lucas Ferreira', 'lucas.ferreira@email.com', 'senhaSegura123', NULL, NULL, NULL, 'Aluno'),
-	(7, 'Matheuszin', 'Matheuszin@gmail.com', 'Matheuszinzinzin', NULL, NULL, NULL, 'Aluno');
+-- Copiando dados para a tabela dblivraria.usuarios: ~5 rows (aproximadamente)
+INSERT IGNORE INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_nascimento`, `celular`, `curso`, `perfil`, `codigo_verificacao`, `verificado`) VALUES
+	(1, 'Vitor Lima', 'vitor.lima@email.com', '1234', NULL, NULL, NULL, 'Admin', NULL, 1),
+	(3, 'Pedro Gabriel', 'pedro.gabriel@email.com', 'pedro', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(4, 'Davi Guedes', 'davi.guedes@email.com', 'teste123', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(5, 'Matheus Lima', 'matheus.lima@email.com', '3210', NULL, NULL, NULL, 'Admin', NULL, 1),
+	(8, 'Joao Lima', 'matheus.joao@email.com', '123', '2000-01-01', '11999999999', 'Desenvolvimento de Sistemas', 'Aluno', NULL, 0);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
