@@ -97,7 +97,7 @@ window.editarLivro = (livro) => {
     document.getElementById("editora").value = livro.editora || "";
     document.getElementById("genero").value = livro.genero || "";
     document.getElementById("idioma").value = livro.idioma || "Português";
-    document.getElementById("ano_publicacao").value = livro.ano_publicacao ? new Date(livro.ano_publicacao).getFullYear() : "";
+    document.getElementById("ano_publicacao").value = livro.ano_publicacao || "";
     document.getElementById("isbn").value = livro.isbn || "";
     document.getElementById("caminho_capa").value = livro.caminho_capa || "";
     document.getElementById("sinopse").value = livro.sinopse || "";
