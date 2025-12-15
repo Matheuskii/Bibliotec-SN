@@ -12,7 +12,6 @@
             document.documentElement.classList.add('dark-mode');
         }
     </script>
-
     <script>
         // Pega o perfil do usuário logado.
         const perfil = localStorage.getItem("perfilUsuario");
@@ -29,30 +28,29 @@
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="./images/LogoBibliotec.png" alt="Logo" class="admin-logo">
-                <h3>Admin Panel</h3>
+                <h3>Painel do Admin</h3>
                 <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
             </div>
             <nav class="sidebar-nav">
-                <a href="#" class="nav-link active" onclick="mostrarSecao('livros')">📚 Livros (RF04)</a>
-                <a href="#" class="nav-link" onclick="mostrarSecao('alunos')">🎓 Alunos (RF01)</a>
-                <a href="#" class="nav-link" onclick="mostrarSecao('reservas')">📅 Reservas (RF06)</a>
-                <a href="Inicio.html" style="margin-top: 20px;">🏠 Ver Site</a>
-                <a href="#" id="btnSairAdmin" style="color: #ff6b6b; margin-top: auto;">🚪 Sair</a>
+                <a href="#" class="nav-link active" onclick="mostrarSecao('livros')">📚 Livros</a>
+                <a href="#" class="nav-link" onclick="mostrarSecao('alunos')">🎓 Alunos</a>
+                <a href="#" class="nav-link" onclick="mostrarSecao('reservas')">📅 Reservas</a>
+                <a href="Inicio.html" style="margin-top: 40px; text-decoration: none;">🏠 Ver Site</a>
+                <a href="#" id="btnSairAdmin">🚪 Sair</a>
             </nav>
         </aside>
 
         <main class="main-content">
             <header class="top-bar">
-                <h2 id="tituloSecao">Gerenciar Livros</h2>
+                <h2 id="tituloSecao">Controle de Livros</h2>
                 <div class="user-info">
-                    <span id="adminNome">Administrador</span>
+                    <span id="adminNome"></span>
                 </div>
             </header>
 
             <section id="secao-livros" class="content-section">
                 <div class="actions-bar">
-                    <input type="text" id="buscaLivro" placeholder="Filtrar por nome, categoria ou autor (RN03)..."
-                        class="search-admin">
+                    <input type="text" id="buscaLivro" placeholder="Filtrar por nome, categoria ou autor...">
                     <button class="btn-novo" onclick="abrirModalLivro()">+ Novo Livro</button>
                 </div>
                 <div class="table-responsive">
@@ -61,9 +59,9 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Capa</th>
-                                <th>Título (RN09)</th>
-                                <th>Autor (RN09)</th>
-                                <th>Status (RN11)</th>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Status</th>
                                 <th>Ações</th>
                             </tr>
                         </thead>
@@ -82,9 +80,9 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Nome (RN07)</th>
-                                <th>Email (RN07)</th>
-                                <th>Curso (RN07)</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Curso</th>
                                 <th>Celular</th>
                                 <th>Ações</th>
                             </tr>
@@ -102,8 +100,8 @@
                                 <th>ID</th>
                                 <th>Aluno</th>
                                 <th>Livro</th>
-                                <th>Retirada (RN10)</th>
-                                <th>Devolução (RN10)</th>
+                                <th>Retirada</th>
+                                <th>Devolução</th>
                                 <th>Confirmado?</th>
                             </tr>
                         </thead>
@@ -151,7 +149,7 @@
         <div class="modal-content">
             <h3>Cadastrar Aluno (RF01)</h3>
             <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">
-                Nota: O aluno será cadastrado sem senha (RN04). Uma senha provisória será gerada pelo sistema.
+                Nota: O aluno será cadastrado sem senha. Uma senha provisória será gerada pelo sistema.
             </p>
             <form id="formAluno">
                 <div class="form-group"><label>Nome Completo*</label><input type="text" id="nomeAluno" required></div>
