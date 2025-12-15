@@ -188,3 +188,23 @@ export async function listarReservasPorUsuario(req, res) {
         res.status(500).json({ erro: erro.message });
     }
 }
+
+
+export async function confirmarReserva(req, res) {
+    try {
+        const id = req.params.id;
+
+        // Atualiza o campo 'confirmado_email' para 1 (True)
+        // (Ou se você tiver um campo 'status', mude para 'Ativo')
+        await db.execute(
+            "UPDATE reservas SET confirmado_email = 1 WHERE id = ?",
+            [id]
+        );
+
+        res.json({ mensagem: "Reserva confirmada com sucesso!" });
+
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ erro: err.message });
+    }
+}

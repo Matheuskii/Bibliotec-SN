@@ -2,12 +2,19 @@ document.addEventListener("DOMContentLoaded", () => {
     carregarFavoritos();
 });
 
-const gridContainer = document.getElementById("gridFavoritos");
-const usuarioId = localStorage.getItem("usuarioId");
-
 async function carregarFavoritos() {
-    // Verifica se tem usuário logado
-    if (!usuarioId) {
+    // 1. Definições dentro da função para garantir que o HTML já existe
+    const gridContainer = document.getElementById("gridFavoritos");
+    const usuarioId = localStorage.getItem("usuarioId");
+    const token = localStorage.getItem("userToken");
+
+    console.log("Carregando favoritos para usuário:", usuarioId);
+
+    // 2. Validação se o elemento HTML existe na tela
+    if (!gridContainer) return;
+
+    // 3. Validação de Login
+    if (!usuarioId || !token) {
         gridContainer.innerHTML = `
             <div class="empty-state">
                 <p>Você precisa estar logado para ver seus favoritos.</p>
@@ -16,34 +23,26 @@ async function carregarFavoritos() {
         return;
     }
 
-    // 1. PEGA O TOKEN
-    const token = localStorage.getItem("userToken");
-
     try {
         const response = await fetch(`http://localhost:3000/favoritos/${usuarioId}`, {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // 2. ENVIA O TOKEN
+                'Authorization': `Bearer ${token}` // Envia o token
             }
         });
 
-        // ============================================================
-        // A CORREÇÃO DO ERRO ESTÁ AQUI:
-        // Criamos a variável 'favoritos' a partir da resposta do servidor
-        // ============================================================
-        const favoritos = await response.json(); 
-
-        gridContainer.innerHTML = ""; 
-
-        // Se o token for inválido
+        // 4. Tratamento de Sessão Expirada
         if (response.status === 401 || response.status === 403) {
             alert("Sessão expirada. Faça login novamente.");
             window.location.href = "Login.html";
             return;
         }
 
-        // Se não tiver favoritos ou a variável estiver vazia
+        const favoritos = await response.json(); 
+        gridContainer.innerHTML = ""; 
+
+        // 5. Lista Vazia
         if (!favoritos || favoritos.length === 0) {
             gridContainer.innerHTML = `
                 <div class="empty-state">
@@ -53,14 +52,16 @@ async function carregarFavoritos() {
             return;
         }
 
+        // 6. Gera os Cards
         favoritos.forEach(fav => {
             const card = document.createElement("div");
             card.className = "card-favorito";
             
-            const capa = fav.caminho_capa ? fav.caminho_capa : './images/capa-default.jpg';
+            // Tratamento de imagem quebrada/vazia
+            const capa = fav.caminho_capa || './images/capa-default.jpg';
 
             card.innerHTML = `
-                <img src="${capa}" alt="${fav.livro_titulo}" onclick="window.location.href='detalhes-livro.html?id=${fav.livro_id}'">
+                <img src="${capa}" alt="${fav.livro_titulo}" onclick="window.location.href='detalhes-livro.html?id=${fav.livro_id}'" style="cursor: pointer;">
                 <div class="card-info">
                     <div class="card-titulo">${fav.livro_titulo}</div>
                     <div class="card-autor">${fav.livro_autor}</div>
@@ -78,26 +79,27 @@ async function carregarFavoritos() {
     }
 }
 
-// Função global para remover (Também precisa do Token!)
+// Função de Remover (Global)
 window.removerFavorito = async function(idFavorito) {
     if(!confirm("Deseja remover este livro dos favoritos?")) return;
 
-    const token = localStorage.getItem("userToken"); // Pega o token novamente
+    const token = localStorage.getItem("userToken");
 
     try {
         const response = await fetch(`http://localhost:3000/favoritos/${idFavorito}`, {
             method: "DELETE",
             headers: {
-                'Authorization': `Bearer ${token}` // Envia o token no delete
+                'Authorization': `Bearer ${token}`
             }
         });
 
         if (response.ok) {
-            carregarFavoritos(); // Recarrega a tela
+            carregarFavoritos(); // Recarrega a lista
         } else {
             alert("Erro ao remover.");
         }
     } catch (error) {
+        console.error(error);
         alert("Erro de conexão.");
     }
-};
+}; 

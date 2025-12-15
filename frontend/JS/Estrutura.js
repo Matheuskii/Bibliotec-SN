@@ -66,7 +66,7 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn, funcaoFiltro = n
     // Função que rola até um card específico
     function rolarParaCard(index) {
         if (!cards[index]) return;
-        
+
         const card = cards[index];
         const cardLeft = card.offsetLeft;
         const cardWidth = card.offsetWidth;
@@ -81,7 +81,7 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn, funcaoFiltro = n
         });
 
         currentIndex = index;
-        
+
         // Atualiza o card central após a animação
         setTimeout(atualizarCardCentral, 300);
     }
@@ -113,12 +113,12 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn, funcaoFiltro = n
     cards.forEach((card, i) => {
         // Remove o listener antigo que apenas rolava
         // card.removeEventListener("click", () => {});
-        
+
         // Adiciona novo listener para abrir detalhes
         card.addEventListener("click", (e) => {
             // Evita que o clique no card seja tratado como scroll
             e.stopPropagation();
-            
+
             // Obtém o ID do livro do dataset
             const livroId = card.dataset.id;
             if (livroId) {
@@ -160,11 +160,11 @@ async function carregarLivros() {
     try {
         const API = "http://localhost:3000/livros";
         const resposta = await fetch(API);
-        
+
         if (!resposta.ok) {
             throw new Error(`Erro HTTP: ${resposta.status}`);
         }
-        
+
         const livros = await resposta.json();
         return Array.isArray(livros) ? livros : [];
     } catch (erro) {
@@ -178,16 +178,15 @@ export function criarCardLivro(livro) {
     const card = document.createElement('div');
     card.className = 'book-card';
     card.dataset.id = livro.id;
-    
-    // Crie um link que envolve todo o conteúdo do card
+
     const link = document.createElement('a');
     link.href = `detalhes-livro.html?id=${livro.id}`;
     link.className = 'card-link';
-    
+
     link.innerHTML = `
         ${livro.disponivel ? '<span class="book-status">Disponível</span>' : '<span class="book-status indisponivel">Indisponível</span>'}
         <div class="book-cover">
-            <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}" 
+            <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}"
                  alt="${livro.titulo}"
                  onerror="this.src='./images/capa-default.jpg'">
         </div>
@@ -197,7 +196,7 @@ export function criarCardLivro(livro) {
             ${livro.preco ? `<span class="book-price">R$ ${livro.preco}</span>` : ''}
         </div>
     `;
-    
+
     card.appendChild(link);
     return card;
 }
@@ -221,7 +220,7 @@ export function criarCardLivroClicavel(livro) {
     card.innerHTML = `
        
         <div class="book-cover">
-            <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}" 
+            <img src="${livro.caminho_capa || livro.capa_url || './images/capa-default.jpg'}"
                  alt="${livro.titulo}"
                  onerror="this.src='./images/capa-default.jpg'">
         </div>
@@ -232,14 +231,14 @@ export function criarCardLivroClicavel(livro) {
             ${livro.ano_publicacao ? `<span class="book-year">${livro.ano_publicacao}</span>` : ''}
         </div>
     `;
-    
+
     // Adiciona evento de clique para abrir página de detalhes
     card.addEventListener('click', function(e) {
         // Verifica se o clique foi em um link ou botão dentro do card
         if (e.target.tagName === 'A' || e.target.tagName === 'BUTTON') {
             return; // Permite comportamento padrão
         }
-        
+
         const livroId = this.dataset.id || livro.id;
         if (livroId) {
             // Adiciona efeito visual de clique
@@ -251,7 +250,7 @@ export function criarCardLivroClicavel(livro) {
             }, 150);
         }
     });
-    
+
     // Adiciona evento de teclado para acessibilidade
     card.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -262,12 +261,12 @@ export function criarCardLivroClicavel(livro) {
             }
         }
     });
-    
+
     // Torna o card focável para acessibilidade
     card.setAttribute('tabindex', '0');
     card.setAttribute('role', 'button');
     card.setAttribute('aria-label', `Livro: ${livro.titulo} por ${livro.autor}. Clique para ver detalhes.`);
-    
+
     return card;
 }
 
@@ -275,9 +274,9 @@ export function criarCardLivroClicavel(livro) {
 export function criarCardsLivros(livros, containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
-    
+
     container.innerHTML = '';
-    
+
     livros.forEach(livro => {
         const card = criarCardLivroClicavel(livro);
         container.appendChild(card);
@@ -289,11 +288,11 @@ export async function buscarLivroPorId(id) {
     try {
         const API = `http://localhost:3000/livros/${id}`;
         const resposta = await fetch(API);
-        
+
         if (!resposta.ok) {
             throw new Error(`Livro não encontrado: ${resposta.status}`);
         }
-        
+
         return await resposta.json();
     } catch (erro) {
         console.error("Erro ao buscar livro:", erro);
@@ -309,7 +308,7 @@ export function inicializarCarrosseis() {
         { gridId: 'ofertas', leftBtn: '#left-ofertas', rightBtn: '#right-ofertas' },
         // Adicione mais carrosséis conforme necessário
     ];
-    
+
     carrosseis.forEach(async (carrossel) => {
         const grid = document.getElementById(carrossel.gridId);
         if (grid) {
@@ -322,13 +321,13 @@ export function inicializarCarrosseis() {
 export async function pesquisarLivros(termo) {
     try {
         const livros = await carregarLivros();
-        
+
         if (!termo || termo.trim() === '') {
             return livros;
         }
-        
+
         const termoLower = termo.toLowerCase();
-        return livros.filter(livro => 
+        return livros.filter(livro =>
             livro.titulo.toLowerCase().includes(termoLower) ||
             livro.autor.toLowerCase().includes(termoLower) ||
             livro.genero?.toLowerCase().includes(termoLower) ||
@@ -349,14 +348,14 @@ if (typeof window !== 'undefined') {
             searchBar.addEventListener('input', async (e) => {
                 const termo = e.target.value;
                 const resultados = await pesquisarLivros(termo);
-                
+
                 // Aqui você pode atualizar a exibição dos resultados
                 console.log('Resultados da pesquisa:', resultados);
             });
         }
-        
+
         // Inicializa os carrosséis se estiver na página inicial
-        if (window.location.pathname.includes('index.html') || 
+        if (window.location.pathname.includes('index.html') ||
             window.location.pathname === '/') {
             inicializarCarrosseis();
         }

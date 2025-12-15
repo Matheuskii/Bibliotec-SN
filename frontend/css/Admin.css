@@ -334,8 +334,22 @@ input:focus, select:focus, textarea:focus {
     font-weight: bold;
 }
 
+.btn-confirmar {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: transform 0.2s;
+}
 
-/* Adicione ao seu Admin.css */
+.btn-confirmar:hover {
+    background-color: #218838;
+    transform: scale(1.1);
+}
+
 
 .text-center {
     text-align: center;

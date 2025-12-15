@@ -1,4 +1,3 @@
-
 const API_URL = "http://localhost:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -9,61 +8,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Configura o nome do Admin logado
     const nomeAdmin = localStorage.getItem("nomeUsuario");
-    if(nomeAdmin) document.getElementById("adminNome").textContent = nomeAdmin;
+    if(nomeAdmin) {
+        const adminNomeEl = document.getElementById("adminNome");
+        if(adminNomeEl) adminNomeEl.textContent = nomeAdmin;
+    }
 
     // --- EVENTOS DE SUBMIT ---
-    document.getElementById("formLivro").addEventListener("submit", salvarLivro);
-    document.getElementById("formAluno").addEventListener("submit", salvarAluno);
+    const formLivro = document.getElementById("formLivro");
+    if(formLivro) formLivro.addEventListener("submit", salvarLivro);
+
+    const formAluno = document.getElementById("formAluno");
+    if(formAluno) formAluno.addEventListener("submit", salvarAluno);
 
     // --- LOGOUT ---
-    document.getElementById("btnSairAdmin").addEventListener("click", () => {
-        if(confirm("Deseja sair do painel?")) {
-            localStorage.clear();
-            window.location.href = "Login.html";
-        }
-    });
+    const btnSair = document.getElementById("btnSairAdmin");
+    if(btnSair) {
+        btnSair.addEventListener("click", () => {
+            if(confirm("Deseja sair do painel?")) {
+                localStorage.clear();
+                window.location.href = "Login.html";
+            }
+        });
+    }
 });
 
 // ==========================================
-// NAVEGAÇÃO ENTRE SEÇÕES (LIVROS/ALUNOS/RESERVAS)
+// NAVEGAÇÃO ENTRE SEÇÕES
 // ==========================================
 window.mostrarSecao = (secaoId) => {
-    // Esconde todas
     document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
     document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
 
-    // Mostra a escolhida
-    document.getElementById(`secao-${secaoId}`).style.display = 'block';
+    const secao = document.getElementById(`secao-${secaoId}`);
+    if(secao) secao.style.display = 'block';
 
-    // Atualiza título e classe active (simulação simples)
     const mapTitulos = {
         'livros': 'Gerenciar Livros',
         'alunos': 'Gerenciar Alunos',
         'reservas': 'Controle de Reservas'
     };
-    document.getElementById('tituloSecao').innerText = mapTitulos[secaoId];
+    const titulo = document.getElementById('tituloSecao');
+    if(titulo) titulo.innerText = mapTitulos[secaoId];
 }
 
 // ==========================================
-// LÓGICA DE LIVROS (RF02, RF03, RF04, RF11, RF12)
+// LÓGICA DE LIVROS
 // ==========================================
 async function carregarLivros() {
     try {
         const response = await fetch(`${API_URL}/livros`);
         const livros = await response.json();
         const tbody = document.getElementById("tabelaLivrosBody");
+        if(!tbody) return;
+        
         tbody.innerHTML = "";
 
         livros.forEach(livro => {
             const tr = document.createElement("tr");
             const ativo = Number(livro.ativo) === 1;
-
-            // RN11: Livros podem estar cadastrados porém inativos
             const statusBadge = ativo
                 ? `<span class="badge-status ativo">Ativo</span>`
                 : `<span class="badge-status inativo">Inativo</span>`;
 
-            // Prepara objeto para edição
             const livroString = JSON.stringify(livro).replace(/'/g, "&#39;");
 
             tr.innerHTML = `
@@ -91,7 +97,7 @@ window.editarLivro = (livro) => {
     document.getElementById("editora").value = livro.editora || "";
     document.getElementById("genero").value = livro.genero || "";
     document.getElementById("idioma").value = livro.idioma || "Português";
-    document.getElementById("ano_publicacao").value = livro.ano_publicacao ? new Date(livro.ano_publicacao).getFullYear() : "";
+    document.getElementById("ano_publicacao").value = livro.ano_publicacao || "";
     document.getElementById("isbn").value = livro.isbn || "";
     document.getElementById("caminho_capa").value = livro.caminho_capa || "";
     document.getElementById("sinopse").value = livro.sinopse || "";
@@ -103,6 +109,7 @@ window.editarLivro = (livro) => {
 
 async function salvarLivro(e) {
     e.preventDefault();
+    const token = localStorage.getItem("userToken"); // [SEGURANÇA]
     const id = document.getElementById("livroId").value;
     const metodo = id ? "PUT" : "POST";
     const url = id ? `${API_URL}/livros/${id}` : `${API_URL}/livros`;
@@ -112,10 +119,10 @@ async function salvarLivro(e) {
         autor: document.getElementById("autor").value,
         editora: document.getElementById("editora").value,
         genero: document.getElementById("genero").value,
-        idioma: document.getElementById("idioma").value, // RN09
+        idioma: document.getElementById("idioma").value,
         ano_publicacao: document.getElementById("ano_publicacao").value,
         isbn: document.getElementById("isbn").value,
-        formato: "Físico", // Default conforme RN
+        formato: "Físico",
         caminho_capa: document.getElementById("caminho_capa").value,
         sinopse: document.getElementById("sinopse").value,
         ativo: document.getElementById("ativo").checked ? 1 : 0
@@ -124,39 +131,62 @@ async function salvarLivro(e) {
     try {
         const response = await fetch(url, {
             method: metodo,
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // [SEGURANÇA] Token obrigatório
+            },
             body: JSON.stringify(dados)
         });
+        
         if(response.ok) {
             alert("Livro salvo com sucesso!");
             fecharModal('modalLivro');
             carregarLivros();
         } else {
-            alert("Erro ao salvar livro.");
+            const err = await response.json();
+            alert("Erro: " + (err.erro || err.mensagem || "Falha ao salvar"));
         }
     } catch(err) { console.error(err); }
 }
 
 window.deletarLivro = async (id) => {
-    if(confirm("Tem certeza que deseja excluir?")) {
-        await fetch(`${API_URL}/livros/${id}`, { method: "DELETE" });
-        carregarLivros();
+    if(confirm("Tem certeza que deseja excluir este livro?")) {
+        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+        try {
+            const response = await fetch(`${API_URL}/livros/${id}`, { 
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` } // [SEGURANÇA]
+            });
+            
+            if(response.ok) {
+                carregarLivros();
+            } else {
+                alert("Erro ao excluir livro.");
+            }
+        } catch(err) { console.error(err); }
     }
 }
 
 // ==========================================
-// LÓGICA DE ALUNOS (RF01, RN04, RN07)
+// LÓGICA DE ALUNOS
 // ==========================================
 async function carregarAlunos() {
     try {
-        const response = await fetch(`${API_URL}/usuarios`);
+        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+        // Idealmente, a rota de usuários também deveria pedir token para listar
+        const response = await fetch(`${API_URL}/usuarios`, {
+             headers: { "Authorization": `Bearer ${token}` }
+        });
         const usuarios = await response.json();
 
         const tbody = document.getElementById("tabelaAlunosBody");
+        if(!tbody) return;
         tbody.innerHTML = "";
 
-        // Filtra apenas ALUNOS (RN01 diz que admin cadastra alunos)
-        const alunos = usuarios.filter(u => u.perfil === 'Aluno');
+        // Filtra apenas ALUNOS
+        // Verifica se 'usuarios' é array, caso contrário usa .dados ou []
+        const lista = Array.isArray(usuarios) ? usuarios : (usuarios.dados || []);
+        const alunos = lista.filter(u => u.perfil === 'Aluno');
 
         alunos.forEach(aluno => {
             const tr = document.createElement("tr");
@@ -179,14 +209,11 @@ async function carregarAlunos() {
 
 async function salvarAluno(e) {
     e.preventDefault();
-
-    // RN04: Admin cadastra sem senha
-    // Como o Banco (MySQL) exige senha (NOT NULL), geramos uma provisória.
-    // RN05: Diz que aluno recebe email para mudar senha (simulado aqui)
+    const token = localStorage.getItem("userToken"); // [SEGURANÇA]
     const senhaProvisoria = "mudar123";
 
     const dados = {
-        nome: document.getElementById("nomeAluno").value, // Adaptando nome_completo -> nome (conforme seu banco)
+        nome: document.getElementById("nomeAluno").value,
         email: document.getElementById("emailAluno").value,
         data_nascimento: document.getElementById("nascAluno").value,
         celular: document.getElementById("celularAluno").value,
@@ -194,26 +221,29 @@ async function salvarAluno(e) {
         senha: senhaProvisoria
     };
 
-    // Vamos enviar o objeto compátivel com o seu controller de cadastro:
     const payload = {
-        nome_completo: dados.nome, // controller usa nome_completo ou usuario
-        usuario: dados.nome,       // Fallback
+        nome_completo: dados.nome,
+        usuario: dados.nome,
         email: dados.email,
         senha: dados.senha,
         data_nascimento: dados.data_nascimento,
         celular: dados.celular,
-        curso: dados.curso
+        curso: dados.curso,
+        perfil: 'Aluno' // Importante forçar perfil Aluno
     };
 
     try {
         const response = await fetch(`${API_URL}/usuarios/cadastrar`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}` // [SEGURANÇA]
+            },
             body: JSON.stringify(payload)
         });
 
         if(response.ok) {
-            alert(`Aluno cadastrado com sucesso!\nSenha provisória: ${senhaProvisoria} (RN04)`);
+            alert(`Aluno cadastrado!\nSenha provisória: ${senhaProvisoria}`);
             fecharModal('modalAluno');
             carregarAlunos();
         } else {
@@ -228,44 +258,41 @@ async function salvarAluno(e) {
 
 window.deletarAluno = async (id) => {
     if(confirm("Excluir este aluno?")) {
-        await fetch(`${API_URL}/usuarios/${id}`, { method: "DELETE" });
-        carregarAlunos();
+        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+        try {
+            const response = await fetch(`${API_URL}/usuarios/${id}`, { 
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` } // [SEGURANÇA]
+            });
+            if(response.ok) {
+                carregarAlunos();
+            } else {
+                alert("Erro ao excluir aluno.");
+            }
+        } catch(err) { console.error(err); }
     }
 }
 
-
+// ==========================================
+// LÓGICA DE RESERVAS
+// ==========================================
 async function carregarReservas() {
     try {
         console.log("📅 Carregando reservas...");
-
-        // 1. PEGA O TOKEN REAL DO LOGIN
         const token = localStorage.getItem("userToken");
 
-        if (!token) {
-            console.warn("Sem token, redirecionando...");
-            // Opcional: window.location.href = "Login.html";
-            return;
-        }
+        if (!token) return;
 
-        // 2. ENVIA O TOKEN NO CABEÇALHO (HEADER)
         const response = await fetch(`${API_URL}/reservas`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // <--- OBRIGATÓRIO
+                'Authorization': `Bearer ${token}`
             }
         });
 
-        if (!response.ok) {
-            if (response.status === 401) alert("Sessão expirada.");
-            throw new Error(`HTTP ${response.status}`);
-        }
-
         const reservas = await response.json();
-
-        // Mantém sua lógica de extrair os dados
         const lista = reservas.dados ? reservas.dados : reservas;
-
         const tbody = document.getElementById("tabelaReservasBody");
         if(tbody) tbody.innerHTML = "";
 
@@ -274,10 +301,20 @@ async function carregarReservas() {
         lista.forEach(reserva => {
             const tr = document.createElement("tr");
 
-            // Formatando datas (usando UTC para evitar erro de dia anterior)
             const formatar = (data) => new Date(data).toLocaleDateString('pt-BR', {timeZone: 'UTC'});
             const retirada = formatar(reserva.data_retirada);
             const devolucao = formatar(reserva.data_devolucao);
+
+            // Se já estiver confirmado (1), mostra ícone verde.
+            // Se não (0), mostra botão de confirmar.
+            const statusVisual = reserva.confirmado_email 
+                ? '<span style="color:green; font-weight:bold;">Confirmado ✅</span>' 
+                : '<span style="color:orange; font-weight:bold;">Pendente ⏳</span>';
+
+            // Botão Confirmar (Só aparece se estiver Pendente)
+            const btnConfirmar = !reserva.confirmado_email
+                ? `<button class="btn-confirmar" onclick="window.confirmarReservaAdmin(${reserva.id})" title="Confirmar Retirada">✅</button>`
+                : '';
 
             tr.innerHTML = `
                 <td>${reserva.id}</td>
@@ -285,8 +322,9 @@ async function carregarReservas() {
                 <td>${reserva.livro_titulo || 'ID: ' + reserva.livro_id}</td>
                 <td>${retirada}</td>
                 <td>${devolucao}</td>
-                <td>${reserva.confirmado_email ? '✅' : '⏳'}</td>
-                 <td class="acoes">
+                <td>${statusVisual}</td>
+                <td class="acoes" style="display: flex; gap: 5px;">
+                    ${btnConfirmar}
                     <button class="btn-excluir" onclick="window.cancelarReservaAdmin(${reserva.id})" title="Cancelar">❌</button>
                 </td>
             `;
@@ -298,21 +336,87 @@ async function carregarReservas() {
     }
 }
 
+// NOVA FUNÇÃO: Confirmar Reserva
+window.confirmarReservaAdmin = async (id) => {
+    if (!confirm("Confirmar a retirada deste livro pelo aluno?")) return;
+
+    const token = localStorage.getItem("userToken");
+    
+    try {
+        const response = await fetch(`${API_URL}/reservas/${id}/confirmar`, {
+            method: "PUT", // Método PUT para atualizar
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            alert("Reserva confirmada com sucesso!");
+            carregarReservas(); // Atualiza a tabela na hora
+        } else {
+            alert("Erro ao confirmar reserva.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro de conexão.");
+    }
+}
+
+window.cancelarReservaAdmin = async (id) => {
+    if (!confirm("Tem certeza que deseja cancelar e excluir esta reserva?")) {
+        return;
+    }
+
+    const token = localStorage.getItem("userToken");
+    
+    if (!token) {
+        alert("Erro de autenticação. Faça login novamente.");
+        window.location.href = "Login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`${API_URL}/reservas/${id}`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            alert("Reserva cancelada com sucesso!");
+            carregarReservas();
+        } else {
+            const erro = await response.json();
+            alert("Erro ao cancelar: " + (erro.mensagem || erro.erro));
+        }
+
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Erro de conexão.");
+    }
+}
+
 // ==========================================
 // UTILITÁRIOS DE MODAL
 // ==========================================
 window.abrirModalLivro = () => {
-    document.getElementById("formLivro").reset();
+    const form = document.getElementById("formLivro");
+    if(form) form.reset();
     document.getElementById("livroId").value = "";
-    document.getElementById("modalTituloLivro").innerText = "Novo Livro (RF02)";
+    document.getElementById("modalTituloLivro").innerText = "Novo Livro";
     document.getElementById("modalLivro").style.display = "flex";
 }
 
 window.abrirModalAluno = () => {
-    document.getElementById("formAluno").reset();
+    const form = document.getElementById("formAluno");
+    if(form) form.reset();
     document.getElementById("modalAluno").style.display = "flex";
 }
 
 window.fecharModal = (modalId) => {
-    document.getElementById(modalId).style.display = "none";
+    const modal = document.getElementById(modalId);
+    if(modal) modal.style.display = "none";
 }

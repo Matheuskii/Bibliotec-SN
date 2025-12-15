@@ -76,8 +76,8 @@ class DetalhesLivro {
                             </div>
                             <div class="meta-item">
                                 <strong>Status</strong>
-                                <span class="status ${statusClass}">
-                                    ${statusText}
+                                <span class="status ${livro.disponivel ? 'disponivel' : 'indisponivel'}">
+                                    ${livro.disponivel ? 'Disponível' : 'Indisponível'}
                                 </span>
                             </div>
                         </div>
