@@ -94,6 +94,10 @@ html.dark-mode .titulo-secao {
     border-bottom: none;
 }
 
+p {
+    color: var(--cor-cinza);
+}
+
 /* dark mode */
 html.dark-mode .tabela-reservas {
     background: var(--cor-cinza);
@@ -108,6 +112,10 @@ html.dark-mode .tabela-reservas thead {
 
 html.dark-mode .tabela-reservas td {
     border-bottom: 5px solid var(--cor-cinza-claro);
+}
+
+html.dark-mode p {
+    color: var(--cor-branco-claro);
 }
 
 /* ====================== */

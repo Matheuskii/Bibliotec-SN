@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Admin - BiblioTec</title>
     <link rel="stylesheet" href="./css/Inicio.css">
     <link rel="stylesheet" href="./css/Admin.css">
+    <script>
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
 
     <script>
         // Pega o perfil do usuário logado.
@@ -17,12 +23,14 @@
         }
     </script>
 </head>
+
 <body>
     <div class="admin-container">
         <aside class="sidebar">
             <div class="sidebar-header">
                 <img src="./images/LogoBibliotec.png" alt="Logo" class="admin-logo">
                 <h3>Admin Panel</h3>
+                <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
             </div>
             <nav class="sidebar-nav">
                 <a href="#" class="nav-link active" onclick="mostrarSecao('livros')">📚 Livros (RF04)</a>
@@ -43,7 +51,8 @@
 
             <section id="secao-livros" class="content-section">
                 <div class="actions-bar">
-                    <input type="text" id="buscaLivro" placeholder="Filtrar por nome, categoria ou autor (RN03)..." class="search-admin">
+                    <input type="text" id="buscaLivro" placeholder="Filtrar por nome, categoria ou autor (RN03)..."
+                        class="search-admin">
                     <button class="btn-novo" onclick="abrirModalLivro()">+ Novo Livro</button>
                 </div>
                 <div class="table-responsive">
@@ -113,7 +122,8 @@
                 <input type="hidden" id="livroId">
                 <div class="form-group"><label>Título (Nome)*</label><input type="text" id="titulo" required></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Escritor (Autor)*</label><input type="text" id="autor" required></div>
+                    <div class="form-group"><label>Escritor (Autor)*</label><input type="text" id="autor" required>
+                    </div>
                     <div class="form-group"><label>Editora</label><input type="text" id="editora"></div>
                 </div>
                 <div class="form-row">
@@ -125,8 +135,10 @@
                     <div class="form-group"><label>ISBN</label><input type="text" id="isbn"></div>
                 </div>
                 <div class="form-group"><label>Foto (URL da Capa)</label><input type="text" id="caminho_capa"></div>
-                <div class="form-group"><label>Descrição (Sinopse)</label><textarea id="sinopse" rows="3"></textarea></div>
-                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo (RN11)</label></div>
+                <div class="form-group"><label>Descrição (Sinopse)</label><textarea id="sinopse" rows="3"></textarea>
+                </div>
+                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo (RN11)</label>
+                </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar" onclick="fecharModal('modalLivro')">Cancelar</button>
                     <button type="submit" class="btn-salvar">Salvar</button>
@@ -143,9 +155,11 @@
             </p>
             <form id="formAluno">
                 <div class="form-group"><label>Nome Completo*</label><input type="text" id="nomeAluno" required></div>
-                <div class="form-group"><label>E-mail Institucional*</label><input type="email" id="emailAluno" required></div>
+                <div class="form-group"><label>E-mail Institucional*</label><input type="email" id="emailAluno"
+                        required></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Data Nascimento</label><input type="date" id="nascAluno" required></div>
+                    <div class="form-group"><label>Data Nascimento</label><input type="date" id="nascAluno" required>
+                    </div>
                     <div class="form-group"><label>Celular</label><input type="text" id="celularAluno" required></div>
                 </div>
                 <div class="form-group"><label>Curso Técnico*</label><input type="text" id="cursoAluno" required></div>
@@ -158,6 +172,46 @@
         </div>
     </div>
 
+    <script type="module">
+        import { initDarkMode } from "./JS/darkMode.js";
+        initDarkMode();
+    </script>
+
+    <script>
+
+        (function () {
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+            const htmlElement = document.documentElement;
+
+            // Padrão: modo escuro ativado
+            const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+
+            if (isDarkMode) {
+                htmlElement.classList.add('dark-mode');
+                if (darkModeBtn) DarkModeBtn.textContent = '☀️';
+            }
+
+            // Listener para o botão
+            if (darkModeBtn) {
+                darkModeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+                    if (isCurrentlyDark) {
+                        htmlElement.classList.remove('dark-mode');
+                        darkModeBtn.textContent = '🌙';
+                        localStorage.setItem('DarkMode', 'false');
+                    } else {
+                        htmlElement.classList.add('dark-mode');
+                        darkModeBtn.textContent = '☀️';
+                        localStorage.setItem('DarkMode', 'true');
+                    }
+                });
+            }
+        })();
+    </script>
+
     <script src="./JS/Admin.js" type="module"></script>
 </body>
+
 </html>

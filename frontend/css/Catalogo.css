@@ -52,13 +52,6 @@ html.dark-mode h1 {
   box-sizing: border-box;
 }
 
-/* light mode */
-body {
-  font-family: Arial, sans-serif;
-  background-color: var(--cor-branco-claro);
-  line-height: 2;
-}
-
 @keyframes lavaFlowDark {
   0% {
     background-position: 0% 50%;
@@ -99,12 +92,16 @@ body {
   }
 }
 
+/* light mode */
+body {
+  font-family: Arial, sans-serif;
+  background-color: var(--cor-branco-claro);
+  line-height: 2;
+}
+
 header.top-header {
   display: flex;
   padding: 0px 10px;
-  margin-top: 5px;
-  border-top-left-radius: 30px;
-  border-top-right-radius: 30px;
   background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
   background-size: 400% 400%;
   animation: lavaFlow 20s infinite;
