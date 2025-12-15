@@ -6,10 +6,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BiblioTec - Login</title>
   <link rel="stylesheet" href="./css/Login.css">
+  <link rel="stylesheet" href="./css/Toast.css">
+  <script src="./JS/toast.js" defer></script>
+
   <script type="module" src="./JS/telas_forms.js" defer></script>
-  <script type="module" src="./JS/DarkMode.js" defer></script>
+  
   <script>
-    if (localStorage.getItem('darkMode') !== 'false') {
+    // Evita o "piscar" branco ao carregar a página
+    if (localStorage.getItem('DarkMode') === 'true') {
       document.documentElement.classList.add('dark-mode');
     }
   </script>
@@ -17,6 +21,9 @@
 
 <body>
   <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+  
+  <div id="toast-box"></div>
+
   <main class="login-container">
     <img src="./images/Logo-Bibliotec.png" alt="Logo BiblioTec" class="logo">
 
@@ -33,7 +40,7 @@
         <a onclick="esqueciSenha()">Esqueceu sua senha?</a>
       </div>
 
-      <button type="submit" class="btn-login">Jogar</button>
+      <button type="submit" class="btn-login">Entrar</button>
     </form>
   </main>
 
@@ -49,25 +56,22 @@
     }
 
     function irParaCadastro() {
-      window.location.href = './cadastro.html';
+      window.location.href = './Cadastro.html';
     }
   </script>
 
   <script>
-    // Inicializar dark mode antes de qualquer coisa
     (function () {
       const darkModeBtn = document.getElementById('dark-mode-btn');
       const htmlElement = document.documentElement;
 
-      // Padrão: modo escuro ativado
-      const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+      // Verifica estado atual
+      const isDarkMode = localStorage.getItem('DarkMode') === 'true';
 
       if (isDarkMode) {
-        htmlElement.classList.add('dark-mode');
         if (darkModeBtn) darkModeBtn.textContent = '☀️';
       }
 
-      // Listener para o botão
       if (darkModeBtn) {
         darkModeBtn.addEventListener('click', function (e) {
           e.preventDefault();
@@ -86,7 +90,5 @@
       }
     })();
   </script>
-        <script src="./JS/toast.js"></script>
-
 </body>
 </html>

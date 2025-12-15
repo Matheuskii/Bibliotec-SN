@@ -6,15 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BiblioTec - Detalhes do Livro</title>
     <link rel="stylesheet" href="./css/Detalhes-livro.css" />
+    <link rel="stylesheet" href="./css/Toast.css">
+    <script src="./JS/toast.js" defer></script>
+
+    <script src="./JS/detalhes-livro.js" defer></script>
+
     <script>
-        // Evita piscar a tela branca se o dark mode estiver salvo
-        if (localStorage.getItem('darkMode') !== 'false') {
+        if (localStorage.getItem('DarkMode') === 'true') {
             document.documentElement.classList.add('dark-mode');
         }
     </script>
 </head>
 
 <body>
+    <div id="toast-box"></div>
+
     <header>
         <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
         <h1>BIBLIO TEC</h1>
@@ -24,8 +30,8 @@
     <nav>
         <a href="./Inicio.html">Início</a>
         <a href="./Catalogo.html">Catálogo</a>
-        <a href="./favoritos.html">Favoritos</a>
-        <a href="./reservas.html">Minhas Reservas</a>
+        <a href="./Favoritos.html">Favoritos</a>
+        <a href="./Reservas.html">Minhas Reservas</a>
     </nav>
 
     <div class="container-detalhes" id="detalhes-container">
@@ -52,7 +58,6 @@
     <div class="separador-secao"></div>
 
     <section class="comunidade-container">
-
         <div class="painel-media">
             <h3>Opinião dos Leitores</h3>
             <div class="media-display">
@@ -65,7 +70,6 @@
         </div>
 
         <div class="painel-comentarios">
-
             <button id="btn-escrever-review" class="btn-toggle-form" onclick="toggleFormulario()">
                 ✍️ Escrever uma avaliação
             </button>
@@ -84,40 +88,44 @@
                 <button class="btn-enviar-review" onclick="enviarAvaliacao()">Publicar</button>
             </div>
 
-            <div id="lista-avaliacoes" class="lista-reviews">
-            </div>
+            <div id="lista-avaliacoes" class="lista-reviews"></div>
         </div>
     </section>
 
-    <script src="./JS/detalhes-livro.js" defer></script>
-
     <script type="module">
-        // Importa apenas a verificação de login para atualizar o botão do menu
         import { verificarEstadoLogin } from "./JS/Estrutura.js";
         verificarEstadoLogin();
     </script>
 
     <script>
-        // Lógica do Dark Mode
-        const darkModeBtn = document.getElementById('dark-mode-btn');
-        const htmlElement = document.documentElement;
+        (function () {
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+            const htmlElement = document.documentElement;
 
-        if (darkModeBtn) {
-            darkModeBtn.addEventListener('click', function () {
-                const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+            // Padrão: Verifica se já está ativo
+            const isDarkMode = localStorage.getItem('DarkMode') === 'true';
 
-                if (isCurrentlyDark) {
-                    htmlElement.classList.remove('dark-mode');
-                    darkModeBtn.textContent = '🌙';
-                    localStorage.setItem('darkMode', 'false');
-                } else {
-                    htmlElement.classList.add('dark-mode');
-                    darkModeBtn.textContent = '☀️';
-                    localStorage.setItem('darkMode', 'true');
-                }
-            });
-        }
+            if (isDarkMode) {
+                if (darkModeBtn) darkModeBtn.textContent = '☀️';
+            }
+
+            if (darkModeBtn) {
+                darkModeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+                    if (isCurrentlyDark) {
+                        htmlElement.classList.remove('dark-mode');
+                        darkModeBtn.textContent = '🌙';
+                        localStorage.setItem('DarkMode', 'false');
+                    } else {
+                        htmlElement.classList.add('dark-mode');
+                        darkModeBtn.textContent = '☀️';
+                        localStorage.setItem('DarkMode', 'true');
+                    }
+                });
+            }
+        })();
     </script>
 </body>
-
 </html>

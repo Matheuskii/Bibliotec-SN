@@ -34,7 +34,7 @@ async function carregarFavoritos() {
 
         // 4. Tratamento de Sessão Expirada
         if (response.status === 401 || response.status === 403) {
-            showToast("Sessão expirada. Faça login novamente.");
+            showToast("Sessão expirada. Faça login novamente.", 'error');
             window.location.href = "Login.html";
             return;
         }
@@ -96,10 +96,10 @@ window.removerFavorito = async function(idFavorito) {
         if (response.ok) {
             carregarFavoritos(); // Recarrega a lista
         } else {
-            showToast("Erro ao remover.");
+            showToast("Erro ao remover.", 'error');
         }
     } catch (error) {
         console.error(error);
-        showToast("Erro de conexão.");
+        showToast("Erro de conexão.", 'error');
     }
 }; 

@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec - Minhas Reservas</title>
-    <link rel="stylesheet" href="./css/detalhes-livro.css">
-    <link rel="stylesheet" href="./css/reservas.css">
+    
+    <link rel="stylesheet" href="./css/Detalhes-livro.css">
+    <link rel="stylesheet" href="./css/Reservas.css">
+    <link rel="stylesheet" href="./css/Toast.css">
+    <script src="./JS/toast.js" defer></script>
+
+    <script src="./JS/reservas.js" defer></script>
+    
     <script>
-        if (localStorage.getItem('darkMode') !== 'false') {
+        if (localStorage.getItem('DarkMode') === 'true') {
             document.documentElement.classList.add('dark-mode');
         }
     </script>
 </head>
+
 <body>
+    <div id="toast-box"></div>
+
     <header>
         <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
         <h1>BIBLIO TEC</h1>
@@ -22,21 +32,20 @@
     <nav>
         <a href="./Inicio.html">Início</a>
         <a href="./Catalogo.html">Catálogo</a>
-        <a href="./favoritos.html">Favoritos</a>
+        <a href="./Favoritos.html">Favoritos</a>
     </nav>
 
     <main class="reservas-wrapper">
-        <h2 class="titulo-secao">Minhas Reservas (  ﾟヮﾟ)</h2>
+        <h2 class="titulo-secao">Minhas Reservas ( ﾟヮﾟ)</h2>
         
         <table class="tabela-reservas">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Usuário</th>
                     <th>Livro</th>
                     <th>Retirada</th>
                     <th>Devolução</th>
-                    <th>Confirmado</th>
+                    <th>Status</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -50,12 +59,39 @@
     </main>
 
     <script type="module">
-        import { initDarkMode } from "./JS/darkMode.js";
         import { verificarEstadoLogin } from "./JS/Estrutura.js";
-
-        initDarkMode();
         verificarEstadoLogin();
     </script>
-    <script src="./JS/reservas.js" defer></script>
+
+    <script>
+        (function () {
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+            const htmlElement = document.documentElement;
+
+            // Padrão: Verifica se já está ativo
+            const isDarkMode = localStorage.getItem('DarkMode') === 'true';
+
+            if (isDarkMode) {
+                if (darkModeBtn) darkModeBtn.textContent = '☀️';
+            }
+
+            if (darkModeBtn) {
+                darkModeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+                    if (isCurrentlyDark) {
+                        htmlElement.classList.remove('dark-mode');
+                        darkModeBtn.textContent = '🌙';
+                        localStorage.setItem('DarkMode', 'false');
+                    } else {
+                        htmlElement.classList.add('dark-mode');
+                        darkModeBtn.textContent = '☀️';
+                        localStorage.setItem('DarkMode', 'true');
+                    }
+                });
+            }
+        })();
+    </script>
 </body>
 </html>

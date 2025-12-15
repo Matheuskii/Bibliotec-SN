@@ -2,143 +2,139 @@
 <html lang="pt-BR">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>BiblioTec - Início</title>
-  <link rel="stylesheet" href="./css/Inicio.css" />
-  <script>
-    if (localStorage.getItem('darkMode') !== 'false') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BiblioTec - Início</title>
+    <link rel="stylesheet" href="./css/Inicio.css" />
+    <link rel="stylesheet" href="./css/Toast.css">
+    <script src="./JS/toast.js" defer></script>
+
+    <script>
+        if (localStorage.getItem('DarkMode') === 'true') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
 </head>
 
 <body>
-  <header>
-    <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
-    <h1>BIBLIO TEC</h1>
-    <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
-  </header>
+    <div id="toast-box"></div>
 
-  <nav>
-    <a href="./catalogo.html">Catálogo</a>
-    <a href="./favoritos.html">Favoritos</a>
-    <a href="./reservas.html">Minhas Reservas</a>
-    <a href="./Admin.html" id="btnAdminPanel" style="display: none; color: #ff0000; font-weight: bold;">Painel Admin</a>
-    <a href="./login.html" id="btnAuth" style="text-decoration: none; color: #4a67df; font-weight: bold;">Login</a>
-  </nav>
+    <header>
+        <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
+        <h1>BIBLIO TEC</h1>
+        <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+    </header>
 
-  <div class="search-container">
-    <input type="text" class="search-bar" placeholder="Pesquisar..." />
-    <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
-  </div>
+    <nav>
+        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./Favoritos.html">Favoritos</a>
+        <a href="./Reservas.html">Minhas Reservas</a>
+        <a href="./Admin.html" id="btnAdminPanel" style="display: none; color: #ff0000; font-weight: bold;">Painel Admin</a>
+        <a href="./Login.html" id="btnAuth" style="text-decoration: none; color: #4a67df; font-weight: bold;">Login</a>
+    </nav>
 
-  <section>
-    <div class="section-header">
-      <h2>Mais Procurados</h2>
+    <div class="search-container">
+        <input type="text" class="search-bar" placeholder="Pesquisar..." />
+        <span class="search-icon"> <img src="images/Lupa.png" alt="Ícone de lupa para pesquisa"></span>
     </div>
-    <div class="books-container">
-      <div class="carousel-wrapper">
-        <button class="arrow-left" id="left-vendidos">◀</button>
-        <div class="books-grid" id="vendidos"></div>
-        <button class="arrow-right" id="right-vendidos">▶</button>
-      </div>
-    </div>
-  </section>
 
-  <section>
-    <div class="section-header">
-      <h2>Olha a onda, olha a onda. pa pa</h2>
-    </div>
-    <div class="books-container">
-      <div class="carousel-wrapper">
-        <button class="arrow-left" id="left-ofertas">◀</button>
-        <div class="books-grid" id="ofertas"></div>
-        <button class="arrow-right" id="right-ofertas">▶</button>
-      </div>
-    </div>
-  </section>
+    <section>
+        <div class="section-header">
+            <h2>Mais Procurados</h2>
+        </div>
+        <div class="books-container">
+            <div class="carousel-wrapper">
+                <button class="arrow-left" id="left-vendidos">◀</button>
+                <div class="books-grid" id="vendidos"></div>
+                <button class="arrow-right" id="right-vendidos">▶</button>
+            </div>
+        </div>
+    </section>
 
-  <footer>
-    <div class="footer-content">
-      <p>© 2025 BiblioTec - Todos os direitos reservados politicamente pelos integrantes limas, alvinho e dudu</p>
-      <div class="footer-links">
-        <a href="#">Sobre</a>
-        <a href="#">Termos de Uso</a>
-        <a href="#">Privacidade</a>
-        <a href="#">Contato</a>
-      </div>
-    </div>
-  </footer>
+    <section>
+        <div class="section-header">
+            <h2>Ofertas e Destaques</h2> </div>
+        <div class="books-container">
+            <div class="carousel-wrapper">
+                <button class="arrow-left" id="left-ofertas">◀</button>
+                <div class="books-grid" id="ofertas"></div>
+                <button class="arrow-right" id="right-ofertas">▶</button>
+            </div>
+        </div>
+    </section>
 
-  <script type="module">
-    import { criarCarrossel, verificarEstadoLogin } from "./JS/Estrutura.js";
-    import { initDarkMode } from "./JS/darkMode.js";
+    <footer>
+        <div class="footer-content">
+            <p>© 2025 BiblioTec - Todos os direitos reservados.</p>
+            <div class="footer-links">
+                <a href="#">Sobre</a>
+                <a href="#">Termos de Uso</a>
+                <a href="#">Privacidade</a>
+                <a href="#">Contato</a>
+            </div>
+        </div>
+    </footer>
 
-    initDarkMode();
-    verificarEstadoLogin();
+    <script type="module">
+        import { criarCarrossel, verificarEstadoLogin } from "./JS/Estrutura.js";
+        
+        // Verifica se é Admin ou Aluno para ajustar o menu
+        verificarEstadoLogin();
 
-    // --- CARROSSEL 1: MAIS VENDIDOS ---
-    // Lógica: Mostrar livros de Fantasia, Romance ou os primeiros 10 livros do banco
-    criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos", (livro) => {
-      // Normaliza o texto para evitar erros de acentuação
-      const genero = livro.genero ? livro.genero.toLowerCase() : "";
-      const id = Number(livro.id);
+        // --- CARROSSEL 1: MAIS VENDIDOS ---
+        criarCarrossel("vendidos", "#left-vendidos", "#right-vendidos", (livro) => {
+            const genero = livro.genero ? livro.genero.toLowerCase() : "";
+            const id = Number(livro.id);
 
-      // Regra: Gêneros populares OU IDs antigos (clássicos)
-      return genero.includes('fantasia') ||
-        genero.includes('romance') ||
-        genero.includes('infantil') ||
-        id <= 5;
-    });
-
-    // --- CARROSSEL 2: OFERTAS ---
-    // Lógica: Mostrar livros de Terror, Suspense ou E-books (geralmente mais baratos)
-    criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas", (livro) => {
-      const genero = livro.genero ? livro.genero.toLowerCase() : "";
-      const formato = livro.formato ? livro.formato.toLowerCase() : "";
-
-      // Regra: Gêneros de nicho OU E-books
-      return genero.includes('terror') ||
-        genero.includes('suspense') ||
-        genero.includes('policial') ||
-        formato === 'e-book';
-    });
-  </script>
-  <script>
-
-    (function () {
-      const darkModeBtn = document.getElementById('dark-mode-btn');
-      const htmlElement = document.documentElement;
-
-      // Padrão: modo escuro ativado
-      const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
-
-      if (isDarkMode) {
-        htmlElement.classList.add('dark-mode');
-        if (darkModeBtn) DarkModeBtn.textContent = '☀️';
-      }
-
-      // Listener para o botão
-      if (darkModeBtn) {
-        darkModeBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-
-          if (isCurrentlyDark) {
-            htmlElement.classList.remove('dark-mode');
-            darkModeBtn.textContent = '🌙';
-            localStorage.setItem('DarkMode', 'false');
-          } else {
-            htmlElement.classList.add('dark-mode');
-            darkModeBtn.textContent = '☀️';
-            localStorage.setItem('DarkMode', 'true');
-          }
+            // Regra: Gêneros populares OU IDs antigos (clássicos)
+            return genero.includes('fantasia') ||
+                genero.includes('romance') ||
+                genero.includes('infantil') ||
+                id <= 5;
         });
-      }
-    })();
-  </script>
-  <script type="module" src="./JS/DarkMode.js" defer></script>
-</body>
 
+        // --- CARROSSEL 2: OFERTAS ---
+        criarCarrossel("ofertas", "#left-ofertas", "#right-ofertas", (livro) => {
+            const genero = livro.genero ? livro.genero.toLowerCase() : "";
+            const formato = livro.formato ? livro.formato.toLowerCase() : "";
+
+            // Regra: Gêneros de nicho OU E-books
+            return genero.includes('terror') ||
+                genero.includes('suspense') ||
+                genero.includes('policial') ||
+                formato === 'e-book';
+        });
+    </script>
+
+    <script>
+        (function () {
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+            const htmlElement = document.documentElement;
+
+            // Padrão: Verifica se já está ativo
+            const isDarkMode = localStorage.getItem('DarkMode') === 'true';
+
+            if (isDarkMode) {
+                if (darkModeBtn) darkModeBtn.textContent = '☀️';
+            }
+
+            if (darkModeBtn) {
+                darkModeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+                    if (isCurrentlyDark) {
+                        htmlElement.classList.remove('dark-mode');
+                        darkModeBtn.textContent = '🌙';
+                        localStorage.setItem('DarkMode', 'false');
+                    } else {
+                        htmlElement.classList.add('dark-mode');
+                        darkModeBtn.textContent = '☀️';
+                        localStorage.setItem('DarkMode', 'true');
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
 </html>

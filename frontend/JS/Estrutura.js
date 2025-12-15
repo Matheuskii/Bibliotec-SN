@@ -386,7 +386,7 @@ export function verificarEstadoLogin() {
             e.preventDefault();
             if (confirm("Tem certeza que deseja sair?")) {
                 localStorage.clear(); // Limpa ID, Nome e Perfil
-                showToast("Você saiu do sistema.");
+                showToast("Você saiu do sistema.", 'success');
                 window.location.href = "Login.html";
             }
         });

@@ -33,7 +33,7 @@ if (loginForm) {
       const dados = await resposta.json();
 
       if (!dados.sucesso) {
-        showToast(dados.mensagem || "Erro ao fazer login.");
+        showToast(dados.mensagem || "Erro ao fazer login.", 'error');
         return;
       }
 
@@ -47,7 +47,7 @@ if (loginForm) {
         localStorage.setItem("perfilUsuario", dados.usuario.perfil);
         localStorage.setItem("userToken", dados.token);
 
-        showToast(`Bem-vindo, ${dados.usuario.nome}!`);
+        showToast(`Bem-vindo, ${dados.usuario.nome}!`, 'success');
         console.log("Login realizado. Perfil:", dados.usuario.perfil);
 
         if (dados.usuario.perfil === 'Admin') {
@@ -59,7 +59,7 @@ if (loginForm) {
       }
     } catch (erro) {
       console.error(erro);
-      showToast("Erro ao conectar com o servidor.");
+      showToast("Erro ao conectar com o servidor.", 'error');
     }
   });
 }
@@ -88,8 +88,8 @@ async function cadastrarUsuario() {
 
   // 2. Validações
   if (senha !== confirmarSenha) return showToast("As senhas não coincidem.");
-  if (!email.includes("@") || !email.includes(".")) return showToast("Insira um email válido.");
-  if (!data_nascimento) return showToast("Insira sua data de nascimento.");
+  if (!email.includes("@") || !email.includes(".")) return showToast("Insira um email válido.", 'error');
+  if (!data_nascimento) return showToast("Insira sua data de nascimento.", 'error');
 
   const payload = {
     nome_completo: nome,
@@ -132,18 +132,18 @@ async function cadastrarUsuario() {
             modal.style.display = "flex";
         } else {
             console.error("❌ ERRO CRÍTICO: O elemento <div id='modalVerificacao'> não existe no Cadastro.html!");
-            showToast("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.");
+            showToast("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.", 'success');
         }
 
     } else {
         // --- ERRO (Ex: Email duplicado) ---
         console.warn("⚠️ Backend retornou erro:", dados);
-        showToast(dados.erro || dados.mensagem || "Erro ao realizar cadastro.");
+        showToast(dados.erro || dados.mensagem || "Erro ao realizar cadastro.", 'error');
     }
 
   } catch (erro) {
     console.error("❌ Erro de conexão:", erro);
-    showToast("Erro de conexão com o servidor.");
+    showToast("Erro de conexão com o servidor.", 'error');
   }
 }
 
@@ -152,7 +152,7 @@ window.confirmarCodigo = async function() {
     const codigoInput = document.getElementById("codigoInput");
     const codigo = codigoInput ? codigoInput.value.trim() : "";
 
-    if (!codigo) return showToast("Digite o código.");
+    if (!codigo) return showToast("Digite o código.", 'error');
 
     try {
         const resposta = await fetch("http://localhost:3000/usuarios/verificar", {
@@ -164,14 +164,14 @@ window.confirmarCodigo = async function() {
         const dados = await resposta.json();
 
         if (dados.sucesso) {
-            showToast("✅ Conta verificada com sucesso! Faça login.");
+            showToast("✅ Conta verificada com sucesso! Faça login.", 'success');
             window.location.href = "Login.html";
         } else {
-            showToast("❌ " + dados.mensagem);
+            showToast("❌ " + dados.mensagem, 'error');
         }
     } catch (error) {
         console.error(error);
-        showToast("Erro ao verificar código.");
+        showToast("Erro ao verificar código.", 'error');
     }
 }
 
@@ -193,7 +193,7 @@ async function recuperarSenha() {
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
   if (novaSenha !== confirmarSenha) {
-    showToast("As senhas não coincidem.");
+    showToast("As senhas não coincidem.", 'error');
     return;
   }
 
@@ -216,15 +216,15 @@ async function recuperarSenha() {
 
     const dados = await resposta.json();
 
-    showToast(dados.message || dados.mensagem);
+    showToast(dados.message || dados.mensagem, 'success');
 
     if (resposta.status === 201) {
-      showToast("Nova senha registrada com sucesso, redirecionando ao login...");
+      showToast("Nova senha registrada com sucesso, redirecionando ao login...", 'success');
       redirecionarParaLogin();
     }
   } catch (err) {
     console.error(err);
-    showToast("Erro ao recuperar senha.");
+    showToast("Erro ao recuperar senha.", 'error');
   }
 }
 

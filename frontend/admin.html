@@ -5,25 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Admin - BiblioTec</title>
+    
     <link rel="stylesheet" href="./css/Inicio.css">
     <link rel="stylesheet" href="./css/Admin.css">
+    <link rel="stylesheet" href="./css/Toast.css">
+    <script src="./JS/toast.js" defer></script>
+    
+    <script src="./JS/admin.js" type="module" defer></script>
+
     <script>
-        if (localStorage.getItem('darkMode') !== 'false') {
+        // Evita o "piscar" branco ao carregar
+        if (localStorage.getItem('DarkMode') === 'true') {
             document.documentElement.classList.add('dark-mode');
-        }
-    </script>
-    <script>
-        // Pega o perfil do usuário logado.
-        const perfil = localStorage.getItem("perfilUsuario");
-        // Verifica se é Admin. Se não for, chuta para o login.
-        if (!perfil || perfil !== 'Admin') {
-            showToast("Acesso restrito a Administradores.");
-            window.location.href = "Login.html";
         }
     </script>
 </head>
 
 <body>
+    <div id="toast-box"></div>
+
     <div class="admin-container">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -44,7 +44,7 @@
             <header class="top-bar">
                 <h2 id="tituloSecao">Controle de Livros</h2>
                 <div class="user-info">
-                    <span id="adminNome"></span>
+                    <span id="adminNome">Admin</span>
                 </div>
             </header>
 
@@ -102,14 +102,13 @@
                                 <th>Livro</th>
                                 <th>Retirada</th>
                                 <th>Devolução</th>
-                                <th>Confirmado?</th>
+                                <th>Status</th> <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tabelaReservasBody"></tbody>
                     </table>
                 </div>
             </section>
-
         </main>
     </div>
 
@@ -120,8 +119,7 @@
                 <input type="hidden" id="livroId">
                 <div class="form-group"><label>Título (Nome)*</label><input type="text" id="titulo" required></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Escritor (Autor)*</label><input type="text" id="autor" required>
-                    </div>
+                    <div class="form-group"><label>Escritor (Autor)*</label><input type="text" id="autor" required></div>
                     <div class="form-group"><label>Editora</label><input type="text" id="editora"></div>
                 </div>
                 <div class="form-row">
@@ -133,10 +131,8 @@
                     <div class="form-group"><label>ISBN</label><input type="text" id="isbn"></div>
                 </div>
                 <div class="form-group"><label>Foto (URL da Capa)</label><input type="text" id="caminho_capa"></div>
-                <div class="form-group"><label>Descrição (Sinopse)</label><textarea id="sinopse" rows="3"></textarea>
-                </div>
-                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo </label>
-                </div>
+                <div class="form-group"><label>Descrição (Sinopse)</label><textarea id="sinopse" rows="3"></textarea></div>
+                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo </label></div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar" onclick="fecharModal('modalLivro')">Cancelar</button>
                     <button type="submit" class="btn-salvar">Salvar</button>
@@ -149,19 +145,16 @@
         <div class="modal-content">
             <h3>Cadastrar Aluno</h3>
             <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">
-                Nota: O aluno será cadastrado sem senha. Uma senha provisória será gerada pelo sistema.
+                Nota: O aluno será cadastrado sem senha. Uma senha provisória será gerada.
             </p>
             <form id="formAluno">
                 <div class="form-group"><label>Nome Completo*</label><input type="text" id="nomeAluno" required></div>
-                <div class="form-group"><label>E-mail Institucional*</label><input type="email" id="emailAluno"
-                        required></div>
+                <div class="form-group"><label>E-mail Institucional*</label><input type="email" id="emailAluno" required></div>
                 <div class="form-row">
-                    <div class="form-group"><label>Data Nascimento</label><input type="date" id="nascAluno" required>
-                    </div>
+                    <div class="form-group"><label>Data Nascimento</label><input type="date" id="nascAluno" required></div>
                     <div class="form-group"><label>Celular</label><input type="text" id="celularAluno" required></div>
                 </div>
                 <div class="form-group"><label>Curso Técnico*</label><input type="text" id="cursoAluno" required></div>
-
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar" onclick="fecharModal('modalAluno')">Cancelar</button>
                     <button type="submit" class="btn-salvar">Cadastrar Aluno</button>
@@ -170,26 +163,38 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initDarkMode } from "./JS/darkMode.js";
-        initDarkMode();
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const perfil = localStorage.getItem("perfilUsuario");
+            
+            // Verificação de Segurança
+            if (!perfil || perfil !== 'Admin') {
+                // Se o showToast ainda não estiver carregado, usa alert como fallback
+                if (typeof showToast === "function") {
+                    showToast("Acesso restrito a Administradores.", "error");
+                } else {
+                    alert("Acesso restrito a Administradores.");
+                }
+                
+                setTimeout(() => {
+                    window.location.href = "Login.html";
+                }, 2000); // Dá tempo de ler o toast antes de chutar
+            }
+        });
     </script>
 
     <script>
-
         (function () {
             const darkModeBtn = document.getElementById('dark-mode-btn');
             const htmlElement = document.documentElement;
 
-            // Padrão: modo escuro ativado
-            const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+            const isDarkMode = localStorage.getItem('DarkMode') === 'true';
 
             if (isDarkMode) {
                 htmlElement.classList.add('dark-mode');
-                if (darkModeBtn) DarkModeBtn.textContent = '☀️';
+                if (darkModeBtn) darkModeBtn.textContent = '☀️';
             }
 
-            // Listener para o botão
             if (darkModeBtn) {
                 darkModeBtn.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -208,8 +213,5 @@
             }
         })();
     </script>
-    <script src="./JS/toast.js"></script>
-    <script src="./JS/admin.js" type="module"></script>
 </body>
-
 </html>

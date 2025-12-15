@@ -34,11 +34,8 @@ class DetalhesLivro {
         const container = document.getElementById('detalhes-container');
 
         // Verifica se o livro está ativo (disponível)
-        // O banco retorna 1 ou 0. Convertemos para booleano.
         const estaDisponivel = (livro.ativo === 1);
-        const statusClass = estaDisponivel ? 'disponivel' : 'indisponivel';
-        const statusText = estaDisponivel ? 'Disponível' : 'Indisponível';
-
+        
         // Capa padrão caso não tenha
         const capa = livro.caminho_capa || './images/capa-default.jpg';
 
@@ -76,8 +73,8 @@ class DetalhesLivro {
                             </div>
                             <div class="meta-item">
                                 <strong>Status</strong>
-                                <span class="status ${livro.disponivel ? 'disponivel' : 'indisponivel'}">
-                                    ${livro.disponivel ? 'Disponível' : 'Indisponível'}
+                                <span class="status ${estaDisponivel ? 'disponivel' : 'indisponivel'}">
+                                    ${estaDisponivel ? 'Disponível' : 'Indisponível'}
                                 </span>
                             </div>
                         </div>
@@ -106,7 +103,7 @@ class DetalhesLivro {
         // Atualiza título da aba do navegador
         document.title = `${livro.titulo} | BiblioTec`;
 
-        // === IMPORTANTE: Carrega as avaliações depois de desenhar o livro ===
+        // Carrega as avaliações depois de desenhar o livro
         if(window.carregarAvaliacoesdoLivro) {
             window.carregarAvaliacoesdoLivro();
         }
@@ -127,7 +124,6 @@ window.carregarAvaliacoesdoLivro = async function() {
     const params = new URLSearchParams(window.location.search);
     const idLivro = params.get('id');
 
-    // Elementos do DOM (Verifica se existem antes de usar)
     const container = document.getElementById('lista-avaliacoes');
     const elNota = document.getElementById('valor-media-grande');
     const elTotal = document.getElementById('total-votos');
@@ -144,13 +140,11 @@ window.carregarAvaliacoesdoLivro = async function() {
 
         const dados = await response.json();
 
-        // Atualiza Painel de Média
         if(dados.media !== undefined && elNota) {
             const mediaFormatada = parseFloat(dados.media).toFixed(1);
             elNota.textContent = mediaFormatada;
             if(elTotal) elTotal.textContent = `Baseado em ${dados.total_avaliacoes} avaliações`;
 
-            // Pinta estrelas da média
             if(elEstrelas) {
                 const percentual = (mediaFormatada / 5) * 100;
                 elEstrelas.style.background = `linear-gradient(90deg, #ffd700 ${percentual}%, #ccc ${percentual}%)`;
@@ -159,7 +153,6 @@ window.carregarAvaliacoesdoLivro = async function() {
             }
         }
 
-        // Atualiza Lista de Comentários
         if(container && dados.comentarios) {
             container.innerHTML = "";
 
@@ -203,7 +196,7 @@ window.toggleFormulario = function() {
     const token = localStorage.getItem("userToken");
 
     if (!token) {
-        showToast("Faça login para escrever uma avaliação!");
+        showToast("Faça login para escrever uma avaliação!", 'warning');
         window.location.href = "Login.html";
         return;
     }
@@ -219,7 +212,7 @@ window.enviarAvaliacao = async function() {
     const comentario = document.getElementById('comentarioInput').value;
 
     if (nota == "0") {
-        showToast("Por favor, selecione as estrelas!");
+        showToast("Por favor, selecione as estrelas!", 'warning');
         return;
     }
 
@@ -234,14 +227,14 @@ window.enviarAvaliacao = async function() {
         });
 
         if (response.ok) {
-            showToast("Avaliação enviada!");
+            showToast("Avaliação enviada!",'success');
             location.reload();
         } else {
-            showToast("Erro ao enviar avaliação.");
+            showToast("Erro ao enviar avaliação.", 'error');
         }
     } catch (error) {
         console.error(error);
-        showToast("Erro de conexão.");
+        showToast("Erro de conexão.", 'error');
     }
 }
 
@@ -253,7 +246,7 @@ window.reservarLivro = function(id) {
     const token = localStorage.getItem("userToken");
 
     if (!usuarioId || !token) {
-        showToast("Você precisa fazer login para reservar.");
+        showToast("Você precisa fazer login para reservar.", 'warning');
         window.location.href = "Login.html";
         return;
     }
@@ -278,16 +271,15 @@ window.confirmarReserva = async function() {
     const dataDevolucao = document.getElementById("dataDevolucao").value;
 
     if (!dataDevolucao) {
-        showToast("Por favor, selecione uma data.");
+        showToast("Por favor, selecione uma data.", 'warning');
         return;
     }
 
     const usuarioId = localStorage.getItem('usuarioId');
     const token = localStorage.getItem("userToken");
 
-    // Validação de segurança
     if (!usuarioId || !token) {
-        showToast("Sessão expirada. Faça login novamente.");
+        showToast("Sessão expirada. Faça login novamente.", 'error');
         window.location.href = "Login.html";
         return;
     }
@@ -309,45 +301,49 @@ window.confirmarReserva = async function() {
             })
         });
 
-        const dados = await response.json();
+        // ============================================================
+        // A ORDEM IMPORTA MUITO AQUI:
+        // ============================================================
 
-        // --- AQUI ESTÁ A MÁGICA PARA TRATAR O 409 ---
-        if (!response.ok) {
-
-            // Se for Conflito de Datas (409)
-            if (response.status === 409) {
-                showToast("Ja existe uma reserva para este livro no período solicitado.");
-                // A mensagem virá do backend: "Já existe uma reserva..."
-                return;
-            }
-
-            // Se for erro de Token (401/403)
-            if (response.status === 401 || response.status === 403) {
-                showToast("🔒 Você precisa estar logado.");
-                window.location.href = "Login.html";
-                return;
-            }
-
-            throw new Error(dados.mensagem || 'Erro desconhecido');
+        // 1º: Verifica ESPECIFICAMENTE o 409 (Conflito) ANTES de checar se deu erro geral
+        if (response.status === 409) {
+            showToast("⚠️ Você já possui uma reserva ativa para este livro!", "warning");
+            fecharModalReserva(); 
+            return; // PARA TUDO AQUI. Não deixa descer para o erro genérico.
         }
-        // -------------------------------------------
 
-        showToast('🎉 Livro reservado com sucesso!');
+        // 2º: Verifica Token Inválido (401 ou 403)
+        if (response.status === 401 || response.status === 403) {
+            showToast("🔒 Sessão expirada. Faça login novamente.", 'error');
+            setTimeout(() => window.location.href = "Login.html", 2000);
+            return;
+        }
+
+        // 3º: Agora sim, se for qualquer OUTRO erro, lança exceção
+        if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.mensagem || 'Erro ao realizar reserva');
+        }
+
+        // 4º: Se chegou aqui, é Sucesso (200 ou 201)
+        showToast('🎉 Livro reservado com sucesso!', 'success');
         fecharModalReserva();
-        location.reload();
+        setTimeout(() => location.reload(), 1500);
 
     } catch (error) {
         console.error('Erro:', error);
-        showToast(error.message);
+        // Só mostra toast de erro se não for um dos casos tratados acima
+        showToast(error.message || "Erro de conexão.", 'error');
     }
 }
+
 // --- 3. FAVORITOS ---
 window.adicionarFavoritos = async function(id) {
     const usuarioId = localStorage.getItem('usuarioId');
     const token = localStorage.getItem("userToken");
 
     if (!usuarioId || !token) {
-        showToast('Faça login para adicionar favoritos.');
+        showToast('Faça login para adicionar favoritos.', 'error');
         window.location.href = "Login.html";
         return;
     }
@@ -362,13 +358,17 @@ window.adicionarFavoritos = async function(id) {
             body: JSON.stringify({ usuario_id: usuarioId, livro_id: id })
         });
 
-        if (response.status === 409) return showToast('Livro já está nos favoritos!');
+        if (response.status === 409) {
+            showToast('Livro já está nos favoritos!', 'warning'); 
+            return;
+        }
+        
         if (!response.ok) throw new Error('Erro ao favoritar');
 
-        showToast('❤️ Adicionado aos favoritos!');
+        showToast('❤️ Adicionado aos favoritos!', 'success'); // [CORREÇÃO] Era 'sucess'
 
     } catch (error) {
-        showToast(error.message);
+        showToast(error.message, 'error');
     }
 }
 

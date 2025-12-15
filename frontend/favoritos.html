@@ -1,19 +1,29 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec - Favoritos</title>
-    <link rel="stylesheet" href="./css/detalhes-livro.css"> 
-    <link rel="stylesheet" href="./css/favoritos.css">
+    
+    <link rel="stylesheet" href="./css/Detalhes-livro.css"> 
+    <link rel="stylesheet" href="./css/Favoritos.css">
+    <link rel="stylesheet" href="./css/Toast.css">
+        
+    <script src="./JS/toast.js" defer></script>
+
+    <script src="./JS/favoritos.js" defer></script>
     
     <script>
-        if (localStorage.getItem('darkMode') !== 'false') {
+        if (localStorage.getItem('DarkMode') === 'true') {
             document.documentElement.classList.add('dark-mode');
         }
     </script>
 </head>
+
 <body>
+    <div id="toast-box"></div>
+
     <header>
         <img class="logo" src="./images/LogoBibliotec.png" alt="Logo BiblioTec">
         <h1>BIBLIO TEC</h1>
@@ -21,10 +31,10 @@
     </header>
 
     <nav>
-        <a href="./inicio.html">Início</a>
-        <a href="./catalogo.html">Catálogo</a>
-        <a href="./reservas.html">Reservas</a>
-        </nav>
+        <a href="./Inicio.html">Início</a>
+        <a href="./Catalogo.html">Catálogo</a>
+        <a href="./Reservas.html">Reservas</a>
+    </nav>
 
     <main class="favoritos-wrapper">
         <h2 class="titulo-secao">Meus Livros Favoritos (❁´◡`❁)</h2>
@@ -34,11 +44,35 @@
         </div>
     </main>
 
-   <script type="module">
-        import { initDarkMode } from "./JS/darkMode.js"; 
-        initDarkMode();
-    </script>
+    <script>
+        (function () {
+            const darkModeBtn = document.getElementById('dark-mode-btn');
+            const htmlElement = document.documentElement;
 
-    <script src="./JS/favoritos.js" defer></script>
+            // Padrão: Verifica se já está ativo
+            const isDarkMode = localStorage.getItem('DarkMode') === 'true';
+
+            if (isDarkMode) {
+                if (darkModeBtn) darkModeBtn.textContent = '☀️';
+            }
+
+            if (darkModeBtn) {
+                darkModeBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
+
+                    if (isCurrentlyDark) {
+                        htmlElement.classList.remove('dark-mode');
+                        darkModeBtn.textContent = '🌙';
+                        localStorage.setItem('DarkMode', 'false');
+                    } else {
+                        htmlElement.classList.add('dark-mode');
+                        darkModeBtn.textContent = '☀️';
+                        localStorage.setItem('DarkMode', 'true');
+                    }
+                });
+            }
+        })();
+    </script>
 </body>
 </html>

@@ -6,15 +6,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BiblioTec - Cadastro</title>
   <link rel="stylesheet" href="./css/Cadastro.css">
+  <link rel="stylesheet" href="./css/Toast.css">
+  <script src="./JS/toast.js" defer></script>
+
   <script type="module" src="./JS/telas_forms.js" defer></script>
+
   <script>
-    if (localStorage.getItem('darkMode') !== 'false') {
+    if (localStorage.getItem('DarkMode') === 'true') {
       document.documentElement.classList.add('dark-mode');
     }
   </script>
 </head>
 
 <body>
+  <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+
+  <div id="toast-box"></div>
+
   <main class="login-container">
     <img src="./images/Logo-Bibliotec.png" alt="Logo BiblioTec" class="logo">
 
@@ -28,48 +36,45 @@
 
       <input type="text" id="curso" name="curso" placeholder="Curso Técnico (Ex: DS)" class="input-field" required>
 
-      <input type="number" id="celular" name="celular" placeholder="Celular (somente números)" class="input-field"
-        required>
+      <input type="number" id="celular" name="celular" placeholder="Celular (somente números)" class="input-field" required>
 
       <input type="password" id="senha" name="senha" placeholder="Crie uma senha" class="input-field" required>
 
-      <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha"
-        class="input-field" required>
+      <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha" class="input-field" required>
 
       <button type="submit" class="btn-cadastro2">Cadastrar</button>
-      <p class="login-link">Já possui conta? <a href="./login.html">Faça login</a></p>
+      <p class="login-link">Já possui conta? <a href="./Login.html">Faça login</a></p>
     </form>
   </main>
+
   <div id="modalVerificacao" class="modal-overlay" style="display: none;">
     <div class="modal-content">
-        <h3>📧 Verifique seu E-mail</h3>
-        <p>Enviamos um código para: <strong id="emailDisplay"></strong></p>
+      <h3>📧 Verifique seu E-mail</h3>
+      <p>Enviamos um código para: <strong id="emailDisplay"></strong></p>
 
-        <input type="text" id="codigoInput" placeholder="Ex: 123456" maxlength="6">
+      <input type="text" id="codigoInput" placeholder="Ex: 123456" maxlength="6">
 
-        <button onclick="confirmarCodigo()">Confirmar Cadastro</button>
+      <button onclick="confirmarCodigo()">Confirmar Cadastro</button>
 
-        <p style="margin-top:15px; font-size:12px; cursor:pointer; color:red;"
-           onclick="document.getElementById('modalVerificacao').style.display='none'">
-           Fechar / Corrigir E-mail
-        </p>
+      <p style="margin-top:15px; font-size:12px; cursor:pointer; color:red;"
+         onclick="document.getElementById('modalVerificacao').style.display='none'">
+         Fechar / Corrigir E-mail
+      </p>
     </div>
-</div>
+  </div>
+
   <script>
-    // Inicializar dark mode antes de qualquer coisa
+    // Lógica do Botão Dark Mode
     (function () {
       const darkModeBtn = document.getElementById('dark-mode-btn');
       const htmlElement = document.documentElement;
 
-      // Padrão: modo escuro ativado
-      const isDarkMode = localStorage.getItem('DarkMode') !== 'false';
+      const isDarkMode = localStorage.getItem('DarkMode') === 'true';
 
       if (isDarkMode) {
-        htmlElement.classList.add('dark-mode');
         if (darkModeBtn) darkModeBtn.textContent = '☀️';
       }
 
-      // Listener para o botão
       if (darkModeBtn) {
         darkModeBtn.addEventListener('click', function (e) {
           e.preventDefault();
@@ -88,8 +93,5 @@
       }
     })();
   </script>
-      <script src="./JS/toast.js"></script>
-
 </body>
-
 </html>
