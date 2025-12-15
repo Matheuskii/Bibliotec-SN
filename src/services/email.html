@@ -1,22 +1,18 @@
-import nodemailer from 'nodemailer';
+<!DOCTYPE html>
+<html lang="pt-BR">
 
-// Configuração do Transporter (assumindo que as variáveis de ambiente estão carregadas)
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.GMAIL_USER,
-        pass: process.env.GMAIL_APP_PASSWORD
-    }
-});
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BiblioTec - Início</title>
+    <link rel="stylesheet" href="../../frontend/css/CodigoDeEmail.css" />
+    <script>
+        if (localStorage.getItem('darkMode') !== 'false') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+</head>
 
-
-
-export async function enviarEmailVerificacao(email, codigo) {
-    const mailOptions = {
-        from: `"BiblioTec" <${process.env.GMAIL_USER}>`,
-        to: email,
-        subject: '🔐 BiblioTec - Seu Código de Verificação',
-        html: `
 <div style="font-family: Arial, sans-serif; background-color: #f4f4f4; padding: 20px;">
     <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%">
         <tr>
@@ -71,15 +67,3 @@ export async function enviarEmailVerificacao(email, codigo) {
         </tr>
     </table>
 </div>
-        `
-    };
-
-    try {
-        await transporter.sendMail(mailOptions);
-        console.log(`📧 E-mail enviado para ${email}`);
-        return true;
-    } catch (error) {
-        console.error('❌ Erro ao enviar e-mail:', error);
-        return false;
-    }
-}

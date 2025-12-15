@@ -203,7 +203,7 @@ window.toggleFormulario = function() {
     const token = localStorage.getItem("userToken");
 
     if (!token) {
-        alert("Faça login para escrever uma avaliação!");
+        showToast("Faça login para escrever uma avaliação!");
         window.location.href = "Login.html";
         return;
     }
@@ -219,7 +219,7 @@ window.enviarAvaliacao = async function() {
     const comentario = document.getElementById('comentarioInput').value;
 
     if (nota == "0") {
-        alert("Por favor, selecione as estrelas!");
+        showToast("Por favor, selecione as estrelas!");
         return;
     }
 
@@ -234,14 +234,14 @@ window.enviarAvaliacao = async function() {
         });
 
         if (response.ok) {
-            alert("Avaliação enviada!");
+            showToast("Avaliação enviada!");
             location.reload();
         } else {
-            alert("Erro ao enviar avaliação.");
+            showToast("Erro ao enviar avaliação.");
         }
     } catch (error) {
         console.error(error);
-        alert("Erro de conexão.");
+        showToast("Erro de conexão.");
     }
 }
 
@@ -253,7 +253,7 @@ window.reservarLivro = function(id) {
     const token = localStorage.getItem("userToken");
 
     if (!usuarioId || !token) {
-        alert("Você precisa fazer login para reservar.");
+        showToast("Você precisa fazer login para reservar.");
         window.location.href = "Login.html";
         return;
     }
@@ -278,7 +278,7 @@ window.confirmarReserva = async function() {
     const dataDevolucao = document.getElementById("dataDevolucao").value;
 
     if (!dataDevolucao) {
-        alert("Por favor, selecione uma data.");
+        showToast("Por favor, selecione uma data.");
         return;
     }
 
@@ -287,7 +287,7 @@ window.confirmarReserva = async function() {
 
     // Validação de segurança
     if (!usuarioId || !token) {
-        alert("Sessão expirada. Faça login novamente.");
+        showToast("Sessão expirada. Faça login novamente.");
         window.location.href = "Login.html";
         return;
     }
@@ -316,14 +316,14 @@ window.confirmarReserva = async function() {
 
             // Se for Conflito de Datas (409)
             if (response.status === 409) {
-                alert("Ja existe uma reserva para este livro no período solicitado.");
+                showToast("Ja existe uma reserva para este livro no período solicitado.");
                 // A mensagem virá do backend: "Já existe uma reserva..."
                 return;
             }
 
             // Se for erro de Token (401/403)
             if (response.status === 401 || response.status === 403) {
-                alert("🔒 Você precisa estar logado.");
+                showToast("🔒 Você precisa estar logado.");
                 window.location.href = "Login.html";
                 return;
             }
@@ -332,13 +332,13 @@ window.confirmarReserva = async function() {
         }
         // -------------------------------------------
 
-        alert('🎉 Livro reservado com sucesso!');
+        showToast('🎉 Livro reservado com sucesso!');
         fecharModalReserva();
         location.reload();
 
     } catch (error) {
         console.error('Erro:', error);
-        alert(error.message);
+        showToast(error.message);
     }
 }
 // --- 3. FAVORITOS ---
@@ -347,7 +347,7 @@ window.adicionarFavoritos = async function(id) {
     const token = localStorage.getItem("userToken");
 
     if (!usuarioId || !token) {
-        alert('Faça login para adicionar favoritos.');
+        showToast('Faça login para adicionar favoritos.');
         window.location.href = "Login.html";
         return;
     }
@@ -362,13 +362,13 @@ window.adicionarFavoritos = async function(id) {
             body: JSON.stringify({ usuario_id: usuarioId, livro_id: id })
         });
 
-        if (response.status === 409) return alert('Livro já está nos favoritos!');
+        if (response.status === 409) return showToast('Livro já está nos favoritos!');
         if (!response.ok) throw new Error('Erro ao favoritar');
 
-        alert('❤️ Adicionado aos favoritos!');
+        showToast('❤️ Adicionado aos favoritos!');
 
     } catch (error) {
-        alert(error.message);
+        showToast(error.message);
     }
 }
 

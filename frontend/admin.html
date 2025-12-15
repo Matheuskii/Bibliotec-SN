@@ -17,7 +17,7 @@
         const perfil = localStorage.getItem("perfilUsuario");
         // Verifica se é Admin. Se não for, chuta para o login.
         if (!perfil || perfil !== 'Admin') {
-            alert("Acesso restrito a Administradores.");
+            showToast("Acesso restrito a Administradores.");
             window.location.href = "Login.html";
         }
     </script>
@@ -135,7 +135,7 @@
                 <div class="form-group"><label>Foto (URL da Capa)</label><input type="text" id="caminho_capa"></div>
                 <div class="form-group"><label>Descrição (Sinopse)</label><textarea id="sinopse" rows="3"></textarea>
                 </div>
-                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo (RN11)</label>
+                <div class="form-group"><label><input type="checkbox" id="ativo" checked> Livro Ativo </label>
                 </div>
                 <div class="modal-actions">
                     <button type="button" class="btn-cancelar" onclick="fecharModal('modalLivro')">Cancelar</button>
@@ -147,7 +147,7 @@
 
     <div id="modalAluno" class="modal-overlay">
         <div class="modal-content">
-            <h3>Cadastrar Aluno (RF01)</h3>
+            <h3>Cadastrar Aluno</h3>
             <p style="font-size: 0.8rem; color: #666; margin-bottom: 15px;">
                 Nota: O aluno será cadastrado sem senha. Uma senha provisória será gerada pelo sistema.
             </p>
@@ -208,8 +208,8 @@
             }
         })();
     </script>
-
-    <script src="./JS/Admin.js" type="module"></script>
+    <script src="./JS/toast.js"></script>
+    <script src="./JS/admin.js" type="module"></script>
 </body>
 
 </html>

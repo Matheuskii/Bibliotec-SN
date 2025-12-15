@@ -124,14 +124,14 @@ window.cancelarReserva = async function(id) {
         });
 
         if (response.ok) {
-            alert("Reserva cancelada com sucesso!");
+            showToast("Reserva cancelada com sucesso!");
             carregarReservas(); // Recarrega a lista
         } else {
-            alert("Erro ao cancelar reserva.");
+            showToast("Erro ao cancelar reserva.");
         }
     } catch (error) {
         console.error("Erro:", error);
-        alert("Erro de conexão.");
+        showToast("Erro de conexão.");
     }
 };
 

@@ -33,7 +33,7 @@ if (loginForm) {
       const dados = await resposta.json();
 
       if (!dados.sucesso) {
-        alert(dados.mensagem || "Erro ao fazer login.");
+        showToast(dados.mensagem || "Erro ao fazer login.");
         return;
       }
 
@@ -47,7 +47,7 @@ if (loginForm) {
         localStorage.setItem("perfilUsuario", dados.usuario.perfil);
         localStorage.setItem("userToken", dados.token);
 
-        alert(`Bem-vindo, ${dados.usuario.nome}!`);
+        showToast(`Bem-vindo, ${dados.usuario.nome}!`);
         console.log("Login realizado. Perfil:", dados.usuario.perfil);
 
         if (dados.usuario.perfil === 'Admin') {
@@ -59,7 +59,7 @@ if (loginForm) {
       }
     } catch (erro) {
       console.error(erro);
-      alert("Erro ao conectar com o servidor.");
+      showToast("Erro ao conectar com o servidor.");
     }
   });
 }
@@ -87,9 +87,9 @@ async function cadastrarUsuario() {
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
   // 2. Validações
-  if (senha !== confirmarSenha) return alert("As senhas não coincidem.");
-  if (!email.includes("@") || !email.includes(".")) return alert("Insira um email válido.");
-  if (!data_nascimento) return alert("Insira sua data de nascimento.");
+  if (senha !== confirmarSenha) return showToast("As senhas não coincidem.");
+  if (!email.includes("@") || !email.includes(".")) return showToast("Insira um email válido.");
+  if (!data_nascimento) return showToast("Insira sua data de nascimento.");
 
   const payload = {
     nome_completo: nome,
@@ -132,18 +132,18 @@ async function cadastrarUsuario() {
             modal.style.display = "flex";
         } else {
             console.error("❌ ERRO CRÍTICO: O elemento <div id='modalVerificacao'> não existe no Cadastro.html!");
-            alert("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.");
+            showToast("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.");
         }
 
     } else {
         // --- ERRO (Ex: Email duplicado) ---
         console.warn("⚠️ Backend retornou erro:", dados);
-        alert(dados.erro || dados.mensagem || "Erro ao realizar cadastro.");
+        showToast(dados.erro || dados.mensagem || "Erro ao realizar cadastro.");
     }
 
   } catch (erro) {
     console.error("❌ Erro de conexão:", erro);
-    alert("Erro de conexão com o servidor.");
+    showToast("Erro de conexão com o servidor.");
   }
 }
 
@@ -152,7 +152,7 @@ window.confirmarCodigo = async function() {
     const codigoInput = document.getElementById("codigoInput");
     const codigo = codigoInput ? codigoInput.value.trim() : "";
 
-    if (!codigo) return alert("Digite o código.");
+    if (!codigo) return showToast("Digite o código.");
 
     try {
         const resposta = await fetch("http://localhost:3000/usuarios/verificar", {
@@ -164,14 +164,14 @@ window.confirmarCodigo = async function() {
         const dados = await resposta.json();
 
         if (dados.sucesso) {
-            alert("✅ Conta verificada com sucesso! Faça login.");
+            showToast("✅ Conta verificada com sucesso! Faça login.");
             window.location.href = "Login.html";
         } else {
-            alert("❌ " + dados.mensagem);
+            showToast("❌ " + dados.mensagem);
         }
     } catch (error) {
         console.error(error);
-        alert("Erro ao verificar código.");
+        showToast("Erro ao verificar código.");
     }
 }
 
@@ -193,7 +193,7 @@ async function recuperarSenha() {
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
   if (novaSenha !== confirmarSenha) {
-    alert("As senhas não coincidem.");
+    showToast("As senhas não coincidem.");
     return;
   }
 
@@ -216,15 +216,15 @@ async function recuperarSenha() {
 
     const dados = await resposta.json();
 
-    alert(dados.message || dados.mensagem);
+    showToast(dados.message || dados.mensagem);
 
     if (resposta.status === 201) {
-      alert("Nova senha registrada com sucesso, redirecionando ao login...");
+      showToast("Nova senha registrada com sucesso, redirecionando ao login...");
       redirecionarParaLogin();
     }
   } catch (err) {
     console.error(err);
-    alert("Erro ao recuperar senha.");
+    showToast("Erro ao recuperar senha.");
   }
 }
 

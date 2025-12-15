@@ -37,15 +37,19 @@ html.dark-mode .logo {
   0% {
     background-position: 0% 50%;
   }
+
   25% {
     background-position: 50% 75%;
   }
+
   50% {
     background-position: 100% 50%;
   }
+
   75% {
     background-position: 50% 25%;
   }
+
   100% {
     background-position: 0% 50%;
   }
@@ -106,7 +110,7 @@ body {
 
 /* dark mode */
 html.dark-mode body {
- background: linear-gradient(250deg, #000000, var(--cor-cinza-claro), #000000);
+  background: linear-gradient(250deg, #000000, var(--cor-cinza-claro), #000000);
   background-size: 400% 400%;
   animation: lavaFlow 15s infinite;
 }
@@ -318,4 +322,45 @@ html.dark-mode .btn-cadastro {
 
 html.dark-mode .btn-cadastro:hover {
   color: var(--cor-branca)
+}
+
+/* ============= */
+/* === TOAST === */
+/* ============= */
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* light mode */
+#toast-box {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toast {
+  background: var(--cor-branco-claro);
+  padding: 15px 20px;
+  border: 7px solid #26333d1b;
+  border-radius: 30px;
+  color: var(--cor-cinza);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease;
+}
+
+/* dark mode */
+html.dark-mode .toast {
+  background: var(--cor-cinza);
+  border: 7px solid #31414e55;
+  color: var(--cor-branca);
 }

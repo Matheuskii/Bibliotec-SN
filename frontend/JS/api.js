@@ -22,7 +22,7 @@ export async function fetchAuth(url, options = {}) {
 
     // 5. Se der erro 401 (Token inválido/expirado), desloga o usuário
     if (response.status === 401 || response.status === 403) {
-        alert("Sessão expirada. Faça login novamente.");
+        showToast("Sessão expirada. Faça login novamente.");
         localStorage.clear();
         window.location.href = "Login.html";
         return null;

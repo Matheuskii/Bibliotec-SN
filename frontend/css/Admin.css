@@ -233,24 +233,27 @@ html.dark-mode .user-info span {
 .actions-bar {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 50px;
     background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
     background-size: 400% 400%;
     animation: lavaFlow 10s infinite;
-    padding: 20px;
+    padding: 30px;
     border-radius: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    box-shadow: 8px 8px 3px rgba(0, 0, 0, 0.1);
+    margin-left: 250px;
+    margin-right: 250px;
 }
 
 .actions-bar #buscaLivro {
     border-radius: 15px;
+    margin-right: 100px;
 }
 
 .btn-novo {
     background: var(--cor-branca);
     color: var(--cor-cinza);
     border: none;
-    margin-left: 20px;
+    margin-right: 50px;
     padding: 10px 20px;
     border-radius: 15px;
     cursor: pointer;
@@ -582,26 +585,11 @@ html.dark-mode textarea:focus {
     box-shadow: 0 0 5px rgba(74, 103, 223, 0.3);
 }
 
-
-/*===================*/
-/* === tTERMINAR === */
-/*==================*/
-/*===================*/
-/* === tTERMINAR === */
-/*==================*/
-/*===================*/
-/* === tTERMINAR === */
-/*==================*/
-/*===================*/
-/* === tTERMINAR === */
-/*==================*/
-/*===================*/
-/* === tTERMINAR === */
-/*==================*/
+/*=========================*/
+/* === TABELA RESERVAS === */
+/*=========================*/
 .btn-confirmar {
-    background-color: #28a745;
-    /* Verde */
-    color: white;
+    background: #006818;
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -615,14 +603,6 @@ html.dark-mode textarea:focus {
     transform: scale(1.1);
 }
 
-.text-center {
-    text-align: center;
-}
-
-.text-grey {
-    color: var(--text-grey);
-}
-
 .acoes {
     display: flex;
     gap: 5px;
@@ -630,7 +610,7 @@ html.dark-mode textarea:focus {
 }
 
 .erro {
-    color: var(--danger) !important;
+    color: #ff0000 !important;
     padding: 20px !important;
 }
 
@@ -641,28 +621,9 @@ html.dark-mode textarea:focus {
     font-weight: bold;
 }
 
-.status-confirmacao.confirmado {
-    background: rgba(46, 204, 113, 0.15);
-    color: var(--success);
-}
-
-.status-confirmacao.pendente {
-    background: rgba(255, 193, 7, 0.15);
-    color: #ffc107;
-}
-
-/* Animação para fade in */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-
-    to {
-        opacity: 1;
-    }
-}
-
-/* Scrollbar personalizada */
+/*===========================*/
+/* === SCROLL DO LADINHO === */
+/*===========================*/
 .content-section::-webkit-scrollbar {
     width: 8px;
 }

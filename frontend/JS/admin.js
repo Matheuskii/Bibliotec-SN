@@ -1,3 +1,5 @@
+import {showToast } from './toast.js'
+
 const API_URL = "http://localhost:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -139,12 +141,12 @@ async function salvarLivro(e) {
         });
         
         if(response.ok) {
-            alert("Livro salvo com sucesso!");
+            showToast("Livro salvo com sucesso!");
             fecharModal('modalLivro');
             carregarLivros();
         } else {
             const err = await response.json();
-            alert("Erro: " + (err.erro || err.mensagem || "Falha ao salvar"));
+            showToast("Erro: " + (err.erro || err.mensagem || "Falha ao salvar"));
         }
     } catch(err) { console.error(err); }
 }
@@ -161,7 +163,7 @@ window.deletarLivro = async (id) => {
             if(response.ok) {
                 carregarLivros();
             } else {
-                alert("Erro ao excluir livro.");
+                showToast("Erro ao excluir livro.");
             }
         } catch(err) { console.error(err); }
     }
@@ -243,16 +245,16 @@ async function salvarAluno(e) {
         });
 
         if(response.ok) {
-            alert(`Aluno cadastrado!\nSenha provisória: ${senhaProvisoria}`);
+            showToast(`Aluno cadastrado!\nSenha provisória: ${senhaProvisoria}`);
             fecharModal('modalAluno');
             carregarAlunos();
         } else {
             const err = await response.json();
-            alert("Erro: " + (err.erro || err.message));
+            showToast("Erro: " + (err.erro || err.message));
         }
     } catch(err) {
         console.error(err);
-        alert("Erro de conexão.");
+        showToast("Erro de conexão.");
     }
 }
 
@@ -267,7 +269,7 @@ window.deletarAluno = async (id) => {
             if(response.ok) {
                 carregarAlunos();
             } else {
-                alert("Erro ao excluir aluno.");
+                showToast("Erro ao excluir aluno.");
             }
         } catch(err) { console.error(err); }
     }
@@ -352,14 +354,14 @@ window.confirmarReservaAdmin = async (id) => {
         });
 
         if (response.ok) {
-            alert("Reserva confirmada com sucesso!");
+            showToast("Reserva confirmada com sucesso!");
             carregarReservas(); // Atualiza a tabela na hora
         } else {
-            alert("Erro ao confirmar reserva.");
+            showToast("Erro ao confirmar reserva.");
         }
     } catch (error) {
         console.error(error);
-        alert("Erro de conexão.");
+        showToast("Erro de conexão.");
     }
 }
 
@@ -371,7 +373,7 @@ window.cancelarReservaAdmin = async (id) => {
     const token = localStorage.getItem("userToken");
     
     if (!token) {
-        alert("Erro de autenticação. Faça login novamente.");
+        showToast("Erro de autenticação. Faça login novamente.");
         window.location.href = "Login.html";
         return;
     }
@@ -386,16 +388,16 @@ window.cancelarReservaAdmin = async (id) => {
         });
 
         if (response.ok) {
-            alert("Reserva cancelada com sucesso!");
+            showToast("Reserva cancelada com sucesso!");
             carregarReservas();
         } else {
             const erro = await response.json();
-            alert("Erro ao cancelar: " + (erro.mensagem || erro.erro));
+            showToast("Erro ao cancelar: " + (erro.mensagem || erro.erro));
         }
 
     } catch (error) {
         console.error("Erro na requisição:", error);
-        alert("Erro de conexão.");
+        showToast("Erro de conexão.");
     }
 }
 
