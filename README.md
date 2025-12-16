@@ -61,9 +61,5 @@ Isso executa `node src/server.js` conforme script `start` do `package.json`.
 - Para issues ou dúvidas, use o mecanismo de Issues do repositório GitHub ou entre em contato com o autor do projeto.
 
 **Licença**
-- Não especificada no repositório. Adicione um arquivo `LICENSE` se quiser declarar uma licença.
-
----
-
-Se quiser, eu adapto o README com mais detalhes (ex.: exemplos de chamadas CURL, documentação das rotas/JSON esperado, ou instruções para scripts de migração). Quer que eu inclua esses exemplos agora?
+- Não especificada no repositório. Adicione um arquivo `LICENSE` se quiser declarar uma licença
 
