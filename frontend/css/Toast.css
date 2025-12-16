@@ -1,89 +1,40 @@
-/* =========================================
-   CONTAINER DAS NOTIFICAÇÕES
-   ========================================= */
-#toast-box {
-    position: fixed;
-    top: 30px;        /* Mais próximo do topo */
-    right: 30px;      /* Espaçamento da lateral */
-    z-index: 100000;  /* Garante que fique acima de qualquer Modal */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;        /* Espaço entre um toast e outro */
-}
-
-/* =========================================
-   CARD DO TOAST (DESIGN BASE)
-   ========================================= */
-.toast {
-    width: 380px;      /* Largura fixa para padronizar */
-    max-width: 90vw;   /* Responsivo para celular */
-    background: #ffffff;
-    
-    /* Borda apenas na esquerda (cor controlada pelo JS) */
-    border-left: 6px solid #ccc; 
-    
-    /* Arredondamento suave */
-    border-radius: 8px; 
-    
-    /* Espaçamento interno */
-    padding: 16px 20px;
-    
-    /* Sombra moderna e difusa */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
-    
-    /* Alinhamento do texto e ícone */
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    
-    /* Fonte */
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: #333;
-    
-    /* Animação */
-    animation: slideIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Efeito elástico */
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-}
-
-/* Efeito ao passar o mouse */
-.toast:hover {
-    transform: translateX(-5px); /* Move um pouquinho pra esquerda */
-}
-
-/* =========================================
-   DARK MODE (MODO ESCURO)
-   ========================================= */
-html.dark-mode .toast {
-    background: #2b2b2b;       /* Cinza escuro elegante */
-    color: #f0f0f0;            /* Texto quase branco */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4); /* Sombra mais forte no escuro */
-}
-
-/* =========================================
-   ANIMAÇÕES
-   ========================================= */
+/* ============= */
+/* === TOAST === */
+/* ============= */
 @keyframes slideIn {
-    from {
-        transform: translateX(120%); /* Vem de fora da tela */
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
 }
 
-@keyframes slideOut {
-    from {
-        transform: translateX(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(120%); /* Vai para fora da tela */
-        opacity: 0;
-    }
+/* light mode */
+#toast-box {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.toast {
+  background: var(--cor-branco-claro);
+  padding: 15px 20px;
+  border: 7px solid #26333d1b;
+  border-radius: 30px;
+  color: var(--cor-cinza);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.5);
+  animation: slideIn 0.3s ease;
+}
+
+/* dark mode */
+html.dark-mode .toast {
+  background: var(--cor-cinza);
+  border: 7px solid #31414e55;
+  color: var(--cor-branca);
 }

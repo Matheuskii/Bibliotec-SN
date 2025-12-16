@@ -24,6 +24,7 @@
 }
 
 h3 {
+    margin-bottom: 10px;
     font-size: 20px;
     font-weight: bold;
     color: var(--cor-cinza);
@@ -57,12 +58,22 @@ body {
 }
 
 .dark-mode-toggle {
-    font-size: 20px;
+    align-items: center;
+    font-size: 15px;
+    background: #26333d1b;
+    border-radius: 15px;
+    margin-bottom: 5px;
 }
 
 .dark-mode-toggle:hover {
     background: none;
     transform: scale(1.1);
+}
+
+html.dark-mode .dark-mode-toggle {
+    align-items: center;
+    font-size: 15px;
+    background: var(--cor-cinza-claro);
 }
 
 html.dark-mode .dark-mode-toggle:hover {
@@ -213,6 +224,7 @@ html.dark-mode .top-bar h2 {
 
 html.dark-mode .user-info span {
     font-weight: bold;
+    border: 6px solid var(--cor-cinza-claro);
     color: var(--cor-branca);
     background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
     background-size: 400% 400%;
@@ -237,16 +249,18 @@ html.dark-mode .user-info span {
     background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
     background-size: 400% 400%;
     animation: lavaFlow 10s infinite;
-    padding: 30px;
+    padding: 25px;
     border-radius: 30px;
     box-shadow: 8px 8px 3px rgba(0, 0, 0, 0.1);
-    margin-left: 250px;
-    margin-right: 250px;
+    margin-left: 150px;
+    margin-right: 150px;
 }
 
 .actions-bar #buscaLivro {
+    background: var(--cor-branca);
     border-radius: 15px;
-    margin-right: 100px;
+    margin-right: 50px;
+    margin-left: 50px;
 }
 
 .btn-novo {
@@ -254,6 +268,7 @@ html.dark-mode .user-info span {
     color: var(--cor-cinza);
     border: none;
     margin-right: 50px;
+    margin-left: 50px;
     padding: 10px 20px;
     border-radius: 15px;
     cursor: pointer;
@@ -263,8 +278,11 @@ html.dark-mode .user-info span {
 }
 
 .btn-novo:hover {
+    background: linear-gradient(250deg, var(--cor-verde-agua), #8afff7e9);
+    background-size: 400% 400%;
+    animation: lavaFlow 2s infinite;
     transform: translateY(-3px);
-    color: var(--cor-verde-agua);
+    color: var(--cor-branca);
 }
 
 /* dark mode */
@@ -273,19 +291,16 @@ html.dark-mode .content-section {
 }
 
 html.dark-mode .actions-bar {
-    background: var(--cor-cinza);
-    padding: 20px;
-    border-radius: 30px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+    background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
+    background-size: 400% 400%;
+    animation: lavaFlow 10s infinite;
 }
 
 html.dark-mode .actions-bar #buscaLivro {
-    background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-cinza));
+    background: linear-gradient(450deg, var(--cor-azul-turquesa), #4a68df89);
     background-size: 400% 400%;
-    animation: lavaFlow 10s infinite;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-    border-color: transparent;
+    animation: lavaFlow 2s infinite;
+    color: var(--cor-branco-claro);
 }
 
 html.dark-mode ::placeholder {
@@ -293,22 +308,15 @@ html.dark-mode ::placeholder {
 }
 
 html.dark-mode .btn-novo {
-    background: var(--cor-cinza-claro);
+    background: linear-gradient(450deg, var(--cor-azul-turquesa), #4a68df89);
+    background-size: 400% 400%;
+    animation: lavaFlow 2s infinite;
     color: var(--cor-branco-claro);
-    border: none;
-    margin-left: 20px;
-    padding: 10px 20px;
-    border-radius: 15px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.9rem;
-    transition: transform 0.2s;
 }
 
 html.dark-mode .btn-novo:hover {
     transform: translateY(-3px);
     background: var(--cor-azul-turquesa);
-    color: var(--cor-branco-claro);
 }
 
 /*==============================*/
@@ -348,8 +356,8 @@ html.dark-mode .btn-novo:hover {
 }
 
 .mini-capa {
-    width: 60px;
-    height: 90px;
+    width: 100px;
+    height: 140px;
     object-fit: cover;
     border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
@@ -378,10 +386,6 @@ html.dark-mode .tabela-admin tr:last-child td {
 }
 
 html.dark-mode .mini-capa {
-    width: 60px;
-    height: 90px;
-    object-fit: cover;
-    border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -603,10 +607,10 @@ html.dark-mode textarea:focus {
     transform: scale(1.1);
 }
 
-.acoes {
+td.acoes {
     display: flex;
-    gap: 5px;
     justify-content: center;
+    gap: 6px;
 }
 
 .erro {

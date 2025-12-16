@@ -43,11 +43,11 @@ async function carregarFavoritos() {
         gridContainer.innerHTML = ""; 
 
         // 5. Lista Vazia
-        if (!favoritos || favoritos.length === 0) {
+        if (!favoritos || favoritos.length === 0 || DarkMode === false) {
             gridContainer.innerHTML = `
                 <div class="empty-state">
-                    <h3>Sua lista está vazia 😢</h3>
-                    <p>Vá ao <a href="Catalogo.html">Catálogo</a> e adicione livros que você ama!</p>
+                    <h3 style="color:#ffca0b">Sua lista está vazia ¯\\_(ツ)_/¯</h3>
+                    <p style="color:#ffca0b">Vá ao <a style="color:#ff0000" href="Catalogo.html">Catálogo</a> e adicione livros que você ama!</p>
                 </div>`;
             return;
         }
