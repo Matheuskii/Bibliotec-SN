@@ -50,7 +50,7 @@ const frontendPath = path.join(__dirname, "../frontend");
 app.use(express.static(frontendPath));
 
 
-app.get("(.*)", (req, res) => {
+app.get("/:path*", (req, res) => {
   res.sendFile(path.join(frontendPath, "Inicio.html"));
 });
 
