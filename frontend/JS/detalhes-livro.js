@@ -134,7 +134,7 @@ window.carregarAvaliacoesdoLivro = async function() {
     const elEstrelas = document.getElementById('estrelas-media');
 
     try {
-        const response = await fetch(`http://localhost:3000/avaliacoes/livro/${idLivro}`);
+        const response = await fetch(`http://bibliotec-sn.ddns.net:3000/avaliacoes/livro/${idLivro}`);
 
         if (!response.ok) {
             console.warn("Avaliações indisponíveis.");
@@ -224,7 +224,7 @@ window.enviarAvaliacao = async function() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/avaliacoes", {
+        const response = await fetch("http://bibliotec-sn.ddns.net:3000/avaliacoes", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -295,7 +295,7 @@ window.confirmarReserva = async function() {
     const dataRetirada = new Date().toISOString().split('T')[0];
 
     try {
-        const response = await fetch(`http://localhost:3000/reservas`, {
+        const response = await fetch(`http://bibliotec-sn.ddns.net:3000/reservas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -353,7 +353,7 @@ window.adicionarFavoritos = async function(id) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos`, {
+        const response = await fetch(`http://bibliotec-sn.ddns.net:3000/favoritos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

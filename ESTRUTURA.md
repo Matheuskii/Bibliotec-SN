@@ -76,7 +76,7 @@ npm install
 npm start
 
 # Frontend
-Abrir em navegador: http://localhost:3000
+Abrir em navegador: http://bibliotec-sn.ddns.net:3000
 ```
 
 ## 📝 Endpoints da API

@@ -24,7 +24,7 @@ if (loginForm) {
     }
 
     try {
-      const resposta = await fetch("http://localhost:3000/usuarios/login", {
+      const resposta = await fetch("http://bibliotec-sn.ddns.net:3000/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -103,7 +103,7 @@ async function cadastrarUsuario() {
   };
 
   try {
-    const resposta = await fetch("http://localhost:3000/usuarios/cadastrar", {
+    const resposta = await fetch("http://bibliotec-sn.ddns.net:3000/usuarios/cadastrar", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -155,7 +155,7 @@ window.confirmarCodigo = async function() {
     if (!codigo) return alert("Digite o código.");
 
     try {
-        const resposta = await fetch("http://localhost:3000/usuarios/verificar", {
+        const resposta = await fetch("http://bibliotec-sn.ddns.net:3000/usuarios/verificar", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: emailParaVerificar, codigo: codigo })
@@ -208,7 +208,7 @@ async function recuperarSenha() {
   }
 
   try {
-    const resposta = await fetch("http://localhost:3000/usuarios/newpass", {
+    const resposta = await fetch("http://bibliotec-sn.ddns.net:3000/usuarios/newpass", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

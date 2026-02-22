@@ -20,7 +20,7 @@ async function carregarFavoritos() {
     const token = localStorage.getItem("userToken");
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos/${usuarioId}`, {
+        const response = await fetch(`http://bibliotec-sn.ddns.net:3000/favoritos/${usuarioId}`, {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ window.removerFavorito = async function(idFavorito) {
     const token = localStorage.getItem("userToken"); // Pega o token novamente
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos/${idFavorito}`, {
+        const response = await fetch(`http://bibliotec-sn.ddns.net:3000/favoritos/${idFavorito}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}` // Envia o token no delete

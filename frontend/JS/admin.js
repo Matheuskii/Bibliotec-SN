@@ -1,5 +1,5 @@
 
-const API_URL = "http://localhost:3000";
+const API_URL = "http://bibliotec-sn.ddns.net:3000";
 
 document.addEventListener("DOMContentLoaded", () => {
     // Carrega dados iniciais
