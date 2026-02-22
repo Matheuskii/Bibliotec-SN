@@ -1,13 +1,13 @@
-const API_URL = "http://localhost:3000";
+import API_BASE_URL from "./config.js";
 
-// Função para carregar reservas
+const API_URL = API_BASE_URL;
+
 window.carregarReservas = async function() {
     console.log("Carregando todas as reservas...");
     
     try {
         let token = localStorage.getItem("userToken");
 
-        // Limpar token
         if (token) {
             token = token.replace(/"/g, ''); 
         }
@@ -18,8 +18,6 @@ window.carregarReservas = async function() {
             return;
         }
 
-        console.log("Token Limpo:", token);
-
         const response = await fetch(`${API_URL}/reservas`, {
             method: 'GET',
             headers: {
@@ -28,7 +26,6 @@ window.carregarReservas = async function() {
             }
         });
 
-        // Tratar erros de autenticação
         if (response.status === 401 || response.status === 403) {
             console.error("Token inválido ou expirado");
             localStorage.removeItem("userToken");
@@ -43,21 +40,16 @@ window.carregarReservas = async function() {
         const data = await response.json();
         console.log("Dados recebidos:", data);
         
-        // Obter a lista de reservas
         const lista = data.dados ? data.dados : data;
         
-        // Acessar o tbody após o DOM estar carregado
         const tbody = document.getElementById("gridReservas");
         const loading = document.getElementById("loading");
-        
-        console.log("tbody encontrado:", tbody);
         
         if (!tbody) {
             console.error("Elemento tbody não encontrado!");
             return;
         }
 
-        // Limpar conteúdo anterior
         tbody.innerHTML = '';
         
         if (!Array.isArray(lista) || lista.length === 0) {
@@ -65,14 +57,11 @@ window.carregarReservas = async function() {
             return;
         }
 
-        // Ocultar mensagem de carregamento
         loading.style.display = 'none';
 
-        // Adicionar cada reserva na tabela
         lista.forEach(reserva => {
             const tr = document.createElement("tr");
             
-            // Formatar datas
             const retirada = reserva.data_retirada 
                 ? new Date(reserva.data_retirada).toLocaleDateString('pt-BR')
                 : 'N/A';
@@ -106,7 +95,6 @@ window.carregarReservas = async function() {
     }
 }
 
-// Função global para cancelar reserva
 window.cancelarReserva = async function(id) {
     if (!confirm("Tem certeza que deseja cancelar esta reserva?")) return;
 
@@ -125,7 +113,7 @@ window.cancelarReserva = async function(id) {
 
         if (response.ok) {
             showToast("Reserva cancelada com sucesso!", 'success');
-            carregarReservas(); // Recarrega a lista
+            carregarReservas();
         } else {
             showToast("Erro ao cancelar reserva.", 'error');
         }
@@ -135,13 +123,11 @@ window.cancelarReserva = async function(id) {
     }
 };
 
-// Aguardar o DOM carregar completamente
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM carregado, iniciando carregamento de reservas...");
     carregarReservas();
 });
 
-// Fallback caso o script seja carregado após o DOM
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', carregarReservas);
 } else {

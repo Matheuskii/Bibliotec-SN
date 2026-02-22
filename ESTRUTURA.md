@@ -55,14 +55,17 @@ BiblioTec/
 ## 🔗 Relações entre Arquivos
 
 ### Login/Cadastro/Recuperação
+
 - Compartilham estilos via `login.css`
 - Usam funções do `app.js`
 
 ### Início
+
 - Carrega livros via API
 - Usa carrossel do `app.js`
 
 ### Catálogo
+
 - Carrega livros via API
 - Sistema de filtros próprio
 - Estilos dedicados
@@ -76,7 +79,7 @@ npm install
 npm start
 
 # Frontend
-Abrir em navegador: http://localhost:3000
+Abrir em navegador: CLIENT_URL
 ```
 
 ## 📝 Endpoints da API

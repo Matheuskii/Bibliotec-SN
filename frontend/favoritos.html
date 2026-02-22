@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BiblioTec - Favoritos</title>
-    
+    <link rel="stylesheet" href="./css/global.css">
     <link rel="stylesheet" href="./css/Detalhes-livro.css"> 
     <link rel="stylesheet" href="./css/Favoritos.css">
     <link rel="stylesheet" href="./css/Toast.css">
         
     <script src="./JS/toast.js" defer></script>
 
-    <script src="./JS/favoritos.js" defer></script>
+    <script src="./JS/favoritos.js" type="module" defer></script>
     
     <script>
         if (localStorage.getItem('DarkMode') === 'true') {
@@ -22,6 +22,8 @@
 </head>
 
 <body>
+    <header><button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+</header>
     <div id="toast-box"></div>
 
     <header>

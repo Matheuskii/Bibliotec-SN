@@ -1,4 +1,5 @@
-// Variável global para guardar o e-mail enquanto o usuário digita o código
+import API_BASE_URL from "./config.js";
+
 let emailParaVerificar = "";
 
 // ===============================================
@@ -24,7 +25,7 @@ if (loginForm) {
     }
 
     try {
-      const resposta = await fetch("http://localhost:3000/usuarios/login", {
+      const resposta = await fetch(`${API_BASE_URL}/usuarios/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -37,23 +38,17 @@ if (loginForm) {
         return;
       }
 
-      // --- SUCESSO NO LOGIN ---
       if (dados.sucesso) {
-        // 1. Salva os dados críticos no navegador
         localStorage.setItem("nomeUsuario", dados.usuario.nome);
         localStorage.setItem("usuarioId", dados.usuario.id);
-
-        // [IMPORTANTE] Salva o perfil para controlar acesso ao Admin
         localStorage.setItem("perfilUsuario", dados.usuario.perfil);
         localStorage.setItem("userToken", dados.token);
 
         showToast(`Bem-vindo, ${dados.usuario.nome}!`, 'success');
-        console.log("Login realizado. Perfil:", dados.usuario.perfil);
 
         if (dados.usuario.perfil === 'Admin') {
             window.location.href = "Admin.html";
         } else {
-            // Se for Aluno, vai para a loja
             window.location.href = "Inicio.html";
         }
       }
@@ -77,7 +72,6 @@ if (cadastroForm) {
 }
 
 async function cadastrarUsuario() {
-  // 1. Pega os valores
   const nome = document.getElementById("nome").value.trim();
   const email = document.getElementById("email").value.trim();
   const data_nascimento = document.getElementById("dataNascimento").value;
@@ -86,7 +80,6 @@ async function cadastrarUsuario() {
   const senha = document.getElementById("senha").value.trim();
   const confirmarSenha = document.getElementById("confirmarSenha").value.trim();
 
-  // 2. Validações
   if (senha !== confirmarSenha) return showToast("As senhas não coincidem.");
   if (!email.includes("@") || !email.includes(".")) return showToast("Insira um email válido.", 'error');
   if (!data_nascimento) return showToast("Insira sua data de nascimento.", 'error');
@@ -103,7 +96,7 @@ async function cadastrarUsuario() {
   };
 
   try {
-    const resposta = await fetch("http://localhost:3000/usuarios/cadastrar", {
+    const resposta = await fetch(`${API_BASE_URL}/usuarios/cadastrar`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
@@ -111,43 +104,30 @@ async function cadastrarUsuario() {
 
     const dados = await resposta.json();
 
-    // 3. Verifica o Status da Resposta
     if (resposta.status === 201) {
-        // --- SUCESSO ---
-        console.log("✅ SUCESSO! Backend respondeu 201.");
-
         const modal = document.getElementById("modalVerificacao");
 
         if (modal) {
-            console.log("✅ Modal encontrado no HTML!");
-
-            // Define a variável global para usar na confirmação
             emailParaVerificar = email;
 
-            // Preenche o email no texto do modal
             const displayEmail = document.getElementById("emailDisplay");
             if(displayEmail) displayEmail.textContent = email;
 
-            // Mostra o modal
             modal.style.display = "flex";
         } else {
-            console.error("❌ ERRO CRÍTICO: O elemento <div id='modalVerificacao'> não existe no Cadastro.html!");
-            showToast("Cadastro realizado, mas erro ao abrir a janela de verificação. Verifique o console.", 'success');
+            showToast("Cadastro realizado, mas erro ao abrir a janela de verificação.", 'success');
         }
 
     } else {
-        // --- ERRO (Ex: Email duplicado) ---
-        console.warn("⚠️ Backend retornou erro:", dados);
         showToast(dados.erro || dados.mensagem || "Erro ao realizar cadastro.", 'error');
     }
 
   } catch (erro) {
-    console.error("❌ Erro de conexão:", erro);
+    console.error("Erro de conexão:", erro);
     showToast("Erro de conexão com o servidor.", 'error');
   }
 }
 
-// NOVA FUNÇÃO: CHAMADA PELO BOTÃO DO MODAL
 window.confirmarCodigo = async function() {
     const codigoInput = document.getElementById("codigoInput");
     const codigo = codigoInput ? codigoInput.value.trim() : "";
@@ -155,7 +135,7 @@ window.confirmarCodigo = async function() {
     if (!codigo) return showToast("Digite o código.", 'error');
 
     try {
-        const resposta = await fetch("http://localhost:3000/usuarios/verificar", {
+        const resposta = await fetch(`${API_BASE_URL}/usuarios/verificar`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ email: emailParaVerificar, codigo: codigo })
@@ -208,7 +188,7 @@ async function recuperarSenha() {
   }
 
   try {
-    const resposta = await fetch("http://localhost:3000/usuarios/newpass", {
+    const resposta = await fetch(`${API_BASE_URL}/usuarios/newpass`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

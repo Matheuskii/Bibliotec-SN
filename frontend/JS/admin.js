@@ -1,27 +1,24 @@
+import API_BASE_URL from "./config.js";
 
-const API_URL = "http://localhost:3000";
+const API_URL = API_BASE_URL;
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Carrega dados iniciais
     carregarLivros();
     carregarAlunos();
     carregarReservas();
 
-    // Configura o nome do Admin logado
     const nomeAdmin = localStorage.getItem("nomeUsuario");
     if(nomeAdmin) {
         const adminNomeEl = document.getElementById("adminNome");
         if(adminNomeEl) adminNomeEl.textContent = nomeAdmin;
     }
 
-    // --- EVENTOS DE SUBMIT ---
     const formLivro = document.getElementById("formLivro");
     if(formLivro) formLivro.addEventListener("submit", salvarLivro);
 
     const formAluno = document.getElementById("formAluno");
     if(formAluno) formAluno.addEventListener("submit", salvarAluno);
 
-    // --- LOGOUT ---
     const btnSair = document.getElementById("btnSairAdmin");
     if(btnSair) {
         btnSair.addEventListener("click", () => {
@@ -110,7 +107,7 @@ window.editarLivro = (livro) => {
 
 async function salvarLivro(e) {
     e.preventDefault();
-    const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+    const token = localStorage.getItem("userToken");
     const id = document.getElementById("livroId").value;
     const metodo = id ? "PUT" : "POST";
     const url = id ? `${API_URL}/livros/${id}` : `${API_URL}/livros`;
@@ -134,7 +131,7 @@ async function salvarLivro(e) {
             method: metodo,
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // [SEGURANÇA] Token obrigatório
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(dados)
         });
@@ -152,11 +149,11 @@ async function salvarLivro(e) {
 
 window.deletarLivro = async (id) => {
     if(confirm("Tem certeza que deseja excluir este livro?")) {
-        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+        const token = localStorage.getItem("userToken");
         try {
             const response = await fetch(`${API_URL}/livros/${id}`, { 
                 method: "DELETE",
-                headers: { "Authorization": `Bearer ${token}` } // [SEGURANÇA]
+                headers: { "Authorization": `Bearer ${token}` }
             });
             
             if(response.ok) {
@@ -173,8 +170,7 @@ window.deletarLivro = async (id) => {
 // ==========================================
 async function carregarAlunos() {
     try {
-        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
-        // Idealmente, a rota de usuários também deveria pedir token para listar
+        const token = localStorage.getItem("userToken");
         const response = await fetch(`${API_URL}/usuarios`, {
              headers: { "Authorization": `Bearer ${token}` }
         });
@@ -184,8 +180,6 @@ async function carregarAlunos() {
         if(!tbody) return;
         tbody.innerHTML = "";
 
-        // Filtra apenas ALUNOS
-        // Verifica se 'usuarios' é array, caso contrário usa .dados ou []
         const lista = Array.isArray(usuarios) ? usuarios : (usuarios.dados || []);
         const alunos = lista.filter(u => u.perfil === 'Aluno');
 
@@ -210,27 +204,18 @@ async function carregarAlunos() {
 
 async function salvarAluno(e) {
     e.preventDefault();
-    const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+    const token = localStorage.getItem("userToken");
     const senhaProvisoria = "mudar123";
 
-    const dados = {
-        nome: document.getElementById("nomeAluno").value,
+    const payload = {
+        nome_completo: document.getElementById("nomeAluno").value,
+        usuario: document.getElementById("nomeAluno").value,
         email: document.getElementById("emailAluno").value,
+        senha: senhaProvisoria,
         data_nascimento: document.getElementById("nascAluno").value,
         celular: document.getElementById("celularAluno").value,
         curso: document.getElementById("cursoAluno").value,
-        senha: senhaProvisoria
-    };
-
-    const payload = {
-        nome_completo: dados.nome,
-        usuario: dados.nome,
-        email: dados.email,
-        senha: dados.senha,
-        data_nascimento: dados.data_nascimento,
-        celular: dados.celular,
-        curso: dados.curso,
-        perfil: 'Aluno' // Importante forçar perfil Aluno
+        perfil: 'Aluno'
     };
 
     try {
@@ -238,7 +223,7 @@ async function salvarAluno(e) {
             method: "POST",
             headers: { 
                 "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}` // [SEGURANÇA]
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify(payload)
         });
@@ -259,11 +244,11 @@ async function salvarAluno(e) {
 
 window.deletarAluno = async (id) => {
     if(confirm("Excluir este aluno?")) {
-        const token = localStorage.getItem("userToken"); // [SEGURANÇA]
+        const token = localStorage.getItem("userToken");
         try {
             const response = await fetch(`${API_URL}/usuarios/${id}`, { 
                 method: "DELETE",
-                headers: { "Authorization": `Bearer ${token}` } // [SEGURANÇA]
+                headers: { "Authorization": `Bearer ${token}` }
             });
             if(response.ok) {
                 carregarAlunos();
@@ -279,9 +264,7 @@ window.deletarAluno = async (id) => {
 // ==========================================
 async function carregarReservas() {
     try {
-        console.log("📅 Carregando reservas...");
         const token = localStorage.getItem("userToken");
-
         if (!token) return;
 
         const response = await fetch(`${API_URL}/reservas`, {
@@ -306,13 +289,10 @@ async function carregarReservas() {
             const retirada = formatar(reserva.data_retirada);
             const devolucao = formatar(reserva.data_devolucao);
 
-            // Se já estiver confirmado (1), mostra ícone verde.
-            // Se não (0), mostra botão de confirmar.
             const statusVisual = reserva.confirmado_email 
                 ? '<span style="color:green; font-weight:bold;">Confirmado ✅</span>' 
                 : '<span style="color:orange; font-weight:bold;">Pendente ⏳</span>';
 
-            // Botão Confirmar (Só aparece se estiver Pendente)
             const btnConfirmar = !reserva.confirmado_email
                 ? `<button class="btn-confirmar" onclick="window.confirmarReservaAdmin(${reserva.id})" title="Confirmar Retirada">✅</button>`
                 : '';
@@ -337,7 +317,6 @@ async function carregarReservas() {
     }
 }
 
-// NOVA FUNÇÃO: Confirmar Reserva
 window.confirmarReservaAdmin = async (id) => {
     if (!confirm("Confirmar a retirada deste livro pelo aluno?")) return;
 
@@ -345,7 +324,7 @@ window.confirmarReservaAdmin = async (id) => {
     
     try {
         const response = await fetch(`${API_URL}/reservas/${id}/confirmar`, {
-            method: "PUT", // Método PUT para atualizar
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -354,7 +333,7 @@ window.confirmarReservaAdmin = async (id) => {
 
         if (response.ok) {
             showToast("Reserva confirmada com sucesso!", 'success');
-            carregarReservas(); // Atualiza a tabela na hora
+            carregarReservas();
         } else {
             showToast("Erro ao confirmar reserva.", 'error');
         }
@@ -365,9 +344,7 @@ window.confirmarReservaAdmin = async (id) => {
 }
 
 window.cancelarReservaAdmin = async (id) => {
-    if (!confirm("Tem certeza que deseja cancelar e excluir esta reserva?")) {
-        return;
-    }
+    if (!confirm("Tem certeza que deseja cancelar e excluir esta reserva?")) return;
 
     const token = localStorage.getItem("userToken");
     
@@ -387,7 +364,7 @@ window.cancelarReservaAdmin = async (id) => {
         });
 
         if (response.ok) {
-            showToast("Reserva cancelada com sucesso!",'success');
+            showToast("Reserva cancelada com sucesso!", 'success');
             carregarReservas();
         } else {
             const erro = await response.json();

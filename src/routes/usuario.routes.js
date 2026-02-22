@@ -1,6 +1,8 @@
 import express from "express";
 import * as usuarioController from "../controllers/usuario.controller.js";
 import { verificarCodigo, criarUsuario } from "../controllers/usuario.controller.js";
+import {authMiddleware, apenasAdmin } from "../middlewares/auth.js";
+
 
 
 const router = express.Router();
@@ -10,25 +12,17 @@ const router = express.Router();
 // ============================
 
 // Listar todos os usuários
-router.get("/", usuarioController.listarUsuario);
+router.get("/", authMiddleware, apenasAdmin, usuarioController.listarUsuario);
 
-// Obter usuário pelo ID
-router.get("/:id", usuarioController.obterUsuario);
-
-// Criar usuário
+// Rotas públicas (não precisam de token)
 router.post("/cadastrar", criarUsuario);
 router.post("/verificar", verificarCodigo);
+router.post("/login",     usuarioController.loginUsuario);
+router.post("/newpass",   usuarioController.recuperarSenha);
 
-// Login
-router.post("/login", usuarioController.loginUsuario);
-
-// Atualizar usuário
-router.put("/:id", usuarioController.atualizarUsuario);
-
-// Deletar usuário
-router.delete("/:id", usuarioController.deletarUsuario);
-
-// Recuperar senha
-router.post("/newpass", usuarioController.recuperarSenha);
+// Rotas protegidas (precisam de token)
+router.get("/:id",    authMiddleware, usuarioController.obterUsuario);
+router.put("/:id",    authMiddleware, usuarioController.atualizarUsuario);
+router.delete("/:id", authMiddleware, apenasAdmin, usuarioController.deletarUsuario);
 
 export default router;

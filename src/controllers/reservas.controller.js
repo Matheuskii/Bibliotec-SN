@@ -3,44 +3,26 @@ import { db } from "../config/db.js";
 // ============================
 // LISTAR TODAS AS RESERVAS (ADMIN)
 // ============================
+// reservas.controller.js — listarReservas
 export async function listarReservas(req, res) {
-    try {
-        const query = `
-            SELECT
-                r.id,
-                r.usuario_id,
-                r.livro_id,
-                r.data_retirada,
-                r.data_devolucao,
-                r.confirmado_email,
-                r.criado_em,
-                u.nome as usuario_nome,
-                u.email as usuario_email,
-                l.titulo as livro_titulo,
-                l.autor as livro_autor
-            FROM reservas r
-            LEFT JOIN usuarios u ON r.usuario_id = u.id
-            LEFT JOIN livros l ON r.livro_id = l.id
-            ORDER BY r.criado_em DESC
-        `;
+    const { id, perfil } = req.usuario; // vem do token JWT
 
-        const [reservas] = await db.execute(query);
+    let query = `SELECT r.*, u.nome as usuario_nome, l.titulo as livro_titulo
+                 FROM reservas r
+                 LEFT JOIN usuarios u ON r.usuario_id = u.id
+                 LEFT JOIN livros l ON r.livro_id = l.id`;
+    
+    const params = [];
 
-        return res.status(200).json({
-            sucesso: true,
-            mensagem: 'Reservas listadas com sucesso',
-            total: reservas.length,
-            dados: reservas
-        });
-
-    } catch (erro) {
-        console.error('Erro ao listar reservas:', erro);
-        return res.status(500).json({
-            sucesso: false,
-            mensagem: 'Erro ao listar reservas',
-            erro: erro.message
-        });
+    // Aluno só vê as próprias reservas; Admin vê todas
+    if (perfil !== 'Admin') {
+        query += ` WHERE r.usuario_id = ?`;
+        params.push(id);
     }
+
+    query += ` ORDER BY r.criado_em DESC`;
+    const [reservas] = await db.execute(query, params);
+    return res.status(200).json({ sucesso: true, dados: reservas });
 }
 
 // ============================

@@ -1,6 +1,7 @@
+import API_BASE_URL from "./config.js";
+
 class DetalhesLivro {
     constructor() {
-        // Pega o ID da URL (ex: detalhes-livro.html?id=1)
         this.livroId = new URLSearchParams(window.location.search).get('id');
         this.init();
     }
@@ -15,11 +16,9 @@ class DetalhesLivro {
 
     async carregarLivro() {
         try {
-            const response = await fetch(`http://localhost:3000/livros/${this.livroId}`);
+            const response = await fetch(`${API_BASE_URL}/livros/${this.livroId}`);
 
-            if (!response.ok) {
-                throw new Error('Livro não encontrado');
-            }
+            if (!response.ok) throw new Error('Livro não encontrado');
 
             const livro = await response.json();
             this.renderizarLivro(livro);
@@ -31,24 +30,22 @@ class DetalhesLivro {
     }
 
     renderizarLivro(livro) {
-        const container = document.getElementById('detalhes-container');
+    const container = document.getElementById('detalhes-container');
+    const estaDisponivel = (livro.ativo === 1);
+    const capa = livro.caminho_capa || './images/capa-default.jpg';
 
-        // Verifica se o livro está ativo (disponível)
-        const estaDisponivel = (livro.ativo === 1);
-        
-        // Capa padrão caso não tenha
-        const capa = livro.caminho_capa || './images/capa-default.jpg';
-
-        container.innerHTML = `
-            <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
-
-            <div class="background-detalhes">
-                <div class="background-livro">
-                    <div class="capa-container">
-                        <img src="${capa}"
-                             alt="Capa de ${livro.titulo}"
-                             onerror="this.src='./images/capa-default.jpg'">
-                    </div>
+    // Usando classes para controle de estado em vez de estilos inline ajuda o navegador
+    container.innerHTML = `
+        <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
+        <div class="background-detalhes">
+            <div class="background-livro">
+                <div class="capa-container">
+                    <img src="${capa}" 
+                         alt="Capa de ${livro.titulo}" 
+                         loading="eager" 
+                         style="content-visibility: auto;"
+                         onerror="this.src='./images/capa-default.jpg'">
+                </div>
 
                     <div class="info-container">
                         <h1>${livro.titulo}</h1>
@@ -100,10 +97,8 @@ class DetalhesLivro {
             </div>
         `;
 
-        // Atualiza título da aba do navegador
         document.title = `${livro.titulo} | BiblioTec`;
 
-        // Carrega as avaliações depois de desenhar o livro
         if(window.carregarAvaliacoesdoLivro) {
             window.carregarAvaliacoesdoLivro();
         }
@@ -116,10 +111,8 @@ class DetalhesLivro {
 }
 
 // ==========================================
-// FUNÇÕES GLOBAIS (AVALIAÇÕES, RESERVAS, FAVORITOS)
+// AVALIAÇÕES
 // ==========================================
-
-// --- 1. AVALIAÇÕES ---
 window.carregarAvaliacoesdoLivro = async function() {
     const params = new URLSearchParams(window.location.search);
     const idLivro = params.get('id');
@@ -130,7 +123,7 @@ window.carregarAvaliacoesdoLivro = async function() {
     const elEstrelas = document.getElementById('estrelas-media');
 
     try {
-        const response = await fetch(`http://localhost:3000/avaliacoes/livro/${idLivro}`);
+        const response = await fetch(`${API_BASE_URL}/avaliacoes/livro/${idLivro}`);
 
         if (!response.ok) {
             console.warn("Avaliações indisponíveis.");
@@ -217,7 +210,7 @@ window.enviarAvaliacao = async function() {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/avaliacoes", {
+        const response = await fetch(`${API_BASE_URL}/avaliacoes`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -227,7 +220,7 @@ window.enviarAvaliacao = async function() {
         });
 
         if (response.ok) {
-            showToast("Avaliação enviada!",'success');
+            showToast("Avaliação enviada!", 'success');
             location.reload();
         } else {
             showToast("Erro ao enviar avaliação.", 'error');
@@ -238,7 +231,9 @@ window.enviarAvaliacao = async function() {
     }
 }
 
-// --- 2. RESERVAS ---
+// ==========================================
+// RESERVAS
+// ==========================================
 let livroIdParaReserva = null;
 
 window.reservarLivro = function(id) {
@@ -287,7 +282,7 @@ window.confirmarReserva = async function() {
     const dataRetirada = new Date().toISOString().split('T')[0];
 
     try {
-        const response = await fetch(`http://localhost:3000/reservas`, {
+        const response = await fetch(`${API_BASE_URL}/reservas`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -301,43 +296,36 @@ window.confirmarReserva = async function() {
             })
         });
 
-        // ============================================================
-        // A ORDEM IMPORTA MUITO AQUI:
-        // ============================================================
-
-        // 1º: Verifica ESPECIFICAMENTE o 409 (Conflito) ANTES de checar se deu erro geral
         if (response.status === 409) {
             showToast("⚠️ Você já possui uma reserva ativa para este livro!", "warning");
             fecharModalReserva(); 
-            return; // PARA TUDO AQUI. Não deixa descer para o erro genérico.
+            return;
         }
 
-        // 2º: Verifica Token Inválido (401 ou 403)
         if (response.status === 401 || response.status === 403) {
             showToast("🔒 Sessão expirada. Faça login novamente.", 'error');
             setTimeout(() => window.location.href = "Login.html", 2000);
             return;
         }
 
-        // 3º: Agora sim, se for qualquer OUTRO erro, lança exceção
         if (!response.ok) {
             const erro = await response.json();
             throw new Error(erro.mensagem || 'Erro ao realizar reserva');
         }
 
-        // 4º: Se chegou aqui, é Sucesso (200 ou 201)
         showToast('🎉 Livro reservado com sucesso!', 'success');
         fecharModalReserva();
         setTimeout(() => location.reload(), 1500);
 
     } catch (error) {
         console.error('Erro:', error);
-        // Só mostra toast de erro se não for um dos casos tratados acima
         showToast(error.message || "Erro de conexão.", 'error');
     }
 }
 
-// --- 3. FAVORITOS ---
+// ==========================================
+// FAVORITOS
+// ==========================================
 window.adicionarFavoritos = async function(id) {
     const usuarioId = localStorage.getItem('usuarioId');
     const token = localStorage.getItem("userToken");
@@ -349,7 +337,7 @@ window.adicionarFavoritos = async function(id) {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos`, {
+        const response = await fetch(`${API_BASE_URL}/favoritos`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -365,14 +353,13 @@ window.adicionarFavoritos = async function(id) {
         
         if (!response.ok) throw new Error('Erro ao favoritar');
 
-        showToast('❤️ Adicionado aos favoritos!', 'success'); // [CORREÇÃO] Era 'sucess'
+        showToast('❤️ Adicionado aos favoritos!', 'success');
 
     } catch (error) {
         showToast(error.message, 'error');
     }
 }
 
-// Inicializar
 document.addEventListener('DOMContentLoaded', () => {
     new DetalhesLivro();
 });

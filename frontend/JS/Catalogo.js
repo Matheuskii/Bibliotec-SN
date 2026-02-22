@@ -1,6 +1,7 @@
 import { criarCardLivroClicavel } from "./Estrutura.js";
+import API_BASE_URL from "./config.js";
 
-const API = 'http://localhost:3000/livros';
+const API = `${API_BASE_URL}/livros`;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('todos-livros');
@@ -29,8 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 function filtrarLivros(filtro, livrosCompletos, gridElement) {
     let livrosFiltrados = livrosCompletos;
 
-    // Função auxiliar para limpar texto (remove acentos e põe minúsculo)
-    // Ex: "Ficção" vira "ficcao"
     const limpar = (texto) => {
         return texto ? texto.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "") : "";
     };
@@ -40,24 +39,11 @@ function filtrarLivros(filtro, livrosCompletos, gridElement) {
             const genero = limpar(livro.genero);
             const formato = limpar(livro.formato);
 
-            // Lógica dos filtros
-            if (filtro === 'ebook') {
-                return formato === 'e-book';
-            } 
-            if (filtro === 'audiolivro') {
-                return formato === 'audiobook';
-            } 
-            if (filtro === 'genero-romance') {
-                return genero.includes('romance');
-            } 
-            if (filtro === 'genero-ficcao') {
-                // Pega "Ficção", "Ficcao Cientifica", "Sci-Fi", etc.
-                return genero.includes('ficcao') || genero.includes('cientifica');
-            } 
-            if (filtro === 'genero-humor') {
-                // Pega "Humor", "Comédia", "Sátira"
-                return genero.includes('humor') || genero.includes('comedia') || genero.includes('satira');
-            }
+            if (filtro === 'ebook') return formato === 'e-book';
+            if (filtro === 'audiolivro') return formato === 'audiobook';
+            if (filtro === 'genero-romance') return genero.includes('romance');
+            if (filtro === 'genero-ficcao') return genero.includes('ficcao') || genero.includes('cientifica');
+            if (filtro === 'genero-humor') return genero.includes('humor') || genero.includes('comedia') || genero.includes('satira');
             return true;
         });
     }
@@ -65,7 +51,7 @@ function filtrarLivros(filtro, livrosCompletos, gridElement) {
     renderizarLivros(livrosFiltrados, gridElement);
 }
 
-// --- FUNÇÃO DE RENDERIZAÇÃO (USA O ESTRUTURA.JS) ---
+// --- FUNÇÃO DE RENDERIZAÇÃO ---
 function renderizarLivros(livros, gridElement) {
     gridElement.innerHTML = '';
 
@@ -75,7 +61,6 @@ function renderizarLivros(livros, gridElement) {
     }
 
     livros.forEach(livro => {
-        // AQUI ESTÁ O SEGREDO: Usamos a função importada que já tem o onclick!
         const card = criarCardLivroClicavel(livro);
         gridElement.appendChild(card);
     });

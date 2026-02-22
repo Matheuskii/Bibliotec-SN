@@ -37,7 +37,6 @@ export function initDarkMode() {
 }
 
 // Executar inicialização imediatamente
-document.addEventListener('DOMContentLoaded', initDarkMode);
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', initDarkMode);
 } else {

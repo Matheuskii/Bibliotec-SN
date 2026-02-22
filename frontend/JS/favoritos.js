@@ -1,19 +1,18 @@
+import API_BASE_URL from "./config.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     carregarFavoritos();
 });
 
 async function carregarFavoritos() {
-    // 1. Definições dentro da função para garantir que o HTML já existe
     const gridContainer = document.getElementById("gridFavoritos");
     const usuarioId = localStorage.getItem("usuarioId");
     const token = localStorage.getItem("userToken");
 
     console.log("Carregando favoritos para usuário:", usuarioId);
 
-    // 2. Validação se o elemento HTML existe na tela
     if (!gridContainer) return;
 
-    // 3. Validação de Login
     if (!usuarioId || !token) {
         gridContainer.innerHTML = `
             <div class="empty-state">
@@ -24,15 +23,14 @@ async function carregarFavoritos() {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos/${usuarioId}`, {
+        const response = await fetch(`${API_BASE_URL}/favoritos/${usuarioId}`, {
             method: 'GET',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` // Envia o token
+                'Authorization': `Bearer ${token}`
             }
         });
 
-        // 4. Tratamento de Sessão Expirada
         if (response.status === 401 || response.status === 403) {
             showToast("Sessão expirada. Faça login novamente.", 'error');
             window.location.href = "Login.html";
@@ -42,8 +40,7 @@ async function carregarFavoritos() {
         const favoritos = await response.json(); 
         gridContainer.innerHTML = ""; 
 
-        // 5. Lista Vazia
-        if (!favoritos || favoritos.length === 0 || DarkMode === false) {
+        if (!favoritos || favoritos.length === 0) {
             gridContainer.innerHTML = `
                 <div class="empty-state">
                     <h3 style="color:#ffca0b">Sua lista está vazia ¯\\_(ツ)_/¯</h3>
@@ -52,12 +49,10 @@ async function carregarFavoritos() {
             return;
         }
 
-        // 6. Gera os Cards
         favoritos.forEach(fav => {
             const card = document.createElement("div");
             card.className = "card-favorito";
             
-            // Tratamento de imagem quebrada/vazia
             const capa = fav.caminho_capa || './images/capa-default.jpg';
 
             card.innerHTML = `
@@ -79,14 +74,13 @@ async function carregarFavoritos() {
     }
 }
 
-// Função de Remover (Global)
 window.removerFavorito = async function(idFavorito) {
     if(!confirm("Deseja remover este livro dos favoritos?")) return;
 
     const token = localStorage.getItem("userToken");
 
     try {
-        const response = await fetch(`http://localhost:3000/favoritos/${idFavorito}`, {
+        const response = await fetch(`${API_BASE_URL}/favoritos/${idFavorito}`, {
             method: "DELETE",
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -94,7 +88,7 @@ window.removerFavorito = async function(idFavorito) {
         });
 
         if (response.ok) {
-            carregarFavoritos(); // Recarrega a lista
+            carregarFavoritos();
         } else {
             showToast("Erro ao remover.", 'error');
         }
@@ -102,4 +96,4 @@ window.removerFavorito = async function(idFavorito) {
         console.error(error);
         showToast("Erro de conexão.", 'error');
     }
-}; 
+};

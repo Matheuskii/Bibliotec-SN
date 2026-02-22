@@ -945,3 +945,31 @@ html.dark-mode .review-texto {
         border-bottom-color: #444;
     }
 }
+
+/* No seu arquivo de estilos */
+.book-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory; /* Faz o scroll "grudar" no card */
+    scroll-behavior: smooth;
+    gap: 20px;
+    padding: 40px 0;
+    -webkit-overflow-scrolling: touch;
+    will-change: transform, opacity; /* Avisa o navegador para preparar a GPU */
+    transform: translateZ(0); /* Força a criação de uma camada de hardware (Hardware Acceleration) */
+    backface-visibility: hidden;
+}
+
+.book-card {
+    scroll-snap-align: center; /* Alinha o card perfeitamente ao centro ao parar */
+    flex: 0 0 auto;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform; /* Avisa o navegador para preparar a aceleração de hardware */
+    scroll-snap-align: center; /* Garante que o card pare exatamente no meio */
+    flex: 0 0 auto;
+}
+
+.book-card.center {
+    transform: scale(1.1);
+    z-index: 2;
+}

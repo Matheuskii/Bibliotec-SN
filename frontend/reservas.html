@@ -7,11 +7,12 @@
     <title>BiblioTec - Minhas Reservas</title>
     
     <link rel="stylesheet" href="./css/Detalhes-livro.css">
+    <link rel="stylesheet" href="./css/global.css">
     <link rel="stylesheet" href="./css/Reservas.css">
     <link rel="stylesheet" href="./css/Toast.css">
     <script src="./JS/toast.js" defer></script>
 
-    <script src="./JS/reservas.js" defer></script>
+    <script src="./JS/reservas.js" type="module" defer></script>
     
     <script>
         if (localStorage.getItem('DarkMode') === 'true') {
@@ -21,6 +22,8 @@
 </head>
 
 <body>
+    <header><button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
+</header>
     <div id="toast-box"></div>
 
     <header>
