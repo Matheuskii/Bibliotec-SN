@@ -25,13 +25,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors({
   origin: [
     "http://localhost:3000",            
-    "https://bibliotec.vercel.app"       
+    "https://bibliotec-sn.vercel.app/"       
   ],
   credentials: true
 }));
 
 
-app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.use(bodyParser.json());
 
