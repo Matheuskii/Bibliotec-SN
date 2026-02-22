@@ -2,6 +2,13 @@
 <html lang="pt-BR">
 
 <head>
+  <!-- ✅ PRIMEIRO: anti-flash script, ANTES de qualquer CSS -->
+  <script>
+    if (localStorage.getItem('DarkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BiblioTec - Cadastro</title>
@@ -9,91 +16,64 @@
   <link rel="stylesheet" href="/css/Cadastro.css">
   <link rel="stylesheet" href="/css/Toast.css">
   <script src="/JS/toast.js" defer></script>
-
   <script type="module" src="/JS/telas_forms.js" defer></script>
-
-  <script>
-    if (localStorage.getItem('DarkMode') === 'true') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
 </head>
 
 <body>
-  <header><button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-</header>
-  <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
-
   <div id="toast-box"></div>
 
+  <header>
+    <img class="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec">
+    <h1>BIBLIO TEC</h1>
+    <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+  </header>
+
   <main class="login-container">
-    <img src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" class="logo">
-
     <form id="cadastroForm">
-      <input type="text" id="nome" name="nome" placeholder="Nome Completo" class="input-field" required>
+      <input type="text"     id="nome"           placeholder="Nome Completo"              class="input-field" required>
+      <input type="email"    id="email"           placeholder="E-mail Institucional"       class="input-field" required>
 
-      <input type="email" id="email" name="email" placeholder="E-mail Institucional" class="input-field" required>
+      <label for="dataNascimento">Data de Nascimento</label>
+      <input type="date"     id="dataNascimento"                                           class="input-field" required>
 
-      <label for="dataNascimento" class="sr-only">Data de Nascimento</label>
-      <input type="date" id="dataNascimento" name="dataNascimento" class="input-field" required>
-
-      <input type="text" id="curso" name="curso" placeholder="Curso Técnico (Ex: DS)" class="input-field" required>
-
-      <input type="number" id="celular" name="celular" placeholder="Celular (somente números)" class="input-field" required>
-
-      <input type="password" id="senha" name="senha" placeholder="Crie uma senha" class="input-field" required>
-
-      <input type="password" id="confirmarSenha" name="confirmarSenha" placeholder="Confirme sua senha" class="input-field" required>
+      <input type="text"     id="curso"           placeholder="Curso Técnico (Ex: DS)"    class="input-field" required>
+      <input type="tel"      id="celular"         placeholder="Celular (somente números)" class="input-field" required>
+      <input type="password" id="senha"           placeholder="Crie uma senha"            class="input-field" required>
+      <input type="password" id="confirmarSenha"  placeholder="Confirme sua senha"        class="input-field" required>
 
       <button type="submit" class="btn-cadastro2">Cadastrar</button>
       <p class="login-link">Já possui conta? <a href="./Login.html">Faça login</a></p>
     </form>
   </main>
 
+  <!-- Modal de verificação de e-mail -->
   <div id="modalVerificacao" class="modal-overlay" style="display: none;">
     <div class="modal-content">
       <h3>📧 Verifique seu E-mail</h3>
       <p>Enviamos um código para: <strong id="emailDisplay"></strong></p>
-
       <input type="text" id="codigoInput" placeholder="Ex: 123456" maxlength="6">
-
       <button onclick="confirmarCodigo()">Confirmar Cadastro</button>
-
       <p style="margin-top:15px; font-size:12px; cursor:pointer; color:red;"
          onclick="document.getElementById('modalVerificacao').style.display='none'">
-         Fechar / Corrigir E-mail
+        Fechar / Corrigir E-mail
       </p>
     </div>
   </div>
 
+  <!-- Dark mode toggle — só controla o botão, a classe já foi aplicada no <head> -->
   <script>
-    // Lógica do Botão Dark Mode
     (function () {
-      const darkModeBtn = document.getElementById('dark-mode-btn');
-      const htmlElement = document.documentElement;
+      const btn = document.getElementById('dark-mode-btn');
+      if (!btn) return;
 
-      const isDarkMode = localStorage.getItem('DarkMode') === 'true';
+      // Sincroniza o ícone com o estado atual
+      btn.textContent = document.documentElement.classList.contains('dark-mode') ? '☀️' : '🌙';
 
-      if (isDarkMode) {
-        if (darkModeBtn) darkModeBtn.textContent = '☀️';
-      }
-
-      if (darkModeBtn) {
-        darkModeBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-
-          if (isCurrentlyDark) {
-            htmlElement.classList.remove('dark-mode');
-            darkModeBtn.textContent = '🌙';
-            localStorage.setItem('DarkMode', 'false');
-          } else {
-            htmlElement.classList.add('dark-mode');
-            darkModeBtn.textContent = '☀️';
-            localStorage.setItem('DarkMode', 'true');
-          }
-        });
-      }
+      btn.addEventListener('click', function () {
+        const isDark = document.documentElement.classList.toggle('dark-mode');
+        btn.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('DarkMode', isDark ? 'true' : 'false');
+      });
     })();
   </script>
 </body>

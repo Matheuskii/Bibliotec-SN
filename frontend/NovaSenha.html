@@ -2,61 +2,38 @@
 <html lang="pt-BR">
 
 <head>
+  <!-- ✅ Anti-flash: PRIMEIRO, antes de qualquer CSS -->
+  <script>
+    if (localStorage.getItem('DarkMode') !== 'false') {
+      document.documentElement.classList.add('dark-mode');
+    }
+  </script>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BiblioTec - Recuperar Senha</title>
-  
+
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/NovaSenha.css">
   <link rel="stylesheet" href="/css/Toast.css">
   <script src="/JS/toast.js" defer></script>
-
   <script type="module" src="/JS/telas_forms.js" defer></script>
-
-  <script>
-    if (localStorage.getItem('DarkMode') === 'true') {
-      document.documentElement.classList.add('dark-mode');
-    }
-  </script>
 </head>
 
 <body>
-  <header><button class="hamburger" onclick="document.querySelector('nav').classList.toggle('open')">☰</button>
-</header>
-  <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
-  
   <div id="toast-box"></div>
 
+  <header>
+    <img class="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec">
+    <h1>BIBLIO TEC</h1>
+    <button class="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro">🌙</button>
+  </header>
+
   <main class="login-container">
-    <img src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" class="logo">
-
     <form id="newpassForm">
-      <input 
-        type="text" 
-        id="usuario" 
-        name="usuario" 
-        placeholder="Digite seu usuário ou email" 
-        class="input-field" 
-        required
-      >
-
-      <input 
-        type="password" 
-        id="senha" 
-        name="senha" 
-        placeholder="Nova senha" 
-        class="input-field" 
-        required
-      >
-
-      <input 
-        type="password" 
-        id="confirmarSenha" 
-        name="confirmarSenha" 
-        placeholder="Confirme a senha" 
-        class="input-field" 
-        required
-      >
+      <input type="text"     id="usuario"        placeholder="Digite seu usuário ou email" class="input-field" required>
+      <input type="password" id="senha"           placeholder="Nova senha"                 class="input-field" required>
+      <input type="password" id="confirmarSenha"  placeholder="Confirme a senha"           class="input-field" required>
 
       <button type="submit" class="btn-recuperar">Finalizar</button>
     </form>
@@ -64,32 +41,16 @@
 
   <script>
     (function () {
-      const darkModeBtn = document.getElementById('dark-mode-btn');
-      const htmlElement = document.documentElement;
+      const btn = document.getElementById('dark-mode-btn');
+      if (!btn) return;
 
-      // Padrão: Verifica se já está ativo
-      const isDarkMode = localStorage.getItem('DarkMode') === 'true';
+      btn.textContent = document.documentElement.classList.contains('dark-mode') ? '☀️' : '🌙';
 
-      if (isDarkMode) {
-        if (darkModeBtn) darkModeBtn.textContent = '☀️';
-      }
-
-      if (darkModeBtn) {
-        darkModeBtn.addEventListener('click', function (e) {
-          e.preventDefault();
-          const isCurrentlyDark = htmlElement.classList.contains('dark-mode');
-
-          if (isCurrentlyDark) {
-            htmlElement.classList.remove('dark-mode');
-            darkModeBtn.textContent = '🌙';
-            localStorage.setItem('DarkMode', 'false');
-          } else {
-            htmlElement.classList.add('dark-mode');
-            darkModeBtn.textContent = '☀️';
-            localStorage.setItem('DarkMode', 'true');
-          }
-        });
-      }
+      btn.addEventListener('click', function () {
+        const isDark = document.documentElement.classList.toggle('dark-mode');
+        btn.textContent = isDark ? '☀️' : '🌙';
+        localStorage.setItem('DarkMode', isDark ? 'true' : 'false');
+      });
     })();
   </script>
 </body>
