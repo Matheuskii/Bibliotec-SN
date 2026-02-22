@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
--- Versão do servidor:           11.8.2-MariaDB - mariadb.org binary distribution
+-- Versão do servidor:           12.0.2-MariaDB - mariadb.org binary distribution
 -- OS do Servidor:               Win64
--- HeidiSQL Versão:              12.10.0.7000
+-- HeidiSQL Versão:              12.11.0.7065
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -192,19 +192,22 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `celular` varchar(20) DEFAULT NULL,
   `curso` varchar(100) DEFAULT NULL,
   `perfil` enum('Aluno','Admin') DEFAULT 'Aluno',
+  `codigo_verificacao` varchar(255) DEFAULT NULL,
+  `verificado` tinyint(1) DEFAULT 0,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
--- Copiando dados para a tabela dblivraria.usuarios: ~7 rows (aproximadamente)
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_nascimento`, `celular`, `curso`, `perfil`) VALUES
-	(1, 'Vitor Lima', 'vitor.lima@email.com', '1234', NULL, NULL, NULL, 'Admin'),
-	(2, 'Pedro Campos', 'pedro.campos@email.com', 'abcd', NULL, NULL, NULL, 'Aluno'),
-	(3, 'Pedro Gabriel', 'pedro.gabriel@email.com', 'senha123', NULL, NULL, NULL, 'Aluno'),
-	(4, 'Davi Guedes', 'davi.guedes@email.com', 'teste123', NULL, NULL, NULL, 'Aluno'),
-	(5, 'Matheus Lima', 'matheus.lima@email.com', '3210', NULL, NULL, NULL, 'Aluno'),
-	(6, 'Lucas Ferreira', 'lucas.ferreira@email.com', 'senhaSegura123', NULL, NULL, NULL, 'Aluno'),
-	(7, 'Matheuszin', 'Matheuszin@gmail.com', 'Matheuszinzinzin', NULL, NULL, NULL, 'Aluno');
+-- Copiando dados para a tabela dblivraria.usuarios: ~8 rows (aproximadamente)
+INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `data_nascimento`, `celular`, `curso`, `perfil`, `codigo_verificacao`, `verificado`) VALUES
+	(1, 'Vitor Lima', 'vitor.lima@email.com', '1234', NULL, NULL, NULL, 'Admin', NULL, 0),
+	(2, 'Pedro Campos', 'pedro.campos@email.com', 'abcd', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(3, 'Pedro Gabriel', 'pedro.gabriel@email.com', 'senha123', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(4, 'Davi Guedes', 'davi.guedes@email.com', 'teste123', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(5, 'Matheus Lima', 'matheus.lima@email.com', '3210', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(6, 'Lucas Ferreira', 'lucas.ferreira@email.com', 'senhaSegura123', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(7, 'Matheuszin', 'Matheuszin@gmail.com', 'Matheuszinzinzin', NULL, NULL, NULL, 'Aluno', NULL, 0),
+	(10, 'Lavíz', 'lavizsenai@gmail.com', '123', '2007-04-23', '11987654321', 'DS', 'Aluno', NULL, 1);
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

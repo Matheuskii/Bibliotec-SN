@@ -15,7 +15,7 @@ class DetalhesLivro {
 
     async carregarLivro() {
         try {
-            const response = await fetch(`http://localhost:3000/livros/${this.livroId}`);
+            const response = await fetch(`http://bibliotec-sn.ddns.net:3000/livros/${this.livroId}`);
 
             if (!response.ok) {
                 throw new Error('Livro não encontrado');

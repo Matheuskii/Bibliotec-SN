@@ -1,6 +1,6 @@
 import { criarCardLivroClicavel } from "./Estrutura.js";
 
-const API = 'http://localhost:3000/livros';
+const API = 'http://bibliotec-sn.ddns.net:3000/livros';
 
 document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('todos-livros');

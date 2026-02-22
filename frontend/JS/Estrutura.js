@@ -158,7 +158,7 @@ export async function criarCarrossel(gridId, leftBtn, rightBtn, funcaoFiltro = n
 
 async function carregarLivros() {
     try {
-        const API = "http://localhost:3000/livros";
+        const API = "http://bibliotec-sn.ddns.net:3000/livros";
         const resposta = await fetch(API);
         
         if (!resposta.ok) {
@@ -287,7 +287,7 @@ export function criarCardsLivros(livros, containerId) {
 // Função para buscar livro por ID (útil para página de detalhes)
 export async function buscarLivroPorId(id) {
     try {
-        const API = `http://localhost:3000/livros/${id}`;
+        const API = `http://bibliotec-sn.ddns.net:3000/livros/${id}`;
         const resposta = await fetch(API);
         
         if (!resposta.ok) {
