@@ -1,0 +1,129 @@
+@import './Login.css';
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+body {
+  margin: 30px;
+}
+
+.login-container {
+  padding: 0px 50px 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+html.dark-mode .sr-only {
+  color: var(--cor-branco-claro);
+}
+
+.btn-cadastro2 {
+  margin-top: 30px;
+  width: 100%;
+  padding: 30px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
+  background: var(--cor-branco-claro);
+  color: rgba(38, 51, 61, 0.3);
+}
+
+.btn-cadastro2:hover {
+  border-bottom: 5px solid transparent;
+  border-right: 5px solid transparent;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  background-image: linear-gradient(to right, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to right, #4a68dfb6, #2fd6cbc4);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  color: var(--cor-branca);
+  font-size: 18px;
+}
+
+/* dark mode */
+html.dark-mode .btn-cadastro2 {
+  color: var(--cor-branca);
+  background: var(--cor-cinza-claro);
+  border: none;
+}
+
+html.dark-mode .btn-cadastro2:hover {
+  background: var(--cor-azul-turquesa);
+}
+
+.login-link a {
+  color: var(--cor-verde-agua);
+}
+
+html.dark-mode .login-link {
+  color: var(--cor-branco-claro);
+}
+
+html.dark-mode .login-link a {
+  color: var(--cor-azul-turquesa);
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+
+.modal-content {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    animation: aparecer 0.3s ease;
+}
+
+@keyframes aparecer {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+#codigoInput {
+    font-size: 24px;
+    letter-spacing: 5px;
+    text-align: center;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    border: 2px solid #4a67df;
+    border-radius: 8px;
+}
+
+.modal-content button {
+    background: #4a67df;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    transition: transform 0.2s;
+}
+
+.modal-content button:hover {
+    transform: scale(1.05);
+}

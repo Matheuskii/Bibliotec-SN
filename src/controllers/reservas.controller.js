@@ -11,7 +11,7 @@ export async function listarReservas(req, res) {
                  FROM reservas r
                  LEFT JOIN usuarios u ON r.usuario_id = u.id
                  LEFT JOIN livros l ON r.livro_id = l.id`;
-    
+
     const params = [];
 
     // Aluno só vê as próprias reservas; Admin vê todas
@@ -133,7 +133,7 @@ export async function criarReserva(req, res) {
 export async function excluirReserva(req, res) {
     try {
         await db.execute("DELETE FROM reservas WHERE id = ?", [req.params.id]);
-        res.json({ mensagem: "Reserva deletada com sucesso!" });
+        res.json({ sucesso: true, mensagem: "Reserva deletada com sucesso!" });
     } catch (err) {
         res.status(500).json({ erro: err.message });
     }
@@ -163,7 +163,7 @@ export async function listarReservasPorUsuario(req, res) {
         `;
 
         const [reservas] = await db.execute(query, [usuarioId]);
-        res.json(reservas);
+        res.json({ sucesso: true, dados: reservas });
 
     } catch (erro) {
         console.error('Erro ao buscar reservas do usuário:', erro);

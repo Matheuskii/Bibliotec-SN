@@ -1,7 +1,7 @@
 // ============================
 //  Dependências
 // ============================
-import "dotenv/config"; 
+import "dotenv/config";
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -24,8 +24,9 @@ const PORT = process.env.PORT || 3000;
 // ============================
 app.use(cors({
   origin: [
-    "http://localhost:3000",            
-    "https://bibliotec-sn.vercel.app/"       
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "https://bibliotec-sn.vercel.app"
   ],
   credentials: true
 }));

@@ -1,0 +1,60 @@
+import { useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
+
+export default function BookCard({ livro }) {
+  const navigate = useNavigate()
+
+  const capa = useMemo(() => {
+    return livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
+  }, [livro])
+
+  const onOpen = () => {
+    const id = livro?.id
+    if (!id) return
+    navigate(`/livros/${id}`)
+  }
+
+  return (
+    <div
+      className="book-card"
+      role="button"
+      tabIndex={0}
+      data-id={livro?.id}
+      title={livro?.titulo ? `Clique para ver detalhes de "${livro.titulo}"` : 'Clique para ver detalhes'}
+      aria-label={
+        livro?.titulo
+          ? `Livro: ${livro.titulo}${livro?.autor ? ` por ${livro.autor}` : ''}. Clique para ver detalhes.`
+          : 'Livro. Clique para ver detalhes.'
+      }
+      onClick={onOpen}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onOpen()
+        }
+      }}
+    >
+      <div className="book-cover">
+        <img
+          src={capa}
+          alt={livro?.titulo ?? 'Capa do livro'}
+          width={200}
+          height={280}
+          loading="lazy"
+          style={{ aspectRatio: '2/3', objectFit: 'cover' }}
+          onError={(e) => {
+            e.currentTarget.src = '/images/capa-default.jpg'
+          }}
+        />
+      </div>
+
+      <div className="book-info">
+        <h3 className="book-title">{livro?.titulo ?? 'Sem título'}</h3>
+        <p className="book-author">{livro?.autor ?? 'Autor desconhecido'}</p>
+        {livro?.preco ? <span className="book-price">R$ {livro.preco}</span> : null}
+        {livro?.ano_publicacao ? <span className="book-year">{livro.ano_publicacao}</span> : null}
+      </div>
+    </div>
+  )
+}
+

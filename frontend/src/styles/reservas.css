@@ -1,0 +1,149 @@
+/*======================================================*/
+/* === CORES PRINCIPAIS DO CATALOGO LIGHT/DARK MODE === */
+/*======================================================*/
+:root {
+    --cor-azul-turquesa: #4a67df;
+    --cor-verde-agua: #2fd6cb;
+    --cor-cinza-claro: #31414e;
+    --cor-cinza: #26333d;
+    --cor-branco-claro: #e9f0ef;
+    --cor-branca: #ffffff;
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+.reservas-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 50px 10px;
+    min-height: 100vh;
+}
+
+/* light mode */
+.titulo-secao {
+    font-size: 2rem;
+    color: var(--cor-cinza);
+    margin-bottom: 30px;
+    border-left: 5px solid var(--cor-verde-agua);
+    border-radius: 10px;
+    padding-left: 15px;
+}
+
+/* dark mode */
+html.dark-mode .titulo-secao {
+    color: var(--cor-branca);
+    border-left: 5px solid var(--cor-azul-turquesa);
+}
+
+/*===================================*/
+/* === CORPO E ESTRUTURA DO SITE === */
+/*===================================*/
+/* light mode */
+.tabela-reservas {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: white;
+    box-shadow: 0 15px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.tabela-reservas thead {
+    background: linear-gradient(450deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
+    color: var(--cor-branca);
+    background-size: 400% 400%;
+    animation: lavaFlow 20s infinite;
+
+    @keyframes lavaFlow {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        25% {
+            background-position: 50% 75%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        75% {
+            background-position: 50% 25%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+}
+
+.tabela-reservas th {
+    padding: 20px 20px;
+    text-align: left;
+    font-weight: bold;
+}
+
+.tabela-reservas td {
+    padding: 15px 20px;
+    border-bottom: 5px solid var(--cor-branco-claro);
+}
+
+.tabela-reservas tbody tr:last-child td {
+    border-bottom: none;
+}
+
+p {
+    color: var(--cor-cinza);
+}
+
+/* dark mode */
+html.dark-mode .tabela-reservas {
+    background: var(--cor-cinza);
+    color: var(--cor-branca);
+}
+
+html.dark-mode .tabela-reservas thead {
+    background: linear-gradient(450deg, #000000, var(--cor-cinza-claro), #000000);
+    background-size: 400% 400%;
+    animation: lavaFlow 10s infinite;
+}
+
+html.dark-mode .tabela-reservas td {
+    border-bottom: 5px solid var(--cor-cinza-claro);
+}
+
+html.dark-mode p {
+    color: var(--cor-branco-claro);
+}
+
+/* ====================== */
+/* === BOTÃO CANCELAR === */
+/* ====================== */
+/* light mode */
+.btn-cancelar {
+    background: var(--cor-branco-claro);
+    color: var(--cor-cinza);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-cancelar:hover {
+    background: #ff0000;
+    color: var(--cor-branca);
+}
+
+/* dark mode */
+html.dark-mode .btn-cancelar {
+    background: var(--cor-cinza-claro);
+    color: var(--cor-branca);
+}
+
+html.dark-mode .btn-cancelar:hover {
+    background: #ff0000;
+    color: var(--cor-branca);
+}

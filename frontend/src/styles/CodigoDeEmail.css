@@ -1,0 +1,46 @@
+/*==================================================*/
+/* === CORES PRINCIPAIS DO SITE LIGHT/DARK MODE === */
+/*==================================================*/
+:root {
+    --cor-azul-turquesa: #4a67df;
+    --cor-verde-agua: #2fd6cb;
+    --cor-cinza-claro: #31414e;
+    --cor-cinza: #26333d;
+    --cor-branco-claro: #e9f0ef;
+    --cor-branca: #ffffff;
+}
+
+/*======================*/
+/* === LOGO DO SITE === */
+/*======================*/
+.logo {
+    width: 80px;
+    height: 80px;
+    object-fit: scale-down;
+    border-radius: 0%;
+    margin-left: 220px;
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--cor-cinza);
+    margin-right: 220px;
+    margin-top: 20px;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    background: var(--cor-branca);
+    border: 10px solid var(--cor-branco-claro);
+    border-bottom: none;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+

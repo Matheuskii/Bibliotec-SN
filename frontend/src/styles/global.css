@@ -1,0 +1,86 @@
+@media (max-width: 600px) {
+  .hamburger {
+    display: block;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1001; /* Garante que fique acima de tudo */
+  }
+
+  nav {
+    display: none;
+    flex-direction: column;
+    position: fixed; /* Fixado para cobrir a tela se necessário */
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(10, 15, 25, 0.9); /* Azul bem escuro */
+    backdrop-filter: blur(15px); /* Efeito de vidro */
+    padding: 80px 20px 30px; /* Espaço para o botão lá em cima */
+    z-index: 1000;
+    border-bottom: 1px solid rgba(59, 130, 246, 0.3); /* Borda azul neon sutil */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  }
+
+  nav.open {
+    display: flex;
+    animation: fadeInDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Estilizando os botões do menu */
+  nav a, nav button {
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: 0.2s;
+  }
+
+  nav a:hover {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: #3b82f6;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 600px) {
+    /* Estado padrão: Escondido e sem ocupar espaço */
+    nav {
+        display: none !important; 
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Ajuste para ficar abaixo do seu header */
+        left: 0;
+        width: 100%;
+        background: rgba(10, 15, 25, 0.95);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        padding: 20px;
+    }
+
+    /* Estado Ativo: Quando o JS adiciona a classe .open */
+    nav.open {
+        display: flex !important;
+        animation: fadeIn 0.3s ease-in-out;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

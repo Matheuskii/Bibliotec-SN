@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const user_env   = process.env.DB_USER     || "root";
-const password_env = process.env.DB_PASS   || "";
+const password_env = process.env.DB_PASS   || "senai";
 const database_env = process.env.DB_NAME   || "dblivraria";
 const host_env   = process.env.DB_HOST     || "localhost";
 const port_env   = process.env.DB_PORT     || 3306;
