@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../services/api'
 
 export default function BookCard({ livro }) {
   const navigate = useNavigate()
@@ -13,19 +14,19 @@ export default function BookCard({ livro }) {
     }
 
     // Se a string começar com 'capas/', é o formato retornado pelo banco de dados atual
-    if (path.startsWith('capas/')) {
+    if (path.startsWith('/capas/')) {
         // Aponta para o servidor backend que acabou de ser configurado para servir a pasta public
-        return `http://localhost:3000/${path}`
+        return `${api.defaults.baseURL}/${path}`
     }
 
     // Fallback: se não tiver barra na frente, adiciona (ex: 'livro1.jpg' -> '/capas/livro1.jpg')
     if (!path.startsWith('/')) {
-      return `http://localhost:3000/capas/${path}`
+      return `${api.defaults.baseURL}/capas/${path}`
     }
     
     // Se por acaso já começar com /capas/
     if (path.startsWith('/capas/')) {
-      return `http://localhost:3000${path}`
+      return `${api.defaults.baseURL}${path}`
     }
 
     return path
