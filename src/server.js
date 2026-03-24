@@ -54,12 +54,12 @@ app.get("/api/health", (req, res) => {
   res.send("🚀 API rodando com sucesso!");
 });
 
-
-const frontendPath = path.join(__dirname, "../frontend/dist");
-app.use(express.static(frontendPath));
+app.get("/", (req, res) => {
+  res.json({ status: "online", message: "Servidor da Biblioteca ativo" });
+});
 
 app.use((req, res) => {
-  res.sendFile(path.join(frontendPath, "index.html"));
+  res.status(404).json({ error: "Rota não encontrada no backend" });
 });
 
 app.listen(PORT, () => console.log(`✅ Servidor rodando na porta ${PORT}`));
