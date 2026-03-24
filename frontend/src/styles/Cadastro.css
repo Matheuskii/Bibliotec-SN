@@ -1,38 +1,170 @@
+/* Cadastro.css — Original style preserved */
 @import './Login.css';
 
-/*===================================*/
-/* === CORPO E ESTRUTURA DO SITE === */
-/*===================================*/
-body {
-  margin: 30px;
+/* ===================== */
+/* CORPO (HERDADO)       */
+/* ===================== */
+.page-cadastro {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-size: 400% 400%;
+  animation: lavaFlow 10s infinite;
+  padding: var(--sp-5, 24px);
 }
 
-.login-container {
+html.dark-mode .page-cadastro {
+  background: linear-gradient(250deg, #000000, var(--cor-cinza-claro), #000000);
+  background-size: 400% 400%;
+  animation: lavaFlow 15s infinite;
+}
+
+/* Dark mode toggle */
+.page-cadastro .dark-mode-toggle {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  background: var(--cor-branco-claro);
+  border: none;
+  box-shadow: 5px 15px 5px rgba(0, 0, 0, 0.3);
+  border-radius: 15px;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 5px 20px;
+  transition: all 0.3s;
+  z-index: 10;
+}
+
+html.dark-mode .page-cadastro .dark-mode-toggle {
+  background: var(--cor-cinza);
+  border: 3px solid #31414e55;
+}
+
+/* Card */
+.page-cadastro .login-container {
+  background: var(--cor-branco-claro);
   padding: 0px 50px 20px;
+  border-radius: var(--r-xl, 30px);
+  box-shadow: 10px 15px 10px rgba(0, 0, 0, 0.3);
+  border: 6px solid #26333d1b;
+  width: 90%;
+  max-width: 420px;
+  text-align: center;
+  animation: fadeInUp 0.5s ease both;
 }
 
-.login-form {
+html.dark-mode .page-cadastro .login-container {
+  background: var(--cor-cinza);
+  box-shadow: 0 15px 10px rgba(0, 0, 0, 0.3);
+  border: 6px solid #31414e55;
+}
+
+/* Form */
+.page-cadastro .login-form {
   display: flex;
   flex-direction: column;
 }
 
-html.dark-mode .sr-only {
+html.dark-mode .page-cadastro .sr-only {
   color: var(--cor-branco-claro);
 }
 
-.btn-cadastro2 {
-  margin-top: 30px;
+/* Labels */
+.page-cadastro label {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--cor-cinza);
+  text-align: left;
+  margin-top: var(--sp-2, 8px);
+}
+
+html.dark-mode .page-cadastro label {
+  color: var(--cor-branco-claro);
+}
+
+/* Inputs (gradient border from Login.css) */
+.page-cadastro .input-field {
   width: 100%;
-  padding: 30px;
+  padding: 15px 20px;
+  margin: 8px 0;
+  border: 3px solid transparent;
+  background-image: linear-gradient(to left, var(--cor-branco-claro), var(--cor-branco-claro)),
+    linear-gradient(to left, #0000005d, var(--cor-branca));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow: 0px 5px 5px rgba(0, 0, 0, 0.3);
+  border-radius: var(--r-xl, 30px);
+  font-size: 15px;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  color: var(--cor-cinza);
+  transition: all 0.3s;
+  outline: none;
+}
+
+.page-cadastro .input-field::placeholder {
+  color: rgba(38, 51, 61, 0.6);
+  font-weight: bold;
+  transition: 1s;
+}
+
+.page-cadastro .input-field:hover {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-branco-claro), var(--cor-branca));
+}
+
+.page-cadastro .input-field:focus {
+  background-image: linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua)),
+    linear-gradient(to left, var(--cor-azul-turquesa), var(--cor-verde-agua));
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  transition: 1s;
+}
+
+.page-cadastro .input-field:focus::placeholder {
+  color: var(--cor-branca);
+}
+
+html.dark-mode .page-cadastro .input-field {
+  background-image: linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza-claro)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  color: var(--cor-branco-claro);
+}
+
+html.dark-mode .page-cadastro .input-field::placeholder {
+  color: var(--cor-cinza);
+}
+
+html.dark-mode .page-cadastro .input-field:hover {
+  background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+}
+
+html.dark-mode .page-cadastro .input-field:focus {
+  border: 3px solid var(--cor-azul-turquesa);
+  background-image: linear-gradient(to right, var(--cor-cinza-claro), var(--cor-azul-turquesa)),
+    linear-gradient(to left, var(--cor-cinza-claro), var(--cor-cinza));
+  color: var(--cor-branco-claro);
+}
+
+/* Button (original style) */
+.btn-cadastro2 {
+  margin-top: 20px;
+  width: 100%;
+  padding: 18px;
   border: none;
   border-radius: 15px;
   font-size: 16px;
   font-weight: bold;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
   cursor: pointer;
   transition: all 0.3s;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.3);
   background: var(--cor-branco-claro);
-  color: rgba(38, 51, 61, 0.3);
+  color: var(--cor-cinza);
 }
 
 .btn-cadastro2:hover {
@@ -48,7 +180,6 @@ html.dark-mode .sr-only {
   font-size: 18px;
 }
 
-/* dark mode */
 html.dark-mode .btn-cadastro2 {
   color: var(--cor-branca);
   background: var(--cor-cinza-claro);
@@ -59,8 +190,16 @@ html.dark-mode .btn-cadastro2:hover {
   background: var(--cor-azul-turquesa);
 }
 
+/* Link login */
+.login-link {
+  text-align: center;
+  margin-top: var(--sp-4, 16px);
+  font-size: 0.88rem;
+}
+
 .login-link a {
   color: var(--cor-verde-agua);
+  font-weight: 600;
 }
 
 html.dark-mode .login-link {
@@ -71,59 +210,82 @@ html.dark-mode .login-link a {
   color: var(--cor-azul-turquesa);
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999; 
+/* Modal (original animation) */
+.page-cadastro .modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
 
-.modal-content {
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    text-align: center;
-    width: 90%;
-    max-width: 400px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-    animation: aparecer 0.3s ease;
+.page-cadastro .modal-content {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+  animation: aparecer 0.3s ease;
 }
 
 @keyframes aparecer {
-    from { transform: scale(0.8); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
+  from { transform: scale(0.8); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+html.dark-mode .page-cadastro .modal-content {
+  background: var(--cor-cinza);
+  border: 1px solid #31414e55;
+  color: var(--cor-branco-claro);
 }
 
 #codigoInput {
-    font-size: 24px;
-    letter-spacing: 5px;
-    text-align: center;
-    width: 100%;
-    padding: 10px;
-    margin: 20px 0;
-    border: 2px solid #4a67df;
-    border-radius: 8px;
+  font-family: var(--font-display, 'Outfit', sans-serif);
+  font-size: 24px;
+  letter-spacing: 5px;
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+  margin: 20px 0;
+  border: 2px solid var(--cor-azul-turquesa);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--cor-cinza);
 }
 
-.modal-content button {
-    background: #4a67df;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    border-radius: 25px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
-    width: 100%;
-    transition: transform 0.2s;
+html.dark-mode #codigoInput {
+  color: var(--cor-branco-claro);
+  border-color: var(--cor-verde-agua);
 }
 
-.modal-content button:hover {
-    transform: scale(1.05);
+.page-cadastro .modal-content button {
+  background: var(--cor-azul-turquesa);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+  transition: transform 0.2s;
+}
+
+.page-cadastro .modal-content button:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .page-cadastro .login-container {
+    padding: 0 25px 20px;
+    border-width: 4px;
+  }
 }

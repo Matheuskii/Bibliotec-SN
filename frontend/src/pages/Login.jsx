@@ -81,7 +81,7 @@ export default function Login() {
                         <Link to="/nova-senha">Esqueceu sua senha?</Link>
                     </div>
 
-                    {error && <p style={{ color: '#e74c3c', fontSize: 13, marginBottom: 10 }}>{error}</p>}
+                    {error && <p className="error">{error}</p>}
 
                     <button type="submit" className="btn-login" disabled={loading}>
                         {loading ? 'Entrando...' : 'Entrar'}

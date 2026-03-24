@@ -69,8 +69,8 @@ export async function verificarCodigo({ email, codigo }) {
   return response.data
 }
 
-export async function recuperarSenha({ usuario, senha, confirmarSenha }) {
-  const response = await api.post('/usuarios/newpass', { usuario, senha, confirmarSenha })
+export async function recuperarSenha({ usuario, novaSenha }) {
+  const response = await api.post('/usuarios/newpass', { usuario, novaSenha })
   return response.data
 }
 

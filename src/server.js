@@ -26,14 +26,22 @@ app.use(cors({
   origin: [
     "http://localhost:5173",
     "http://localhost:5174",
+    "http://localhost:5175",
+    "http://localhost:5176",
+    "http://127.0.0.1:5173",
+    "http://127.0.0.1:5174",
+    "http://127.0.0.1:5175",
+    "http://127.0.0.1:5176",
     "https://bibliotec-sn.vercel.app"
   ],
   credentials: true
 }));
 
-
-
 app.use(bodyParser.json());
+
+// Servir arquivos estáticos (como as capas dos livros)
+const publicPath = path.join(__dirname, "../frontend/public");
+app.use(express.static(publicPath));
 
 // 1. ROTAS DE API (Sempre coloque um prefixo como /api para evitar conflitos)
 app.use("/api/usuarios", usuarioRoutes);
@@ -47,12 +55,11 @@ app.get("/api/health", (req, res) => {
 });
 
 
-const frontendPath = path.join(__dirname, "../frontend");
+const frontendPath = path.join(__dirname, "../frontend/dist");
 app.use(express.static(frontendPath));
 
-
 app.use((req, res) => {
-  res.sendFile(path.join(frontendPath, "Inicio.html"));
+  res.sendFile(path.join(frontendPath, "index.html"));
 });
 
 app.listen(PORT, () => console.log(`✅ Servidor rodando na porta ${PORT}`));

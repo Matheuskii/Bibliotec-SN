@@ -1,5 +1,5 @@
-/* === BiblioTec - Consolidated CSS === */
-/* Import all legacy styles */
+/* === BiblioTec — CSS Entry Point === */
+/* The unified design system lives in global.css */
 @import './styles/global.css';
 @import './styles/Toast.css';
 @import './styles/Inicio.css';
@@ -12,61 +12,6 @@
 @import './styles/reservas.css';
 @import './styles/Admin.css';
 
-:root {
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
 #root {
   min-height: 100vh;
-}
-
-/* Empty state styling */
-.empty-state {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--cor-cinza);
-}
-
-html.dark-mode .empty-state {
-  color: var(--cor-branco-claro);
-}
-
-.empty-state h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-.empty-state a {
-  color: var(--cor-azul-turquesa);
-  font-weight: bold;
-}
-
-/* Page-specific body overrides - scoped via class */
-.page-login,
-.page-cadastro,
-.page-novasenha {
-  width: auto;
-  zoom: 0.92;
-  margin: 80px;
-  padding: 0px;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(250deg, var(--cor-azul-turquesa), var(--cor-verde-agua), var(--cor-azul-turquesa), var(--cor-verde-agua));
-  background-size: 400% 400%;
-  animation: lavaFlow 10s infinite;
-  min-height: 100vh;
-}
-
-html.dark-mode .page-login,
-html.dark-mode .page-cadastro,
-html.dark-mode .page-novasenha {
-  background: linear-gradient(250deg, #000000, var(--cor-cinza-claro), #000000);
-  background-size: 400% 400%;
-  animation: lavaFlow 15s infinite;
 }

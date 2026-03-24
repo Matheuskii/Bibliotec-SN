@@ -88,7 +88,13 @@ export default function DetalhesLivro() {
         return <Layout><div className="container-detalhes"><p>Livro não encontrado.</p></div></Layout>
     }
 
-    const capa = livro.caminho_capa || livro.capa_url || '/images/capa-default.jpg'
+    let capa = livro.caminho_capa || livro.capa_url || '/images/capa-default.jpg'
+
+    if (capa && !capa.startsWith('http') && !capa.startsWith('/') && !capa.startsWith('data:')) {
+        capa = `/capas/${capa}`
+    } else if (capa && !capa.startsWith('http') && capa.startsWith('/') && !capa.startsWith('/capas/') && !capa.startsWith('/images/')) {
+        capa = `/capas${capa}`
+    }
 
     return (
         <Layout>

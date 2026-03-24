@@ -139,7 +139,7 @@ export default function Admin() {
                                     {livrosFiltrados.map(l => (
                                         <tr key={l.id}>
                                             <td>{l.id}</td>
-                                            <td><img className="mini-capa" src={l.caminho_capa || '/images/capa-default.jpg'} alt={l.titulo} onError={(e) => { e.currentTarget.src = '/images/capa-default.jpg' }} /></td>
+                                            <td><img className="mini-capa" src={l.caminho_capa ? (l.caminho_capa.startsWith('http') || l.caminho_capa.startsWith('/') ? l.caminho_capa : '/' + l.caminho_capa) : '/images/capa-default.jpg'} alt={l.titulo} onError={(e) => { e.currentTarget.src = '/images/capa-default.jpg' }} /></td>
                                             <td>{l.titulo}</td>
                                             <td>{l.autor}</td>
                                             <td><span className={`badge-status ${l.ativo !== false ? 'ativo' : 'inativo'}`}>{l.ativo !== false ? 'Ativo' : 'Inativo'}</span></td>

@@ -5,7 +5,30 @@ export default function BookCard({ livro }) {
   const navigate = useNavigate()
 
   const capa = useMemo(() => {
-    return livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
+    let path = livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
+    
+    // Se a string já é uma URL completa ou já é um absolute path para /images/, usa direto
+    if (path.startsWith('http') || path.startsWith('data:') || path.startsWith('/images/')) {
+        return path
+    }
+
+    // Se a string começar com 'capas/', é o formato retornado pelo banco de dados atual
+    if (path.startsWith('capas/')) {
+        // Aponta para o servidor backend que acabou de ser configurado para servir a pasta public
+        return `http://localhost:3000/${path}`
+    }
+
+    // Fallback: se não tiver barra na frente, adiciona (ex: 'livro1.jpg' -> '/capas/livro1.jpg')
+    if (!path.startsWith('/')) {
+      return `http://localhost:3000/capas/${path}`
+    }
+    
+    // Se por acaso já começar com /capas/
+    if (path.startsWith('/capas/')) {
+      return `http://localhost:3000${path}`
+    }
+
+    return path
   }, [livro])
 
   const onOpen = () => {

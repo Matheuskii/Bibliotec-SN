@@ -54,31 +54,28 @@ export default function Cadastro() {
 
     return (
         <div className="page-cadastro">
-            <header>
-                <img className="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" />
-                <h1>BIBLIO TEC</h1>
-                <button className="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro" type="button" onClick={darkMode.toggle}>
-                    {darkMode.isDarkMode ? '☀️' : '🌙'}
-                </button>
-            </header>
+            <button className="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro" type="button" onClick={darkMode.toggle}>
+                {darkMode.isDarkMode ? '☀️' : '🌙'}
+            </button>
 
             <main className="login-container">
-                <form id="cadastroForm" onSubmit={handleSubmit}>
+                <img className="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" />
+                <form id="cadastroForm" onSubmit={handleSubmit} className="login-form">
                     <input type="text" id="nome" placeholder="Nome Completo" className="input-field" required value={form.nome} onChange={handleChange} />
                     <input type="email" id="email" placeholder="E-mail Institucional" className="input-field" required value={form.email} onChange={handleChange} />
-                    <label htmlFor="dataNascimento">Data de Nascimento</label>
-                    <input type="date" id="dataNascimento" className="input-field" required value={form.dataNascimento} onChange={handleChange} />
+                    <label htmlFor="dataNascimento" style={{ textAlign: 'left', marginTop: '10px', color: 'var(--cor-cinza)', fontSize: '0.85rem', fontWeight: '500' }}>Data de Nascimento</label>
+                    <input type="date" id="dataNascimento" className="input-field" required value={form.dataNascimento} onChange={handleChange} style={{ marginTop: '0' }}/>
                     <input type="text" id="curso" placeholder="Curso Técnico (Ex: DS)" className="input-field" required value={form.curso} onChange={handleChange} />
                     <input type="tel" id="celular" placeholder="Celular (somente números)" className="input-field" required value={form.celular} onChange={handleChange} />
                     <input type="password" id="senha" placeholder="Crie uma senha" className="input-field" required value={form.senha} onChange={handleChange} />
                     <input type="password" id="confirmarSenha" placeholder="Confirme sua senha" className="input-field" required value={form.confirmarSenha} onChange={handleChange} />
 
-                    {error && <p style={{ color: '#e74c3c', fontSize: 13 }}>{error}</p>}
+                    {error && <p className="error" style={{ marginTop: 10 }}>{error}</p>}
 
                     <button type="submit" className="btn-cadastro2" disabled={loading}>
                         {loading ? 'Cadastrando...' : 'Cadastrar'}
                     </button>
-                    <p className="login-link">Já possui conta? <Link to="/login">Faça login</Link></p>
+                    <p className="login-link" style={{ marginTop: '15px' }}>Já possui conta? <Link to="/login">Faça login</Link></p>
                 </form>
             </main>
 
@@ -89,7 +86,7 @@ export default function Cadastro() {
                         <p>Enviamos um código para: <strong>{form.email}</strong></p>
                         <input type="text" id="codigoInput" placeholder="Ex: 123456" maxLength="6" value={codigo} onChange={(e) => setCodigo(e.target.value)} />
                         <button type="button" onClick={confirmarCodigo}>Confirmar Cadastro</button>
-                        <p style={{ marginTop: 15, fontSize: 12, cursor: 'pointer', color: 'red' }} onClick={() => setShowModal(false)}>
+                        <p style={{ marginTop: 15, fontSize: 12, cursor: 'pointer', color: '#ff6b6b' }} onClick={() => setShowModal(false)}>
                             Fechar / Corrigir E-mail
                         </p>
                     </div>
@@ -98,3 +95,4 @@ export default function Cadastro() {
         </div>
     )
 }
+

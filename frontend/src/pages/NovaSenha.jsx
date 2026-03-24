@@ -21,7 +21,7 @@ export default function NovaSenha() {
         setLoading(true)
         setError('')
         try {
-            const data = await recuperarSenha({ usuario, senha, confirmarSenha })
+            const data = await recuperarSenha({ usuario, novaSenha: senha })
             if (data.sucesso) {
                 alert('Senha alterada com sucesso!')
                 navigate('/login')
@@ -37,15 +37,12 @@ export default function NovaSenha() {
 
     return (
         <div className="page-novasenha">
-            <header>
-                <img className="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" />
-                <h1>BIBLIO TEC</h1>
-                <button className="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro" type="button" onClick={darkMode.toggle}>
-                    {darkMode.isDarkMode ? '☀️' : '🌙'}
-                </button>
-            </header>
+            <button className="dark-mode-toggle" id="dark-mode-btn" title="Modo escuro" type="button" onClick={darkMode.toggle}>
+                {darkMode.isDarkMode ? '☀️' : '🌙'}
+            </button>
 
             <main className="login-container">
+                <img className="logo" src="/images/Logo-Bibliotec.png" alt="Logo BiblioTec" />
                 <form id="newpassForm" onSubmit={handleSubmit}>
                     <input type="text" id="usuario" placeholder="Digite seu usuário ou email" className="input-field" required value={usuario} onChange={(e) => setUsuario(e.target.value)} />
                     <input type="password" id="senha" placeholder="Nova senha" className="input-field" required value={senha} onChange={(e) => setSenha(e.target.value)} />

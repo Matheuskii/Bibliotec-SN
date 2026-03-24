@@ -1,6 +1,15 @@
 import nodemailer from 'nodemailer';
 
-const transporter = nodemailer.createTransport({
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// Sobe dois níveis (de src/services para a raiz)
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+const getTransporter = () => nodemailer.createTransport({
     service: 'gmail',
     auth: {
         user: process.env.GMAIL_USER,
@@ -11,6 +20,7 @@ const transporter = nodemailer.createTransport({
 
 
 export async function enviarEmailVerificacao(email, codigo) {
+    const transporter = getTransporter();
     const mailOptions = {
         from: `"BiblioTec" <${process.env.GMAIL_USER}>`,
         to: email,
