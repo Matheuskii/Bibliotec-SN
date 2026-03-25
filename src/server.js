@@ -32,7 +32,7 @@ app.use(cors({
 app.use(bodyParser.json());
 
 // Servir arquivos estáticos (como as capas dos livros)
-const publicPath = path.join(__dirname, "../frontend/public");
+const publicPath = path.join(__dirname, "../public");
 app.use(express.static(publicPath));
 
 // 1. ROTAS DE API (Sempre coloque um prefixo como /api para evitar conflitos)
