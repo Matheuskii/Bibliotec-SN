@@ -17,7 +17,7 @@ export default function Login() {
         setError('')
 
         try {
-            const data = await login({ identifier, senha })
+const data = await login({ email: identifier, senha })
 
             if (data.sucesso) {
                 localStorage.setItem('userToken', data.token)

@@ -5,21 +5,17 @@ import api from '../services/api'
 export default function BookCard({ livro }) {
   const navigate = useNavigate()
 
-  // URL base do servidor (sem o /api) para arquivos estáticos
   const serverBase = (api.defaults.baseURL || '').replace(/\/api\/?$/, '')
 
   const capa = useMemo(() => {
     let p = livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
     
-    // Se já é URL completa ou path para imagem default, usa direto
     if (p.startsWith('http') || p.startsWith('data:') || p.startsWith('/images/')) {
       return p
     }
 
-    // Remove barra inicial se houver (ex: '/capas/x.jpg' -> 'capas/x.jpg')
     if (p.startsWith('/')) p = p.slice(1)
 
-    // Monta a URL apontando para o backend: ex: 'capas/hobbit.jpg' -> 'https://backend/capas/hobbit.jpg'
     return `${serverBase}/${p}`
   }, [livro, serverBase])
 
