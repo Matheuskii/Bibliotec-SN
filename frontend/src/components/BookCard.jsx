@@ -5,32 +5,23 @@ import api from '../services/api'
 export default function BookCard({ livro }) {
   const navigate = useNavigate()
 
+  // URL base do servidor (sem o /api) para arquivos estáticos
+  const serverBase = (api.defaults.baseURL || '').replace(/\/api\/?$/, '')
+
   const capa = useMemo(() => {
-    let path = livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
+    let p = livro?.caminho_capa || livro?.capa_url || '/images/capa-default.jpg'
     
-    // Se a string já é uma URL completa ou já é um absolute path para /images/, usa direto
-    if (path.startsWith('http') || path.startsWith('data:') || path.startsWith('/images/')) {
-        return path
+    // Se já é URL completa ou path para imagem default, usa direto
+    if (p.startsWith('http') || p.startsWith('data:') || p.startsWith('/images/')) {
+      return p
     }
 
-    // Se a string começar com 'capas/', é o formato retornado pelo banco de dados atual
-    if (path.startsWith('/capas/')) {
-        // Aponta para o servidor backend que acabou de ser configurado para servir a pasta public
-        return `${api.defaults.baseURL}/${path}`
-    }
+    // Remove barra inicial se houver (ex: '/capas/x.jpg' -> 'capas/x.jpg')
+    if (p.startsWith('/')) p = p.slice(1)
 
-    // Fallback: se não tiver barra na frente, adiciona (ex: 'livro1.jpg' -> '/capas/livro1.jpg')
-    if (!path.startsWith('/')) {
-      return `${api.defaults.baseURL}/capas/${path}`
-    }
-    
-    // Se por acaso já começar com /capas/
-    if (path.startsWith('/capas/')) {
-      return `${api.defaults.baseURL}${path}`
-    }
-
-    return path
-  }, [livro])
+    // Monta a URL apontando para o backend: ex: 'capas/hobbit.jpg' -> 'https://backend/capas/hobbit.jpg'
+    return `${serverBase}/${p}`
+  }, [livro, serverBase])
 
   const onOpen = () => {
     const id = livro?.id
