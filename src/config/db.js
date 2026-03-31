@@ -9,16 +9,16 @@ const database_env = process.env.DB_NAME   || "dblivraria";
 const host_env   = process.env.DB_HOST     || "localhost";
 const port_env   = process.env.DB_PORT     || 3306;
 
-export const db = await mysql.createConnection({
+export const db = mysql.createPool({
   host:     host_env,
   user:     user_env,
   password: password_env,
   database: database_env,
   port:     Number(port_env),
-  ssl: {
-    rejectUnauthorized: false 
-  }
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
 });
 
-console.log("✅ Conectado ao banco de dados!");
+console.log("✅ Pool de conexões criado com sucesso!");
 export default db;

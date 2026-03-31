@@ -128,6 +128,10 @@ export async function verificarCodigo(req, res) {
     try {
         const { email, codigo } = req.body;
 
+        if (!email || !codigo) {
+            return res.status(400).json({ sucesso: false, mensagem: "Email e código são obrigatórios." });
+        }
+
         const [rows] = await db.execute(
             "SELECT id FROM usuarios WHERE email = ? AND codigo_verificacao = ?",
             [email, codigo]
@@ -156,6 +160,10 @@ export async function recuperarSenha(req, res) {
   try {
     const { usuario, email, novaSenha } = req.body;
     const identificador = usuario || email;
+
+    if (!identificador || !novaSenha) {
+      return res.status(400).json({ message: "Usuário/email e nova senha são obrigatórios." });
+    }
 
     const [rows] = await db.execute(
       "SELECT id FROM usuarios WHERE nome = ? OR email = ?",
@@ -188,6 +196,10 @@ export async function loginUsuario(req, res) {
   try {
     const { usuario, email, senha } = req.body;
     const identificador = email || usuario;
+
+    if (!identificador || !senha) {
+      return res.status(400).json({ sucesso: false, mensagem: "Email/usuário e senha são obrigatórios." });
+    }
 
     const [rows] = await db.execute(
       "SELECT * FROM usuarios WHERE nome = ? OR email = ?",
